@@ -82,6 +82,16 @@ coach-database/
 python scripts/scrape_usatoday.py
 ```
 
+### Pull state salary data (Phase 2)
+```bash
+python scripts/state_salary.py download --state TX
+python scripts/state_salary.py download --state FL
+python scripts/state_salary.py match --roster data/staff_test.json --states TX,FL
+```
+
+Notes:
+- CA/OH/MI/PA sources currently require manual CSV downloads (see `scripts/state_salary.py`).
+
 ### Run analysis
 ```bash
 python scripts/analyze.py --top 25 --by conference
