@@ -1,0 +1,249 @@
+{
+  "metadata": {
+    "total_schools": 134,
+    "processed": 25,
+    "found": 11
+  },
+  "schools": [
+    {
+      "school": "Alabama",
+      "domain": "rolltide.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Arkansas",
+      "domain": "arkansasrazorbacks.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Auburn",
+      "domain": "auburntigers.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Florida",
+      "domain": "floridagators.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Georgia",
+      "domain": "georgiadogs.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Kentucky",
+      "domain": "ukathletics.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "LSU",
+      "domain": "lsusports.net",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Mississippi State",
+      "domain": "hailstate.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Missouri",
+      "domain": "mutigers.com",
+      "conference": "SEC",
+      "game_notes_urls": [
+        "https://mutigers.com/documents/2025/12/28/Gator_Bowl_Postgame_Notes.pdf",
+        "https://mutigers.com/documents/2025/8/28/2025_MISSOURI_FOOTBALL_POSTGAME_NOTES_-_UCA.pdf",
+        "https://mutigers.com/documents/2025/9/6/Mizzou_Football_Notes_vs._Kansas.pdf",
+        "https://mutigers.com/documents/2025/9/13/Postgame_Notes_vs._Louisiana.pdf",
+        "https://mutigers.com/documents/2025/9/21/Postgame_Notes_vs._South_Carolina.pdf",
+        "https://mutigers.com/documents/2025/9/28/Notes_vs_UMass.pdf",
+        "https://mutigers.com/documents/2025/10/11/Notes_vs_Alabama.pdf",
+        "https://mutigers.com/documents/2025/10/19/Notes_vs_Auburn-4.pdf",
+        "https://mutigers.com/documents/2025/10/26/Postgame_Notes_vs_Vanderbilt.pdf",
+        "https://mutigers.com/documents/2025/11/9/Postgame_Notes_vs_A_M-2.pdf"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://mutigers.com/documents/2025/8/28/2025_MISSOURI_FOOTBALL_POSTGAME_NOTES_-_UCA.pdf"
+    },
+    {
+      "school": "Oklahoma",
+      "domain": "soonersports.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Ole Miss",
+      "domain": "olemisssports.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "South Carolina",
+      "domain": "gamecocksonline.com",
+      "conference": "SEC",
+      "game_notes_urls": [
+        "https://storage.googleapis.com/gamecocksonline-com/2025/11/39e700a9-clemson.pdf"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://storage.googleapis.com/gamecocksonline-com/2025/11/39e700a9-clemson.pdf"
+    },
+    {
+      "school": "Tennessee",
+      "domain": "utsports.com",
+      "conference": "SEC",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Texas",
+      "domain": "texassports.com",
+      "conference": "SEC",
+      "game_notes_urls": [
+        "https://texassports.com/sports/2016/8/29/football-game-notes",
+        "https://texassports.com/documents/2022/8/13/FB-all-time-lettermen.pdf",
+        "https://texassports.com/documents/2025/8/30/01_-_Ohio_State_Postgame_Notes_Final.pdf",
+        "https://texassports.com/documents/2025/9/6/02_-_San_Jose__State_Postgame_Notes_Final.pdf",
+        "https://texassports.com/documents/2025/9/14/03_-_UTEP_Postgame_Notes.pdf",
+        "https://texaslonghorns.com/documents/2025/10/5/05FLAPostgame.pdf",
+        "https://texassports.com/documents/2025/10/26/MISS_ST._Post_game_notes__THIS_ONE_.pdf",
+        "https://texassports.com/documents/2025/11/1/Vanderbilt_postgame_notes.pdf",
+        "https://texassports.com/documents/2025/10/12/Football_Gamebook_vs._Oklahoma.PDF"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://texassports.com/sports/2016/8/29/football-game-notes"
+    },
+    {
+      "school": "Texas A&M",
+      "domain": "12thman.com",
+      "conference": "SEC",
+      "game_notes_urls": [
+        "https://12thman.com/documents/2025/8/31/2025-footballstats.pdf",
+        "https://12thman.com/news/2025/12/15/football-game-notes-vs-miami"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://12thman.com/news/2025/12/15/football-game-notes-vs-miami"
+    },
+    {
+      "school": "Vanderbilt",
+      "domain": "vucommodores.com",
+      "conference": "SEC",
+      "game_notes_urls": [
+        "https://vucommodores.com/vanderbilt-football-game-notes-and-depth-charts/",
+        "https://vucommodores.com/postgame-notes-vs-iowa/",
+        "https://vucommodores.com/postgame-notes-vs-charleston-southern/",
+        "https://vucommodores.com/postgame-notes-vs-virginia-tech-2/",
+        "https://vucommodores.com/postgame-notes-vs-south-carolina-3/",
+        "https://vucommodores.com/postgame-notes-vs-georgia-state/",
+        "https://vucommodores.com/postgame-notes-vs-utah-state/",
+        "https://vucommodores.com/postgame-notes-vs-alabama",
+        "https://vucommodores.com/postgame-notes-vs-lsu-2/",
+        "https://vucommodores.com/postgame-notes-vs-missouri-2/"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://vucommodores.com/vanderbilt-football-game-notes-and-depth-charts/"
+    },
+    {
+      "school": "Illinois",
+      "domain": "fightingillini.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Indiana",
+      "domain": "iuhoosiers.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [
+        "https://iuhoosiers.com/news/2026/1/9/football-postgame-notes-oregon"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://iuhoosiers.com/news/2026/1/9/football-postgame-notes-oregon"
+    },
+    {
+      "school": "Iowa",
+      "domain": "hawkeyesports.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [
+        "https://hawkeyesports.com/iowa-football-game-notes-2025"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://hawkeyesports.com/iowa-football-game-notes-2025"
+    },
+    {
+      "school": "Maryland",
+      "domain": "umterps.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Michigan",
+      "domain": "mgoblue.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [
+        "https://mgoblue.com/sports/2025/8/25/football-game-notes-2025",
+        "https://mgoblue.com/news/2025/12/31/football-postgame-notes-michigan-vs-texas",
+        "https://mgoblue.com/news/2025/11/29/football-postgame-notes-michigan-vs-ohio-state"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://mgoblue.com/news/2025/12/31/football-postgame-notes-michigan-vs-texas"
+    },
+    {
+      "school": "Michigan State",
+      "domain": "msuspartans.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [],
+      "status": "not_found"
+    },
+    {
+      "school": "Minnesota",
+      "domain": "gophersports.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [
+        "https://gophersports.com/sports/2018/5/21/sports-m-footbl-spec-rel-game-notes-html"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://gophersports.com/sports/2018/5/21/sports-m-footbl-spec-rel-game-notes-html"
+    },
+    {
+      "school": "Nebraska",
+      "domain": "huskers.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [
+        "https://huskers.com/news/2025/8/22/2025-football-notes-and-quotes"
+      ],
+      "status": "found",
+      "latest_game_notes_url": "https://huskers.com/news/2025/8/22/2025-football-notes-and-quotes"
+    },
+    {
+      "school": "Northwestern",
+      "domain": "nusports.com",
+      "conference": "Big Ten",
+      "game_notes_urls": [
+        "https://nusports.com/documents/2025/8/20/2025_Northwestern_Football_Media_Guide.pdf",
+        "https://nusports.com/documents/download/2025/12/26/NorthwesternPostGameNotes_CentralMichigan.pdf",
+        "https://nusports.com/documents/download/2019/11/26/ILL_Notes_vsNW_11_25_19.pdf",
+        "https://nusports.com/documents/download/2015/11/23/ILL_GameNotes_NU.pdf"
+      ],
+      "latest_game_notes_url": "https://nusports.com/documents/download/2025/12/26/NorthwesternPostGameNotes_CentralMichigan.pdf",
+      "status": "found"
+    }
+  ]
+}
