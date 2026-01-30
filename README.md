@@ -87,6 +87,11 @@ python scripts/scrape_usatoday.py
 python scripts/analyze.py --top 25 --by conference
 ```
 
+### Enrich with media-reported assistant salaries
+```bash
+python scripts/media_enrichment.py --staff data/staff_test.json --output data/media_reports.json --allow-edu
+```
+
 ## Key Statistics (2025 Season)
 
 - **Highest Paid**: Kirby Smart (Georgia) - $13,282,580
