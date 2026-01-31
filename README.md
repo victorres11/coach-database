@@ -92,6 +92,13 @@ python scripts/state_salary.py match --roster data/staff_test.json --states TX,F
 Notes:
 - CA/OH/MI/PA sources currently require manual CSV downloads (see `scripts/state_salary.py`).
 
+### Track coaching changes
+```bash
+python scripts/track_changes.py
+```
+
+The tracker runs weekly during the December–February carousel window and monthly otherwise. Use `--force` to bypass the schedule or `--skip-scrape` to diff existing snapshots.
+
 ### Run analysis
 ```bash
 python scripts/analyze.py --top 25 --by conference
