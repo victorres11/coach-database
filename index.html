@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Football Coach Database</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>🏈 College Football Coach Database</h1>
+      <p class="subtitle">FBS Head Coach Salaries, Contracts & Buyouts</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Stats Cards -->
+    <section class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <span class="stat-value" id="total-coaches">—</span>
+        <span class="stat-label">Total Coaches</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="highest-paid">—</span>
+        <span class="stat-label">Highest Paid</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="avg-salary">—</span>
+        <span class="stat-label">Average Salary</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="total-buyouts">—</span>
+        <span class="stat-label">Total Buyouts</span>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters">
+      <div class="search-box">
+        <input type="text" id="search" placeholder="Search coaches or schools..." aria-label="Search">
+      </div>
+      <div class="filter-group">
+        <select id="conference-filter" aria-label="Filter by conference">
+          <option value="">All Conferences</option>
+        </select>
+        <select id="sort-by" aria-label="Sort by">
+          <option value="rank">Rank</option>
+          <option value="totalPay-desc">Salary (High → Low)</option>
+          <option value="totalPay-asc">Salary (Low → High)</option>
+          <option value="buyout-desc">Buyout (High → Low)</option>
+          <option value="coach">Coach Name (A-Z)</option>
+          <option value="school">School (A-Z)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Data Table -->
+    <section class="table-container">
+      <table id="coaches-table">
+        <thead>
+          <tr>
+            <th data-sort="rank">#</th>
+            <th data-sort="coach">Coach</th>
+            <th data-sort="school">School</th>
+            <th data-sort="conference">Conf</th>
+            <th data-sort="totalPay" class="number">Total Pay</th>
+            <th data-sort="maxBonus" class="number">Max Bonus</th>
+            <th data-sort="buyout" class="number">Buyout</th>
+          </tr>
+        </thead>
+        <tbody id="coaches-tbody">
+          <tr><td colspan="7" class="loading">Loading...</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>Data source: <a href="https://sportsdata.usatoday.com/ncaa/salaries/football/coach" target="_blank">USA Today Sports</a></p>
+      <p id="last-updated"></p>
+    </footer>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
