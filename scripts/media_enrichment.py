@@ -75,33 +75,51 @@ def load_staff(path: Path) -> list[dict]:
     ]
 
 
-def duckduckgo_search(query: str, max_results: int = 10) -> list[SearchResult]:
-    response = requests.get(
-        "https://duckduckgo.com/html/",
-        params={"q": query},
-        headers=HEADERS,
-        timeout=20,
-    )
-    response.raise_for_status()
-
-    soup = BeautifulSoup(response.text, "html.parser")
-    results = []
-    for result in soup.select("div.result"):
-        link = result.select_one("a.result__a")
-        snippet = result.select_one("a.result__snippet")
-        if not link:
+def brave_search(query: str, max_results: int = 10) -> list[SearchResult]:
+    """
+    Uses the Brave Search API to find relevant URLs.
+    Looks for API key in multiple locations for sandbox compatibility.
+    """
+    key_paths = [
+        Path.home() / ".clawdbot/credentials/brave_api_key",
+        Path.home() / ".config/brave/api_key",
+    ]
+    api_key = None
+    for key_path in key_paths:
+        try:
+            api_key = key_path.read_text().strip()
+            break
+        except Exception:
             continue
-        url = link.get("href") or ""
-        parsed = urlparse(url)
+    if not api_key:
+        raise RuntimeError(f"Could not read Brave API key from any location: {key_paths}")
+
+    url = "https://api.search.brave.com/res/v1/web/search"
+    headers = {
+        "Accept": "application/json",
+        "X-Subscription-Token": api_key,
+    }
+    params = {
+        "q": query,
+        "count": max_results
+    }
+    resp = requests.get(url, headers=headers, params=params, timeout=20)
+    resp.raise_for_status()
+    data = resp.json()
+
+    results = []
+    for item in data.get("web", {}).get("results", []):
+        title = item.get("title") or ""
+        url_val = item.get("url") or ""
+        parsed = urlparse(url_val)
         domain = parsed.netloc.lower()
-        results.append(
-            SearchResult(
-                title=link.get_text(strip=True),
-                url=url,
-                snippet=snippet.get_text(" ", strip=True) if snippet else "",
-                domain=domain,
-            )
-        )
+        snippet = item.get("description") or ""
+        results.append(SearchResult(
+            title=title,
+            url=url_val,
+            snippet=snippet,
+            domain=domain,
+        ))
         if len(results) >= max_results:
             break
     return results
@@ -165,7 +183,7 @@ def enrich_coach(coach: dict, allowed_domains: list[str], allow_edu: bool, max_r
 
     queries = [f"{name} contract", f"{name} salary"]
     for query in queries:
-        results = duckduckgo_search(query, max_results=max_results)
+        results = brave_search(query, max_results=max_results)
         for result in results:
             if not domain_allowed(result.domain, allowed_domains, allow_edu):
                 continue
