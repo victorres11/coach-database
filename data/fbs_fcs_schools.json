@@ -1,0 +1,6 @@
+[
+  {"name": "Alabama", "url": "https://rolltide.com/sports/football/coaches", "conference": "SEC"},
+  {"name": "North Dakota State", "url": "https://gobison.com/sports/football/coaches", "conference": "MVFC"},
+  {"name": "Montana", "url": "https://gogriz.com/sports/football/coaches", "conference": "Big Sky"}
+  // Add all other FBS/FCS schools here in identical format
+]
