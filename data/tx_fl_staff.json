@@ -1,0 +1,2535 @@
+{
+  "metadata": {
+    "source": "School athletic websites",
+    "schoolsScraped": 13,
+    "totalCoaches": 390
+  },
+  "coaches": [
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Steve Sarkisian",
+      "position": "Head Coach, Football",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Kenny Baker",
+      "position": "Assistant Coach, Football - Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jeff Banks",
+      "position": "Assistant Coach, Football - Special Teams Coordinator / TE",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Michael Bimonte",
+      "position": "Assistant Coach, Football - Co-Passing Game Coordinator / Assistant QB",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "LaAllan Clark",
+      "position": "Assistant Coach, Football - Edge",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Kyle Flood",
+      "position": "Assistant Coach, Football - Offensive Coordinator / OL",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Blake Gideon",
+      "position": "Assistant Coach, Football - Defensive Passing Game Coordinator / Secondary",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Keynodo Hudson",
+      "position": "Assistant Coach, Football - Nickels",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Chris Jackson",
+      "position": "Assistant Coach, Football - Passing Game Coordinator / WR",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jabbar Juluke",
+      "position": "Assistant Coach, Football - Associate Head Coach (Offense) / RB",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "AJ Milwee",
+      "position": "Assistant Coach, Football - Co-Offensive Coordinator / QB",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Will Muschamp",
+      "position": "Assistant Coach, Football - Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Johnny Nansen",
+      "position": "Assistant Coach, Football - Co-Defensive Coordinator / LB",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Mark Orphey",
+      "position": "Assistant Coach, Football - Cornerbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Brandon Harris",
+      "position": "General Manager, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jared Blank",
+      "position": "Chief of Staff, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Torre Becton",
+      "position": "Director of Football Performance"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Chris Gilbert",
+      "position": "Special Assistant to the Head Coach, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Kerry Joseph",
+      "position": "Special Assistant to the Head Coach, Defense"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jahmal Fenner",
+      "position": "Director of Player Development and High School Relations, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "John Michael Jones",
+      "position": "Director of Player Personnel, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Kyrah McCowan",
+      "position": "Director, Football Administration and Program Relations"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Derek Ochoa",
+      "position": "Director of Creative Media, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Kyndal Perry",
+      "position": "Director of Recruiting Operations, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jason Rodriquez",
+      "position": "Director of Operations, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Taylor Searels",
+      "position": "Director of Recruiting, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "DJ Welte",
+      "position": "Director of Video Operations, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Kyle Barkle",
+      "position": "Assistant Director of Creative Media, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Michael Huff",
+      "position": "Assistant Director of Player Development, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jackson Gleeson",
+      "position": "Assistant Director of Player Personnel, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jimmy Jongebloed",
+      "position": "Assistant Director of Player Personnel, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Josh Dunson",
+      "position": "Senior Player Personnel Coordinator, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jake Flynt",
+      "position": "Senior Graphic Designer, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Tanner Martin",
+      "position": "Scouting Coordinator, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jordan Mitchell",
+      "position": "Recruiting and Retention Strategy Coordinator, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Amy Biegel",
+      "position": "Assistant Program Administrator, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Zoe Stoker",
+      "position": "Assistant Director of Football Operations"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Christopher Forestier",
+      "position": "Senior Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Derron Gatewood",
+      "position": "Senior Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Brandon Huppert",
+      "position": "Senior Football Analyst - Defense"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Malik Antoine",
+      "position": "Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Patrick Crowley",
+      "position": "Football Analyst - Offense"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "John Dozier Dean",
+      "position": "Offense Assistant / Passing Game Specialist"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Justin Garrett",
+      "position": "Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Michael Jenkins",
+      "position": "Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Matt Moran",
+      "position": "Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Jason McEndoo",
+      "position": "Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Mitch Zoloty",
+      "position": "Football Analyst"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Robert Perez",
+      "position": "Senior Video Coordinator, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Emily Devers",
+      "position": "Video Coordinator, Football"
+    },
+    {
+      "school": "Texas",
+      "conference": "Big 12",
+      "name": "Desmond Dildy",
+      "position": "Video Coordinator, Football"
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Mike Elko",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Lyle Hemphill",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Holmon Wiggins",
+      "position": "Offensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Trooper Taylor",
+      "position": "Associate Head Coach (Offense)/Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Travis Williams",
+      "position": "Associate Head Coach (Defense)/Linebackers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Elijah Robinson",
+      "position": "Co-Defensive Coordinator/Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Ishmael Aristide",
+      "position": "Defensive Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Adam Cushing",
+      "position": "Run Game Coordinator/Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Patrick Dougherty",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Bryant Gross-Armiento",
+      "position": "Nickels",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Tony Jerod-Eddie",
+      "position": "Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Joey Lynch",
+      "position": "Quarterbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "John Perry",
+      "position": "Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Derek Shay",
+      "position": "Tight Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Stan Watson",
+      "position": "Defensive Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Wisly Desire",
+      "position": "Offensive Analyst",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Deveonte Mackey",
+      "position": "Offensive Analyst",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Gavin Spurrier",
+      "position": "Offensive Analyst",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Malik Davis",
+      "position": "Defensive Graduate Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Tommy Moffitt",
+      "position": "Director of Football Strength & Conditioning",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Blake McCall",
+      "position": "Assistant Director of Football Strength & Conditioning",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Brad Minter",
+      "position": "Assistant Director of Football Strength & Conditioning",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Brandon Stegall",
+      "position": "Assistant Director of Football Strength & Conditioning",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Kratik Malhotra",
+      "position": "Director of Sports Science & Analytics",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Derek Miller",
+      "position": "Recruiting General Manager",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Allen Gaudet",
+      "position": "Director of Player Personnel",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Kianna Jasper",
+      "position": "Director of On-Campus Recruiting",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "David Cooney",
+      "position": "Associate Director of Recruiting/Acquisition",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Mason Smith",
+      "position": "Associate Director of Recruiting/Acquisition",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "DJ Mann",
+      "position": "Associate Director of Player Personnel/High School Relations",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Shaun Cook",
+      "position": "Assistant Director of Player Personnel",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Maya Howard",
+      "position": "Assistant Director of On-Campus Recruiting",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Lauren Moore",
+      "position": "Coordinator of On-Campus Recruiting",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Joe Joe Headen",
+      "position": "Scouting Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "DJ Marquardt",
+      "position": "Scouting Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Kat Castner",
+      "position": "Assistant AD | Football Branding and Communications",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Jack Coil",
+      "position": "Director of Content Strategy",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Tee McCann",
+      "position": "Director of Football Creative",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Will Whitty",
+      "position": "Art Director",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Delvin Jones",
+      "position": "Director of External Football Operations",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Jordan Zapata",
+      "position": "Director of Internal Football Operations",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Darius Dunaway",
+      "position": "Director of Character and Culture",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Riley Hecklinski",
+      "position": "Director of Player Engagement",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Kate Rosenberg",
+      "position": "Director of Football NIL",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Andrew Bather",
+      "position": "Coordinator of Player Development",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Matt Salvaggio",
+      "position": "Coordinator of Player Development",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Ben Crenshaw",
+      "position": "Team Security",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Brandy Douglass",
+      "position": "Assistant to the Head Football Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas A&M",
+      "conference": "SEC",
+      "name": "Dani Postma",
+      "position": "Director of Football Office Administration",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Sonny Dykes",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Andy Avalos",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Gordon Sammis",
+      "position": "Offensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "A.J. Ricker",
+      "position": "Co-Offensive Coordinator / Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Julius Brown",
+      "position": "Cornerbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Malcolm Kelly",
+      "position": "Assistant Head Coach / Wide Receivers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Mitch Kirsch",
+      "position": "Tight Ends Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "JaMarkus McFarland",
+      "position": "Defensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Brad Robbins",
+      "position": "Quarterbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Tre Watson",
+      "position": "Safeties/Nickels Coach / Passing Game Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Antonio Wilcox",
+      "position": "Running Backs Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Ken Wilson",
+      "position": "Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Cal Criner",
+      "position": "Assistant Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Cade Fortin",
+      "position": "Assistant Tight Ends Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Aaron Green",
+      "position": "Assistant Running Backs Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Barry Held",
+      "position": "Assistant Offensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Tyrone Hooper",
+      "position": "Assistant Defensive Tackles Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Julius Lewis",
+      "position": "Assistant Cornerbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Kharyee Marshall",
+      "position": "Assistant Edges Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Casey Petree",
+      "position": "Assistant Special Teams Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Eric Simonelli",
+      "position": "Assistant Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Ryan Swingle",
+      "position": "Assistant Offensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Shaun Taylor",
+      "position": "Assistant Wide Receivers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Ryan Dorchester",
+      "position": "General Manager"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Sarah Woodruff",
+      "position": "Director of Football Operations"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Mark Tommerdahl",
+      "position": "Special Assistant to the Head Coach"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Matt Lewis",
+      "position": "Assistant Athletics Director for Player Development"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Jeff Jordan",
+      "position": "Assistant Athletics Director for Player Personnel"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Tyler Olker",
+      "position": "Director of Player Personnel"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Brett Cumnock",
+      "position": "Assistant Director of Player Personnel"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Joshua Drayden",
+      "position": "Assistant Director of Player Personnel"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Chris Owens",
+      "position": "Assistant Director of Player Personnel"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Bob Wager",
+      "position": "Director of High School Relations"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Lauren Craine",
+      "position": "Director of On-Campus Recruiting"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Tyler Bullard",
+      "position": "Director of Football Video"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Genaro Aguirre",
+      "position": "Coaches Video Assistant"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Sam Lazarus",
+      "position": "Director of Creative Media"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Mark Szilagyi",
+      "position": "Assistant Director \u2013 Creative Media"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Kegan Hodges",
+      "position": "Football Creative Media Assistant"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Darl Bauer",
+      "position": "Assistant Athletics Director for Football Human Performance"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Kevin McCadam",
+      "position": "Director of Football Speed and Performance"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Shaq Lee",
+      "position": "Assistant Director - Football Strength and Performance"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "John Porchivina",
+      "position": "Assistant Director - Football Strength and Performance"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Charles \"Rev\" Simmons III",
+      "position": "Assistant Director - Football Strength and Performance"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Shauna Boles",
+      "position": "Director of Recovery and Wellness"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "David Gable",
+      "position": "Associate Athletics Director for Sports Medicine"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Sam King",
+      "position": "Assistant Athletic Trainer (Football)"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Ryan Rodems",
+      "position": "Assistant Athletic Trainer (Football)"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "CJ Talley",
+      "position": "Assistant Athletic Trainer (Football)"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Natalie Fernando",
+      "position": "Graduate Assistant - Recruiting"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "David Case",
+      "position": "Director of Football Equipment"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Montana Mannheimer",
+      "position": "Associate Director - Athletics Equipment"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Jacob Pendleton",
+      "position": "Graduate Assistant \u2013 Equipment Services"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Jesse Ayala",
+      "position": "Executive Chef"
+    },
+    {
+      "school": "TCU",
+      "conference": "Big 12",
+      "name": "Andrea Roberts",
+      "position": "Assistant to the Head Football Coach"
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Dave Aranda",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Khenon Hall",
+      "position": "Associate Head Coach (Running Backs)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Jake Spavital",
+      "position": "Offensive Coordinator (Quarterbacks)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Paul Gonzales",
+      "position": "Defensive Pass-Game Coordinator (Cornerbacks)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Matt Powledge",
+      "position": "Defensive Coordinator (Safeties)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Mark Scott",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Jarrett Anderson",
+      "position": "Assistant Coach (Tight Ends)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Dallas Baker",
+      "position": "Assistant Coach (Wide Receivers)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Inoke Breckterfield",
+      "position": "Assistant Coach (Defensive Line)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Jamar Chaney",
+      "position": "Assistant Coach (Inside Linebackers)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Carson Hall",
+      "position": "Assistant Coach (Outside Linebackers)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Rhett Holcomb",
+      "position": "Assistant Coach (Quarterbacks)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Anthony Marciano",
+      "position": "Assistant Coach (Linebackers)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Jeff Grigus",
+      "position": "Chief of Staff",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Aaron Hunt",
+      "position": "General Manager",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Anthony Mauro",
+      "position": "Assistant General Manager",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Kaeron Johnson",
+      "position": "Assistant AD | Football Relations",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Larry McDonald",
+      "position": "Assistant AD | Football Recruiting",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Callie Cameron",
+      "position": "Director of Player Personnel",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Earl Chevalier",
+      "position": "Director of Football Player Development and Operations Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Connor Killian",
+      "position": "Director of Football Strategy",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Landrie Walsh",
+      "position": "Director of Football Operations",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Jadyn Wells",
+      "position": "Director of On-Campus Recruiting",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Kaleb Wood",
+      "position": "Director of Football Technology",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Joe Reynolds",
+      "position": "Associate Director of Player Personnel",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Chad Ruesink",
+      "position": "Associate Director of Football Technology",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Aaron Appleberry",
+      "position": "Assistant Director of Player Personnel",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Ed Paris",
+      "position": "Assistant Director of Player Personnel",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Duke DaRe",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Nicholas Forde",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "C.J. Germany",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Cade Koster",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Ryan Pollard",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Brian Vaughn",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Craig Watts",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Baylor",
+      "conference": "Big 12",
+      "name": "Austin Woods",
+      "position": "Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Willie Fritz",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Slade Nagle",
+      "position": "Offensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Austin Armstrong",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Shawn Bell",
+      "position": "Assistant Head Coach/Quarterbacks/Passing Game Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "James Ross III",
+      "position": "Edges & Defensive Run-Game Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Oscar Giles",
+      "position": "Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "PJ Hall",
+      "position": "Safeties",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Marcus Trice",
+      "position": "Cornerbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Jordy Joseph",
+      "position": "Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Brian Bell",
+      "position": "Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Eman Naghavi",
+      "position": "Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Chris Couch",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Robert Beacham",
+      "position": "Offensive Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Michael Bishop",
+      "position": "Offensive Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Henry Stone",
+      "position": "Offensive Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Pete Brown",
+      "position": "Defensive Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Will Weaver",
+      "position": "Defensive Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Judson Hunter",
+      "position": "Special Teams/Specialists Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Dre Fusilier",
+      "position": "Offensive Graduate Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Carson Hemric",
+      "position": "Offensive Graduate Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Garrison Vaughn",
+      "position": "Defensive Graduate Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Eric Osborne",
+      "position": "Defensive Graduate Assistant",
+      "is_head_coach": true
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Shane Meyer",
+      "position": "Associate Athletics Director, Director of Football Operations"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Donn Landholm",
+      "position": "Special Assistant to the Head Coach"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Wes Fritz",
+      "position": "General Manager"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Marielle McLoughlin",
+      "position": "Assistant Director of Operations"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Bennie Wylie",
+      "position": "Director of Strength & Performance"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Tyler Kishbaugh",
+      "position": "Assistant Strength Coach"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Joseph Stone",
+      "position": "Assistant Strength Coach"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Chris Dawson",
+      "position": "Assistant Strength Coach"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Casey Smithson",
+      "position": "Director of Player Personnel"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Jay Girdner",
+      "position": "Director of Recruiting"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Jake Pittman",
+      "position": "Director of Scouting"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Jordan Burgess",
+      "position": "Director of Creative Media"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Adrian Romero",
+      "position": "Director of Creative Video"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Andrew Crane, M.Ed, LAT, AT",
+      "position": "Associate Director of Sports Medicine (Head FB)"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Kaleb Whitehair, PT, DPT, SCS, CSCS",
+      "position": "Associate Director / Director of Physical Therapy Services (Football)"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Emily England",
+      "position": "Director of Performance Nutrition"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Andrew Johnson",
+      "position": "Assistant Athletics Director for Equipment Operations"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Kevin Haynes",
+      "position": "Director of Equipment Operations \u2013 Football"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Tatjana Banjeglav",
+      "position": "Associate Athletics Director for Academic Services"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Robert Nathan",
+      "position": "Director of Football Video"
+    },
+    {
+      "school": "Houston",
+      "conference": "Big 12",
+      "name": "Hunter Quintana",
+      "position": "Assistant Director of Football Video"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Joey McGuire",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Kenny Perry",
+      "position": "Associate Head Coach / Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Justin Johnson",
+      "position": "Assistant Head Coach / Passing Game Coordinator / WRs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Mack Leftwich",
+      "position": "Offensive Coordinator / Quarterbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Shiel Wood",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "C.J. Ah You",
+      "position": "Outside Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Josh Cochran",
+      "position": "Run Game Coordinator / Tight Ends Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Zarnell Fitch",
+      "position": "Defensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Rob Greene",
+      "position": "Safeties Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Darcel McBath",
+      "position": "Cornerbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Clay McGuire",
+      "position": "Offensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Garret McGuire",
+      "position": "Running Backs Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Jack Teachey",
+      "position": "Senior Defensive Analyst",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Ryan Conry",
+      "position": "Assistant Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Jah'Shawn Johnson",
+      "position": "Assistant Defensive Backs Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Lindsey Scott Jr.",
+      "position": "Assistant Quarterbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Taylor Young",
+      "position": "Assistant Inside Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Cole Maxwell",
+      "position": "Defensive Assistant (Defensive Line)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Jackson Kimble",
+      "position": "Offensive Assistant (Offensive Line)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Collin Shank",
+      "position": "Defensive Assistant (Secondary)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Xavier White",
+      "position": "Offensive Assistant (Wide Receivers)",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Dave Martin",
+      "position": "Director of Player Development",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Lance Barilow",
+      "position": "Head Strength & Conditioning Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Aaron Hall",
+      "position": "Senior Associate Strength & Conditioning Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Brandyn Musgrave",
+      "position": "Associate Strength & Conditioning Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Dalton Elliott",
+      "position": "Assistant Strength & Conditioning Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Brandon Stevenson",
+      "position": "Assistant Strength & Conditioning Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Josh Haverfield",
+      "position": "Coordinator of Football Performance & Analytics",
+      "is_head_coach": true
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Antonio Huffman",
+      "position": "Associate A.D./Football Administration"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Quintin Jordan",
+      "position": "Director of Football Operations"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "James Blanchard",
+      "position": "General Manager"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Brian Nance",
+      "position": "Director of Player Personnel"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Sammy Morris",
+      "position": "Director for Player Support Development & NFL Liaison"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Preslee Quisenberry",
+      "position": "Director of Administration & Operations"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Kate Eberhardt",
+      "position": "Director of Recruiting Operations"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Sean Kenney",
+      "position": "Director of Scouting"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Wesley Harwell",
+      "position": "Associate Director of Scouting"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Alayshia Green",
+      "position": "Director of On-Campus Recruiting"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Katie Meade",
+      "position": "On-Campus Recruiting Coordinator"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Gentry Hicks",
+      "position": "Director of Football Nutrition"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Carly Ponder",
+      "position": "Assistant Sports Dietitian"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Zane Perry",
+      "position": "Assistant A.D/Equipment Operations"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Cayman Ancell",
+      "position": "Head Football Equipment Manager"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Roger Lira",
+      "position": "Assistant Equipment Manager"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Austin Nettles",
+      "position": "Assistant Equipment Manager"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Eric Gerald",
+      "position": "Director of Football Video"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Jacob Chavarria",
+      "position": "Video Coordinator"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Ben Brown",
+      "position": "Assistant Video Coordinator"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Michael Ramirez",
+      "position": "Associate A.D./Head Athletic Trainer"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Dillon Barron",
+      "position": "Associate Athletic Trainer"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Steven Lapso",
+      "position": "Associate Athletic Trainer"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Erika Rowe",
+      "position": "Assistant Athletic Trainer"
+    },
+    {
+      "school": "Texas Tech",
+      "conference": "Big 12",
+      "name": "Addison Trower",
+      "position": "Assistant Athletic Trainer"
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Jon Sumrall",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Buster Faulkner",
+      "position": "Offensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Brad White",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Gerald Chatman",
+      "position": "Assistant Head Coach / Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Chris Collins",
+      "position": "Safeties",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Joe Craddock",
+      "position": "Quarterbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Marcus Davis",
+      "position": "Outside Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Chris Foster",
+      "position": "Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Johnathan Galante",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Greg Gasparato",
+      "position": "Linebackers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Bam Hardmon",
+      "position": "Outside Linebackers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Brandon Harris",
+      "position": "Cornerbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Evan McKissack",
+      "position": "Tight Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Trent McKnight",
+      "position": "Passing Game Coordinator/Inside Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Phil Trautwein",
+      "position": "Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Rusty Whitt",
+      "position": "Director of Football Performance",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida",
+      "conference": "SEC",
+      "name": "Dave Caldwell",
+      "position": "General Manager"
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Mike Norvell",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Gus Malzahn",
+      "position": "Offensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Tony White",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Tim Harris Jr.",
+      "position": "Pass Game Coordinator/Wide Receivers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Chris Thomsen",
+      "position": "Deputy Head Coach/Tight Ends Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Blue Adams",
+      "position": "Cornerbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Evan Cooper",
+      "position": "Safeties Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Herb Hand",
+      "position": "Offensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Terrance Knighton",
+      "position": "Defensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Kam Martin",
+      "position": "Running Backs Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Adam Scheier",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Ernie Sims",
+      "position": "Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Austin Tucker",
+      "position": "Quarterbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Nick Williams",
+      "position": "Edges Coach/Pass Rush Specialist",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Odell Haggins",
+      "position": "Associate Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Greg Moss",
+      "position": "Assistant Defensive Backs Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Bruce Warwick",
+      "position": "Associate Athletics Director for Football"
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "John Garrett",
+      "position": "Deputy Athletics Director/General Manager of Player Personnel"
+    },
+    {
+      "school": "Florida State",
+      "conference": "ACC",
+      "name": "Taylor Edwards",
+      "position": "Director of Football and Player Acquisition"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Brian Hartline"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Josh Aldridge"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Tim Beck"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Sean Binckes"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Elijah Brooks"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Chad Creamer"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Mike Hartline"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Keith Jones Jr."
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Antwaine Richardson"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "James Rowe"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Mike Sollenne"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Danny Verpaele"
+    },
+    {
+      "school": "USF",
+      "conference": "American",
+      "name": "Myles White"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Zach Kittley",
+      "position": "Hagerty Family Head Football Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Brett Dewhurst",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Tyler Schovanec",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Chris Perkins",
+      "position": "Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "DJ McCarthy",
+      "position": "Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Jajuan Dulaney",
+      "position": "Tight Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Stephen Hamby",
+      "position": "Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Devin Santana",
+      "position": "Defensive Tackles",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Brandon Lacy",
+      "position": "Ends/Rush",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Antonio Fenelus",
+      "position": "Defensive Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Aaron Schwanz",
+      "position": "Inside Linebacker",
+      "is_head_coach": true
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Harrison Hanna",
+      "position": "Football Chief of Staff"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Taylor Brown",
+      "position": "Executive Director of Player Personnel"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Cris Carter",
+      "position": "Executive Director of Player Engagement"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "David Draper",
+      "position": "Director of Football Operations"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Matt Wiesner",
+      "position": "Director of Scouting/NFL Liaison"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Shane Marinelli",
+      "position": "Assistant Director Player Personnel / High School Relations"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Faith Padgett",
+      "position": "Director of Recruiting"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Margot Kessler",
+      "position": "Assistant Director of Operations and Recruiting"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Dillon Coletto",
+      "position": "Director of Video & Technology"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Brandon Lee",
+      "position": "Head Strength and Conditioning Coach"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Bryson Breeding, CSCS",
+      "position": "Assistant Strength and Conditioning Coach"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Patrick Goodwin, MS, RD",
+      "position": "Director of Football Performance Nutrition"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Trent Vasey",
+      "position": "Assistant Quarterbacks Coach"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Colin Spencer",
+      "position": "Assistant Outside Linebacker / Edge Coach"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Korel Smith",
+      "position": "Nickel Coach"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Kosi Eldridge",
+      "position": "Assistant Inside Linebacker Coach"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Brian Young",
+      "position": "Consultant to the Defensive Coordinator"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Dominique Bradshaw",
+      "position": "Defensive Graduate Assistant (DB)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Cagen Clark",
+      "position": "Offensive Graduate Assistant (WR)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Braylon Jones",
+      "position": "Offensive Graduate Assistant (OL)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Kal-El Statham",
+      "position": "Defensive Graduate Assistant (DL)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Bill Sanders",
+      "position": "Head Athletic Trainer (Football)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Brad Marsic",
+      "position": "Associate Athletic Trainer (Football) and Director of Rehab"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Madelyn Kalady",
+      "position": "Assistant Athletic Trainer (Football)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Anthony Fortier",
+      "position": "Head Equipment Manager (Football)"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Elisabeth Flores",
+      "position": "Assistant Football Equipment Manager"
+    },
+    {
+      "school": "FAU",
+      "conference": "American",
+      "name": "Cliff McCray",
+      "position": "Team Chaplain"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Willie Simmons"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Frank Ponce"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Jovan Dewitt"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Nick Coleman"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Kenneth Gilstrap"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Ryan Smith"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Anthony  Gaitor"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Jelani Berassa"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Benedick Hyppolite"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Edwin Pata"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Joe Henry"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Solomon Perez"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Christian Gomez"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Khadry Jackson"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Bryan Crawford"
+    },
+    {
+      "school": "FIU",
+      "conference": "CUSA",
+      "name": "Ayeobele Randolph"
+    }
+  ]
+}

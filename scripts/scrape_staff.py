@@ -240,11 +240,20 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Scrape all D1 football coaching staff for FBS/FCS")
     parser.add_argument("--full", action="store_true", help="Scrape all FBS+FCS schools (default: sample test)")
+    parser.add_argument("--txfl", action="store_true", help="Scrape just target TX/FL FBS schools")
     parser.add_argument("--schools", type=str, default=str(Path(__file__).parent.parent / "data" / "fbs_fcs_schools.json"), help="School JSON list path")
     parser.add_argument("--json", type=str, default=str(Path(__file__).parent.parent / "data" / "full_roster.json"), help="Path to save JSON output")
     parser.add_argument("--csv", type=str, default=None, help="Optionally also export to CSV")
     args = parser.parse_args()
-    if args.full:
+
+    if args.txfl:
+        # Scrape only TX/FL FBS schools to data/tx_fl_staff.json
+        txfl_path = Path(__file__).parent.parent / "data" / "tx_fl_fbs_schools.json"
+        out_json = Path(__file__).parent.parent / "data" / "tx_fl_staff.json"
+        out_csv = Path(__file__).parent.parent / "data" / "tx_fl_staff.csv"
+        print("Scraping TX/FL FBS schools...")
+        run_full_scrape(str(txfl_path), str(out_json), str(out_csv))
+    elif args.full:
         run_full_scrape(args.schools, args.json, args.csv)
     else:
         print("(For full FBS+FCS scrape, pass --full. Only sample/test mode will run otherwise.)")

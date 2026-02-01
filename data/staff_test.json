@@ -1,0 +1,1337 @@
+{
+  "metadata": {
+    "source": "School athletic websites",
+    "testRun": true,
+    "schoolsScraped": 5,
+    "totalCoaches": 212
+  },
+  "coaches": [
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Kirby Smart",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Kirk Benedict",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Mike Bobo",
+      "position": "John and Alice Sands Offensive Coordinator - Quarterbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "James Coley",
+      "position": "Assistant Coach - Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Josh Crawford",
+      "position": "Assistant Coach - Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Todd Hartley",
+      "position": "Assistant Head Coach - Tight Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Travaris Robinson",
+      "position": "Co-Defensive Coordinator - Safeties Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Glenn Schumann",
+      "position": "Fain & Billy Slaughter Defensive Coordinator - Inside Linebackers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Tray Scott",
+      "position": "Assistant Coach - Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Stacy Searels",
+      "position": "Assistant Coach - Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Andrew Thacker",
+      "position": "Assistant Coach - Nickels/Stars",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Chidera Uzo-Diribe",
+      "position": "Assistant Coach - Outside Linebackers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Donte Williams",
+      "position": "Associate Head Coach - Defensive Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Mitch Bernardo",
+      "position": "Director of Football Creative Video"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Lonnie Brown",
+      "position": "Assistant Strength & Conditioning Coach"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Mike Cavan",
+      "position": "Director of Football Administration"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Austin Chambers",
+      "position": "Director of Player Engagement"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jay Chapman",
+      "position": "Director of Football Management"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Markell Clark",
+      "position": "Assistant Strength & Conditioning Coach"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jackson Collier",
+      "position": "Assistant Director of Creative Design"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "David Cooper",
+      "position": "Director of Recruiting Relations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Anna DeFabio",
+      "position": "Director of Football Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Julie Dunagan",
+      "position": "Culinary Service Manager"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Chandler Eldridge",
+      "position": "Senior Director of Football Creative Services"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "James Ellis",
+      "position": "Director of Scouting"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Bryant Gantt",
+      "position": "Director of Player Support and Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Dorian Gerald",
+      "position": "Player Development Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Brandon Gilbert",
+      "position": "Assistant Strength & Conditioning Coach"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Christina Harris",
+      "position": "Director of Recruiting Administration"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jalen Harris",
+      "position": "Assistant Director of Player Development"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Cate Herrmans",
+      "position": "Assistant Director of Football Nutrition"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "David Hill",
+      "position": "Player Connection Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Ann Hunt",
+      "position": "Administrative Assistant to Head Coach"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Hailey Hunter",
+      "position": "Football Operations Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Drake Jennings",
+      "position": "Football Operations Assistant"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jonas Jennings",
+      "position": "Director of Player Development"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Edward King",
+      "position": "Assistant Strength & Conditioning Coach"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Javier King",
+      "position": "Assistant Quality Control - Special Teams"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Angela Ellington",
+      "position": "Associate Director, Recruiting Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jeremy Klawsky",
+      "position": "Director of Football Technology"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Edmund Kugbila",
+      "position": "Quality Control Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Garrett MacFalda",
+      "position": "Performance Sous Chef"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "John Meshad",
+      "position": "Director of Equipment Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "David Metcalf",
+      "position": "Assistant Quality Control - Defense"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Greer Moseley",
+      "position": "Football Operations Assistant"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Garrett Murphy",
+      "position": "Quality Control - Defense"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Will Myers",
+      "position": "Director of Player Personnel / Pro Liaison"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Hunter Parker",
+      "position": "Coordinator of Football Administration"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Price Petagna",
+      "position": "Assistant Director of Player Personnel"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Adam Ray",
+      "position": "Special Teams Analyst"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Logen Reed",
+      "position": "Associate Director, Recruiting Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Mark Robinson",
+      "position": "Assistant Athletic Director/Football Chief of Staff"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Kyle Simpson",
+      "position": "Assistant Director of Player Personnel"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Scott Sinclair",
+      "position": "Director of Strength & Conditioning"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Brandon Streeter",
+      "position": "Offensive Analyst"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Roger Velasquez",
+      "position": "Equipment Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Wil Wells",
+      "position": "Assistant Director of Football Equipment"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Gage Whitten",
+      "position": "Director of Football Equipment and Apparel"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Kadeem Wise",
+      "position": "Associate Director of Recruiting Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Brandi Allen",
+      "position": "Head Performance Chef for Football"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Bryson Allen-Williams",
+      "position": "Quality Control Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Chris Blaszka",
+      "position": "Associate Athletic Trainer: Football"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jimmy Brumbaugh",
+      "position": "Assistant Quality Control Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Alex Caputo",
+      "position": "Assistant Director of Football Creative Video"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Luc Cornier",
+      "position": "Assistant Quality Control Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Brittany deCamp",
+      "position": "Sr. Assistant Athletic Trainer: Football"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Warren Ericson",
+      "position": "Offensive Line Analyst"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Jason Hayter",
+      "position": "Performance Chef"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Nick Henry",
+      "position": "Performance Chef"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "John Lilly",
+      "position": "Quality Control Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Ryan Madaleno",
+      "position": "Associate Athletic Trainer: Football"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Connor Norman",
+      "position": "Director of Sports Medicine - Football"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Phil Rauscher",
+      "position": "Quality Control Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Marquis Swinton",
+      "position": "Assistant Athletic Trainer: Football"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Charles Thompson",
+      "position": "Performance Chef"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Davis Walker",
+      "position": "Assistant Director of Video Operations"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Brandon Webster",
+      "position": "Football Video Coordinator"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Madi Whitmire",
+      "position": "Assistant Director of Football Nutrition"
+    },
+    {
+      "school": "Georgia",
+      "conference": "SEC",
+      "name": "Caden Williams",
+      "position": "Sport Science Specialist"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Lincoln Riley",
+      "position": "C. & J. Elerding Head Football Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Doug Belk",
+      "position": "Secondary Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Ryan Dougherty",
+      "position": "Special Team Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Zach Hanson",
+      "position": "Assistant Head Coach for Offense / Offensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Eric Henderson",
+      "position": "Co-Defensive Coordinator / Run Game Coordinator / Defensive Line Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Luke Huard",
+      "position": "Offensive Coordinator / Quarterbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Anthony Jones Jr.",
+      "position": "Running Backs Coach / Run Game Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "D'Anton Lynn",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Shaun Nua",
+      "position": "Defensive End Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Trovon Reed",
+      "position": "Cornerbacks Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Rob Ryan",
+      "position": "Assistant Head Coach for Defense / Linebackers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Chad Savage",
+      "position": "Tight Ends / Inside Receivers Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Dennis Simmons",
+      "position": "Assistant Head Coach / Wide Receivers Coach / Offensive Passing Game Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Eric Adams",
+      "position": "Special Teams Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Aaron Amaama",
+      "position": "Director of High School Recruiting Relations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Bradley Aoki",
+      "position": "Offensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Derrick Baker",
+      "position": "Assistant Director of Football Sports Performance"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Chad Bowden",
+      "position": "General Manager"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Dre Brown",
+      "position": "Assistant General Manager"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Trumain Carroll",
+      "position": "Director of Football Sports Performance"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Luke Cuellar",
+      "position": "Football Art Director"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Joe D\u2019Orazio",
+      "position": "Director of Football Strategy / Offensive Assistant"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Abbie Dow, MS, RD, LD",
+      "position": "Sports Dietitian"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Dave Emerick",
+      "position": "Senior Associate Athletic Director Football Administration"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Eric Espinoza",
+      "position": "Director of Football Video Operations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Seth Gamradt, MD",
+      "position": "Head Team Physician/Dir. of Athletic Medicine"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "AJ Howard",
+      "position": "Defensive Analyst / Assistant Linebackers Coach"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Eryk Jackson, E.M., C.",
+      "position": "Director of Football Equipment Operations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Skyler Jones",
+      "position": "Defensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Spencer Jones",
+      "position": "Offensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Adrian Klemm",
+      "position": "Senior Defensive Assistant"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Danny Lopez",
+      "position": "Recruiting Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Lonnie Maddox",
+      "position": "Associate Director of Football Sports Performance"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Kevin Mark, MS, ATC, TSAC-F",
+      "position": "Athletic Trainer"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Caesar Martinez",
+      "position": "Assistant Director of Football Sports Performance"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "John McDonell",
+      "position": "Senior Offensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Sean McMannes, MAT, ATC",
+      "position": "Assistant Athletic Trainer"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Conor McQuiston",
+      "position": "Director of Football Analytics"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Eric Michael",
+      "position": "Director of Cinematography & Post-Production"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Spencer Missioreck",
+      "position": "Football Video & Systems Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Jenna Mohiuddin",
+      "position": "Director of Football Operations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Gavin Morris",
+      "position": "Assistant Athletic Director / Director of Player Relations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "De-Neita Peoples",
+      "position": "Senior Director of Athletic Compliance"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Lisa Noceti-DeWit PT, DPT, OCS, SCS, ATC, FAFS",
+      "position": "Rehabilitation Coordinator"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Callum Norrie",
+      "position": "Director of Digital Production"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Skylar Phan",
+      "position": "Director of Recruiting Strategy"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Jackson Polk",
+      "position": "Director of Sports Science"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Gordon Redfield-Gale",
+      "position": "Defensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Grayson Reed",
+      "position": "Offensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Robert Roh",
+      "position": "Offensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Russ Romano MA, ATC",
+      "position": "Director of Operations (Athletic Medicine)"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Katie Ryan",
+      "position": "Director of Football Communications"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Matthew Ryan",
+      "position": "Defensive Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Nate Simon E.M., C.",
+      "position": "Assistant Director of Football Equipment"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Logan Snead",
+      "position": "Recruiting Analyst"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Cecilia Snipes E.M., C.",
+      "position": "Associate Athletic Director (Equipment Operations)"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Max Stienecker",
+      "position": "Executive Director of Player Personnel"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Clarke Stroud",
+      "position": "Executive Director of Player Development and University Relations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Rachel Suba, MEd, RD, CSSD, LD",
+      "position": "Director of Sports Nutrition"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Cheryl Taplin",
+      "position": "Director of Football Student Services and Operations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Kerry Thompson",
+      "position": "Assistant Director of Football Sports Performance"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Zaire Turner",
+      "position": "Assistant Athletic Director of Recruiting Operations"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Dustin West",
+      "position": "Head Football Athletic Trainer"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Mike Williams",
+      "position": "Assistant Director of Player Development"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Max Wood",
+      "position": "Director of Digital Content"
+    },
+    {
+      "school": "USC",
+      "conference": "Big Ten",
+      "name": "Weston Zernechel",
+      "position": "Director of Recruiting"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Spencer Danielson",
+      "position": "Head Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Stacy Collins",
+      "position": "Assistant Head Coach / Special Teams Coordinator / Linebackers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Erik Chinander",
+      "position": "Defensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Nate Potter",
+      "position": "Offensive Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Terrence Brown",
+      "position": "Co-Defensive Coordinator / Defensive Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Zak Hill",
+      "position": "Co-Offensive Coordinator / Quarterbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Tim Keane",
+      "position": "Run Game Coordinator / Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Alvis Whitted",
+      "position": "Pass Game Coordinator / Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Jabril Frazier",
+      "position": "Run Game Coorindator / EDGEs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "DJ Killings",
+      "position": "Cornerbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Frank Maile",
+      "position": "Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "James Montgomery",
+      "position": "Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Justin Udy",
+      "position": "Tight Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "George Hicks",
+      "position": "Assistant Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Danny McDonald",
+      "position": "Assistant Quarterbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Derrick McMahen",
+      "position": "Assistant Defensive Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Demitri Washington",
+      "position": "Assistant Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Dirk Koetter",
+      "position": "Senior Analyst",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Devon McPeek",
+      "position": "Special Teams Analyst",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Kenny Zamberlin",
+      "position": "Offensive Quality Control",
+      "is_head_coach": true
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Benjamin Hilgart",
+      "position": "Director, Sports Performance Coach"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Marques White",
+      "position": "Associate Director, Sports Performance Coach"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Collin McKelvey",
+      "position": "Assistant Director, Sports Performance Coach / Director, Sports Science"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Josh Price",
+      "position": "Senior Assistant Director, Sports Performance"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Tom Keay",
+      "position": "Assistant Director, Sports Performance Coach"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Jeremy Busch",
+      "position": "Assistant Athletic Director, Athletic Training"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "McKenna Drevno",
+      "position": "Associate Athletic Trainer"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Brandon Voigt",
+      "position": "Assistant Athletic Trainer"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Michael Fanning",
+      "position": "Assistant Athletic Trainer"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Charlotte Siegel",
+      "position": "Assistant Athletic Director, Chief of Staff"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Brandon Jones",
+      "position": "General Manager"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Landan Yount",
+      "position": "Director of Player Personnel"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Shauny Fisk",
+      "position": "Director of Recruiting"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Lou Major",
+      "position": "Assistant AD, Football External Affairs & BroncoPRO"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Dale Holste",
+      "position": "Associate Director, Athletic Equipment Operations"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Blake Schulte",
+      "position": "Assistant Director, Athletic Equipment Operations"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Parker Weber",
+      "position": "Director of Video"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Tyler Caldwell",
+      "position": "Football Video, Graduate Assistant"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Samantha Wade",
+      "position": "Assistant Athletic Director, Performance Nutrition"
+    },
+    {
+      "school": "Boise State",
+      "conference": "Mountain West",
+      "name": "Bailey Hawkins",
+      "position": "Head Coach Operations and Program Engagement"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Charles Huff",
+      "position": "Head Football Coach",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Kevin Decker",
+      "position": "Offensive Coordinator / Quarterbacks",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Tim Conner",
+      "position": "Special Teams Coordinator",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Telly Lockette",
+      "position": "Assistant Head Coach / Running Backs",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "David Weeks",
+      "position": "Co-Offensive Coordinator / Tight Ends",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Andy Kwon",
+      "position": "Offensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Aaron Dobson",
+      "position": "Wide Receivers",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Eric Mathies",
+      "position": "Defensive Line",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Dominique Bowman",
+      "position": "Defensive Backs / Safeties",
+      "is_head_coach": true
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Sharrod Everett",
+      "position": "Chief of Staff / Chief Operating Officer"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Corey Phillips",
+      "position": "General Manager"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Reed Grable",
+      "position": "Assistant General Manager"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Kate Roll",
+      "position": "Director of Football Administration / Head Coach Operations"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Ben Ashford",
+      "position": "Director of Football Athletic Performance"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Drew White",
+      "position": "Assistant Director of Athletic Performance"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Qua Scott",
+      "position": "Assistant Strength & Conditioning Coach"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Aaron Estes",
+      "position": "Head Football Athletic Trainer"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Bryce Sorrier",
+      "position": "Head Football Athletic Trainer"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Allyson Looby",
+      "position": "Senior Athletic Trainer (Football)"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Jack Jacoby",
+      "position": "Director of Player Personnel"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Baker Parrish",
+      "position": "Assistant Director of Player Personnel"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Mat Rumshock",
+      "position": "Director of Football Technology"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Josh Calero-Hill",
+      "position": "Assistant Director of Football Technology"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Akiliyah Sumlin",
+      "position": "Director of Recruiting"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Marc Hohorst",
+      "position": "Equipment Manager"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Ezra McElroy",
+      "position": "Assistant Equipment Manager"
+    },
+    {
+      "school": "Memphis",
+      "conference": "American",
+      "name": "Sedaria Williams",
+      "position": "Director, Mental Health & Sports Performance"
+    }
+  ]
+}

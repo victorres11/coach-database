@@ -42,50 +42,77 @@ def fetch_wiki_summary(coach_name: str) -> dict | None:
 def extract_coaching_tree(extract: str) -> dict:
     """Extract coaching tree info from Wikipedia extract."""
     tree = {
-        "mentors": [],  # Who they worked under
-        "proteges": [], # Who worked under them (if mentioned)
-        "career_stops": []
+        "mentors": [],      # Who the coach worked under
+        "proteges": [],     # Who worked under the coach (if mentioned)
+        "career_stops": []  # List of {school, role}
     }
-    
-    # Common patterns for career progression
-    ga_pattern = r"graduate assistant[s]? (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)"
-    assistant_pattern = r"assistant (?:coach )?\s*(?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)"
-    coordinator_pattern = r"(?:offensive|defensive) coordinator (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)"
-    head_coach_pattern = r"head coach (?:of |at |for )?(?:the )?([A-Z][a-z]+(?: [A-Z][a-z]+)*)"
-    
-    # Extract career stops
-    for pattern, role in [
-        (ga_pattern, "GA"),
-        (assistant_pattern, "Assistant"),
-        (coordinator_pattern, "Coordinator"),
-        (head_coach_pattern, "Head Coach")
-    ]:
+
+    # Improved career role patterns for finer granularity
+    patterns = [
+        (r"graduate assistant[s]? (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "GA"),
+        (r"(\bOL|DL|QB|WR|RB|TE|LB|CB|DB|ST)[-/ ]coach(?: at| for)? ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Position Coach"),
+        (r"offensive coordinator (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Offensive Coordinator"),
+        (r"defensive coordinator (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Defensive Coordinator"),
+        (r"special teams coordinator (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Special Teams Coordinator"),
+        (r"assistant (?:coach )?\s*(?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Assistant Coach"),
+        (r"(position|running backs|wide receivers|linebackers|defensive backs|tight ends|offensive line|defensive line|quarterbacks|corners|safeties) coach (?:at|for) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Position Coach"),
+        (r"head coach (?:of |at |for )?(?:the )?([A-Z][a-z]+(?: [A-Z][a-z]+)*)", "Head Coach")
+    ]
+
+    for pattern, role in patterns:
         matches = re.findall(pattern, extract, re.IGNORECASE)
         for match in matches:
-            if match not in [s["school"] for s in tree["career_stops"]]:
-                tree["career_stops"].append({"school": match, "role": role})
-    
-    # Look for "under [Coach Name]" patterns
+            # Some patterns return tuples; flatten them
+            if isinstance(match, tuple):
+                school = match[-1]
+            else:
+                school = match
+            if school not in [s["school"] for s in tree["career_stops"]]:
+                tree["career_stops"].append({"school": school, "role": role})
+
+    # Broader mentor/lineage patterns
     under_pattern = r"under (?:head coach )?([A-Z][a-z]+ [A-Z][a-z]+)"
-    mentors = re.findall(under_pattern, extract)
-    tree["mentors"] = list(set(mentors))
-    
+    coached_by_pattern = r"coached (?:by|under) ([A-Z][a-z]+ [A-Z][a-z]+)"
+    mentorships = set(re.findall(under_pattern, extract)) | set(re.findall(coached_by_pattern, extract))
+    tree["mentors"] = list(mentorships)
+
+    # Proteges (coached future head coaches)
+    proteges_pattern = r"mentor(?:ed|s)? ([A-Z][a-z]+ [A-Z][a-z]+)"
+    proteges = re.findall(proteges_pattern, extract)
+    if proteges:
+        tree["proteges"] = list(set(proteges))
+
     return tree
 
 def enrich_coach(coach_name: str) -> dict:
     """Enrich a single coach with Wikipedia data."""
     wiki_data = fetch_wiki_summary(coach_name)
-    
+
     if not wiki_data:
         return {
             "name": coach_name,
             "wikipedia": None,
             "enriched": False
         }
-    
+
     extract = wiki_data.get("extract", "")
     coaching_tree = extract_coaching_tree(extract)
-    
+
+    # Attempt to extract success metrics from text
+    success_metrics = {}
+    win_rate_match = re.search(r"([0-9]{1,3}\.?[0-9]{0,2})% win", extract)
+    if win_rate_match:
+        success_metrics["win_rate"] = float(win_rate_match.group(1))
+    wins_match = re.search(r"([0-9]{2,4}) win[s]?[\s,]", extract)
+    if wins_match:
+        success_metrics["total_wins"] = int(wins_match.group(1))
+    draft_match = re.search(r"([0-9]{1,3}) (?:NFL )?draft (?:pick|picks)", extract)
+    if draft_match:
+        success_metrics["draft_picks"] = int(draft_match.group(1))
+    player_dev_match = re.search(r"developed ([0-9]{1,3}) player[s]?", extract)
+    if player_dev_match:
+        success_metrics["players_developed"] = int(player_dev_match.group(1))
+
     return {
         "name": coach_name,
         "wikipedia": {
@@ -96,6 +123,7 @@ def enrich_coach(coach_name: str) -> dict:
             "page_url": wiki_data.get("content_urls", {}).get("desktop", {}).get("page")
         },
         "coaching_tree": coaching_tree,
+        "success_metrics": success_metrics if success_metrics else None,
         "enriched": True
     }
 
