@@ -24,15 +24,58 @@ class CoachDatabase {
   }
 
   async loadData() {
+    // Head coaches
     const response = await fetch('data/coaches.json');
     const data = await response.json();
     this.metadata = data.metadata;
     this.coaches = data.coaches;
     this.filteredCoaches = [...this.coaches];
-    
+
+    // Coordinators
+    this.coordinators = [];
+    try {
+      const resp2 = await fetch('data/coordinators.json');
+      const cdata = await resp2.json();
+      this.coordinatorMeta = cdata.metadata || {};
+      // Transform matches into presentable objects for table (fallback to unmatched w/ missing salary)
+      if (cdata.matches && Array.isArray(cdata.matches)) {
+        this.coordinators = cdata.matches.map(m => ({
+          coach: m.name || m.coach || '',
+          role: m.position || m.role || '',
+          school: m.school || '',
+          conference: m.conference || '',
+          state: m.state || '',
+          salary: m.salary || m.total_pay || m.amount || null,
+          found: true
+        }));
+      }
+      // Append unmatched
+      if (cdata.unmatched && Array.isArray(cdata.unmatched)) {
+        cdata.unmatched.forEach(m => {
+          // Avoid duplicate entry if already matched
+          if (!this.coordinators.find(c => c.coach === m.coach && c.school === m.school)) {
+            this.coordinators.push({
+              coach: m.coach || '',
+              role: m.position || m.role || '',
+              school: m.school || '',
+              conference: m.conference || '',
+              state: m.state || '',
+              salary: null,
+              found: false
+            });
+          }
+        });
+      }
+    } catch (err) {
+      // On missing coordinators.json, just skip
+      this.coordinators = [];
+      this.coordinatorMeta = {};
+    }
+
     // Update last updated
     document.getElementById('last-updated').textContent = 
       `Last updated: ${new Date(this.metadata.lastUpdated).toLocaleDateString()}`;
+    this.renderCoordinators();
   }
 
   populateConferences() {
@@ -231,3 +274,24 @@ class CoachDatabase {
 document.addEventListener('DOMContentLoaded', () => {
   new CoachDatabase();
 });
+  renderCoordinators() {
+    const tbody = document.getElementById('coordinators-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!this.coordinators || this.coordinators.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6">No coordinator data available.</td></tr>';
+      return;
+    }
+    this.coordinators.forEach(coord => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = [
+        `<td>${coord.coach || ''}</td>`,
+        `<td>${coord.role || ''}</td>`,
+        `<td>${coord.school || ''}</td>`,
+        `<td>${coord.conference || ''}</td>`,
+        `<td>${coord.found ? 'Yes' : '<span class="no">No</span>'}</td>`,
+        `<td class="number">${coord.salary ? ('$' + Number(coord.salary).toLocaleString()) : '--'}</td>`
+      ].join('');
+      tbody.appendChild(tr);
+    });
+  }

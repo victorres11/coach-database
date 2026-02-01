@@ -1,0 +1,15 @@
+[
+  {"name": "Texas", "url": "https://texassports.com/sports/football/coaches", "conference": "Big 12"},
+  {"name": "Texas A&M", "url": "https://12thman.com/sports/football/coaches", "conference": "SEC"},
+  {"name": "TCU", "url": "https://gofrogs.com/sports/football/coaches", "conference": "Big 12"},
+  {"name": "Baylor", "url": "https://baylorbears.com/sports/football/coaches", "conference": "Big 12"},
+  {"name": "Houston", "url": "https://uhcougars.com/sports/football/coaches", "conference": "Big 12"},
+  {"name": "Texas Tech", "url": "https://texastech.com/sports/football/coaches", "conference": "Big 12"},
+  {"name": "UTSA", "url": "https://goutsa.com/sports/football/coaches", "conference": "American"},
+  {"name": "Florida", "url": "https://floridagators.com/sports/football/coaches", "conference": "SEC"},
+  {"name": "Florida State", "url": "https://seminoles.com/sports/football/coaches/", "conference": "ACC"},
+  {"name": "UCF", "url": "https://ucfknights.com/sports/football/coaches", "conference": "Big 12"},
+  {"name": "USF", "url": "https://gousfbulls.com/sports/football/coaches", "conference": "American"},
+  {"name": "FAU", "url": "https://fausports.com/sports/football/coaches", "conference": "American"},
+  {"name": "FIU", "url": "https://fiusports.com/sports/football/coaches", "conference": "CUSA"}
+]

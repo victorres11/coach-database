@@ -1,0 +1,259 @@
+#!/usr/bin/env python3
+"""
+Scrape D1 football coaching staff from school athletic pages.
+Handles Sidearm/Learfield Nuxt-based sites that embed data in __NUXT_DATA__ JSON.
+"""
+
+import json
+import time
+import re
+import requests
+from bs4 import BeautifulSoup
+from pathlib import Path
+
+# Sample schools for testing (mix of Power 4 and G5)
+TEST_SCHOOLS = [
+    {"name": "Georgia", "url": "https://georgiadogs.com/sports/football/coaches", "conference": "SEC"},
+    {"name": "Ohio State", "url": "https://ohiostatebuckeyes.com/sports/football/coaches/", "conference": "Big Ten"},
+    {"name": "USC", "url": "https://usctrojans.com/sports/football/coaches", "conference": "Big Ten"},
+    {"name": "Boise State", "url": "https://broncosports.com/sports/football/coaches", "conference": "Mountain West"},
+    {"name": "Memphis", "url": "https://gotigersgo.com/sports/football/coaches", "conference": "American"},
+]
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+}
+
+
+def resolve_nuxt_value(data, idx):
+    """Resolve a Nuxt data index to its actual value."""
+    if idx is None or not isinstance(idx, int):
+        return idx
+    if idx < 0 or idx >= len(data):
+        return None
+    val = data[idx]
+    # Don't recursively resolve - just get the direct value
+    return val
+
+
+def extract_coaches_from_nuxt(html, school_name, conference):
+    """Extract coach data from embedded __NUXT_DATA__ JSON."""
+    coaches = []
+    
+    # Find the __NUXT_DATA__ script tag
+    soup = BeautifulSoup(html, 'html.parser')
+    nuxt_script = soup.find('script', {'id': '__NUXT_DATA__'})
+    
+    if not nuxt_script:
+        print(f"  No __NUXT_DATA__ found for {school_name}")
+        return coaches
+    
+    try:
+        # Parse the JSON array
+        data = json.loads(nuxt_script.string)
+        
+        # The coaches are stored as objects with firstName, lastName, title fields
+        # We need to scan for objects that look like coach entries
+        for i, item in enumerate(data):
+            if isinstance(item, dict):
+                # Check if this looks like a coach entry
+                # Sidearm coach objects have: id, title, firstName, lastName, etc.
+                if 'firstName' in item and 'lastName' in item:
+                    first_name = resolve_nuxt_value(data, item.get('firstName'))
+                    last_name = resolve_nuxt_value(data, item.get('lastName'))
+                    title = resolve_nuxt_value(data, item.get('title'))
+                    
+                    # Clean up the values
+                    if isinstance(first_name, str) and isinstance(last_name, str):
+                        full_name = f"{first_name.strip()} {last_name.strip()}".strip()
+                        if full_name and full_name != " ":
+                            coach = {
+                                "school": school_name,
+                                "conference": conference,
+                                "name": full_name,
+                            }
+                            if title and isinstance(title, str):
+                                coach['position'] = title.strip()
+                            
+                            # Check if this is head coach
+                            if item.get('isHeadCoach'):
+                                coach['is_head_coach'] = True
+                            
+                            coaches.append(coach)
+        
+        print(f"  Found {len(coaches)} coaches at {school_name}")
+        
+    except json.JSONDecodeError as e:
+        print(f"  JSON parse error for {school_name}: {e}")
+    except Exception as e:
+        print(f"  Error extracting coaches for {school_name}: {e}")
+    
+    return coaches
+
+
+def scrape_sidearm_staff(url, school_name, conference):
+    """Scrape staff from Sidearm Sports pages (most common platform)."""
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=30)
+        response.raise_for_status()
+        
+        # Try Nuxt JSON extraction first (newer Sidearm sites)
+        coaches = extract_coaches_from_nuxt(response.text, school_name, conference)
+        
+        if coaches:
+            return coaches
+        
+        # Fallback to HTML parsing for older sites
+        print(f"  Falling back to HTML parsing for {school_name}")
+        return scrape_html_fallback(response.text, school_name, conference)
+        
+    except Exception as e:
+        print(f"  Error scraping {school_name}: {e}")
+        return []
+
+
+def scrape_html_fallback(html, school_name, conference):
+    """Fallback HTML parsing for non-Nuxt sites."""
+    coaches = []
+    soup = BeautifulSoup(html, 'html.parser')
+    
+    # Sidearm uses various selectors for coach cards
+    selectors = [
+        '.sidearm-coaches-coach',
+        '.coach-card', 
+        '.staff-member',
+        'article.coach',
+        '.c-coaches__list-item',
+    ]
+    
+    coach_elements = []
+    for selector in selectors:
+        coach_elements = soup.select(selector)
+        if coach_elements:
+            break
+    
+    if not coach_elements:
+        # Fallback: look for common patterns
+        coach_elements = soup.find_all(['article', 'div'], 
+            class_=lambda x: x and 'coach' in x.lower()) if soup else []
+    
+    for elem in coach_elements:
+        coach = extract_coach_from_html(elem, school_name, conference)
+        if coach and coach.get('name'):
+            coaches.append(coach)
+    
+    print(f"  Found {len(coaches)} coaches at {school_name} (HTML)")
+    return coaches
+
+
+def extract_coach_from_html(elem, school, conference):
+    """Extract coach name and title from HTML element."""
+    coach = {
+        "school": school,
+        "conference": conference,
+    }
+    
+    # Try various selectors for name
+    name_selectors = [
+        '.sidearm-coaches-coach-name',
+        '.coach-name',
+        '.staff-name',
+        'h3', 'h4',
+        '.name',
+        'a[href*="coaches"]',
+    ]
+    
+    for selector in name_selectors:
+        name_elem = elem.select_one(selector)
+        if name_elem:
+            text = name_elem.get_text(strip=True)
+            # Filter out non-name text
+            if text and len(text) > 2 and not text.lower().startswith('coach'):
+                coach['name'] = text
+                break
+    
+    # Try various selectors for title/position
+    title_selectors = [
+        '.sidearm-coaches-coach-title',
+        '.coach-title',
+        '.staff-title',
+        '.position',
+        '.title',
+    ]
+    
+    for selector in title_selectors:
+        title_elem = elem.select_one(selector)
+        if title_elem:
+            coach['position'] = title_elem.get_text(strip=True)
+            break
+    
+    return coach
+
+
+def run_test():
+    """Test scraper on subset of schools."""
+    all_coaches = []
+    
+    print("Testing staff scraper on 5 schools...\n")
+    
+    for school in TEST_SCHOOLS:
+        print(f"Scraping {school['name']}...")
+        coaches = scrape_sidearm_staff(school['url'], school['name'], school['conference'])
+        all_coaches.extend(coaches)
+        time.sleep(1)  # Be nice to servers
+    
+    print(f"\n{'='*50}")
+    print(f"Total coaches found: {len(all_coaches)}")
+    print(f"{'='*50}\n")
+    
+    # Show sample - dedupe by name+school
+    seen = set()
+    unique_coaches = []
+    for coach in all_coaches:
+        key = (coach.get('name'), coach.get('school'))
+        if key not in seen:
+            seen.add(key)
+            unique_coaches.append(coach)
+    
+    print(f"Unique coaches: {len(unique_coaches)}\n")
+    print("Sample results:")
+    for coach in unique_coaches[:15]:
+        pos = coach.get('position', 'Unknown')
+        print(f"  {coach.get('name', 'Unknown')} - {pos[:50]} ({coach['school']})")
+    
+    # Save test results
+    output_path = Path(__file__).parent.parent / "data" / "staff_test.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    with open(output_path, 'w') as f:
+        json.dump({
+            "metadata": {
+                "source": "School athletic websites",
+                "testRun": True,
+                "schoolsScraped": len(TEST_SCHOOLS),
+                "totalCoaches": len(unique_coaches)
+            },
+            "coaches": unique_coaches
+        }, f, indent=2)
+    
+    print(f"\nSaved to {output_path}")
+    return unique_coaches
+
+
+if __name__ == "__main__":
+    run_test()
+
+# TX/FL schools for state salary matching
+TX_FL_SCHOOLS = [
+    {"name": "Texas", "url": "https://texassports.com/sports/football/coaches", "conference": "SEC"},
+    {"name": "Texas A&M", "url": "https://12thman.com/sports/football/coaches", "conference": "SEC"},
+    {"name": "TCU", "url": "https://gofrogs.com/sports/football/coaches", "conference": "Big 12"},
+    {"name": "Baylor", "url": "https://baylorbears.com/sports/football/coaches", "conference": "Big 12"},
+    {"name": "Houston", "url": "https://uhcougars.com/sports/football/coaches", "conference": "Big 12"},
+    {"name": "Texas Tech", "url": "https://texastech.com/sports/football/coaches", "conference": "Big 12"},
+    {"name": "Florida", "url": "https://floridagators.com/sports/football/coaches", "conference": "SEC"},
+    {"name": "Florida State", "url": "https://seminoles.com/sports/football/coaches", "conference": "ACC"},
+    {"name": "Miami", "url": "https://miamihurricanes.com/sports/football/coaches", "conference": "ACC"},
+    {"name": "UCF", "url": "https://ucfknights.com/sports/football/coaches", "conference": "Big 12"},
+    {"name": "USF", "url": "https://gousfbulls.com/sports/football/coaches", "conference": "American"},
+]

@@ -302,3 +302,31 @@ footer a:hover {
     font-size: 0.85rem;
   }
 }
+/* Tab styles */
+.tabs {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  margin-top: 1.5rem;
+}
+.tab-btn {
+  background: none;
+  color: var(--text);
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  opacity: 0.7;
+  transition: 0.18s border-bottom, 0.18s opacity;
+}
+.tab-btn.active, .tab-btn:focus {
+  border-bottom: 3px solid var(--accent);
+  opacity: 1;
+}
+/* Styling for coordinator payroll missing */
+#coordinators-table .no {
+  color: var(--red);
+  font-weight: bold;
+  font-style: italic;
+}
