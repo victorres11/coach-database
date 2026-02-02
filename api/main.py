@@ -275,8 +275,13 @@ def search(
 
 # --- For YR Call Sheets integration ---
 
+from fastapi.responses import PlainTextResponse
+
 @app.get("/yr/{school_slug}/coaches")
-def yr_coaches(school_slug: str):
+def yr_coaches(
+    school_slug: str,
+    format: Optional[str] = Query(None, description="Output format: 'text' for plain text lines")
+):
     """Get offensive coaches for YR Call Sheets integration."""
     conn = get_db()
     
@@ -306,6 +311,11 @@ def yr_coaches(school_slug: str):
             if any(k in pos_lower for k in keywords):
                 result[label] = row['name']
                 break
+    
+    # Return plain text if format=text
+    if format == 'text':
+        lines = [f"{k}: {v}" for k, v in result.items()]
+        return PlainTextResponse("\n".join(lines))
     
     return result
 
