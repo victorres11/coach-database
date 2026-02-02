@@ -280,6 +280,7 @@ from fastapi.responses import PlainTextResponse
 @app.get("/yr/{school_slug}/coaches")
 def yr_coaches(
     school_slug: str,
+    position: Optional[str] = Query(None, description="Filter to single position (OC, OL, TE, WR, RB, SC)"),
     format: Optional[str] = Query(None, description="Output format: 'text' for plain text lines")
 ):
     """Get offensive coaches for YR Call Sheets integration."""
@@ -311,6 +312,14 @@ def yr_coaches(
             if any(k in pos_lower for k in keywords):
                 result[label] = row['name']
                 break
+    
+    # If filtering to single position, return just that value
+    if position:
+        pos_upper = position.upper()
+        value = result.get(pos_upper, "")
+        if format == 'text':
+            return PlainTextResponse(value)  # Just the name
+        return {pos_upper: value} if value else {}
     
     # Return plain text if format=text
     if format == 'text':
