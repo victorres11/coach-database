@@ -189,11 +189,12 @@ class CoachDatabase {
       return;
     }
 
-    tbody.innerHTML = this.filteredCoaches.map(coach => `
+    // Render rows with clickable coach names
+    tbody.innerHTML = this.filteredCoaches.map((coach, idx) => `
       <tr>
         <td>${coach.rank}</td>
         <td>
-          <div class="coach-name">${this.escapeHtml(coach.coach)}</div>
+          <div class="coach-name clickable" data-idx="${idx}" tabindex="0">${this.escapeHtml(coach.coach)}</div>
         </td>
         <td>
           <div class="school-name">${this.escapeHtml(coach.school)}</div>
@@ -218,6 +219,96 @@ class CoachDatabase {
         </td>
       </tr>
     `).join('');
+
+    // Add click event listeners for coach details
+    tbody.querySelectorAll('.coach-name.clickable').forEach(el => {
+      el.addEventListener('click', async (e) => {
+        const idx = parseInt(el.getAttribute('data-idx'));
+        const coach = this.filteredCoaches[idx];
+        await this.showCoachModal(coach);
+      });
+      el.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          const idx = parseInt(el.getAttribute('data-idx'));
+          const coach = this.filteredCoaches[idx];
+          await this.showCoachModal(coach);
+        }
+      });
+    });
+  }
+
+  // Fetch Wikipedia data (summary/details) for a coach
+  async fetchWikipediaData(coachName) {
+    // Wikipedia REST API summary endpoint
+    const base = 'https://en.wikipedia.org/api/rest_v1/page/summary/'
+    const tryTitles = [
+      coachName.replace(/ /g, '_'),
+      coachName.replace(/ /g, '_') + '_(American_football_coach)',
+      coachName.replace(/ /g, '_') + '_(American_football)'
+    ];
+    for (let title of tryTitles) {
+      try {
+        const resp = await fetch(`${base}${encodeURIComponent(title)}`);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (!data.title || data.type === 'disambiguation') continue;
+          return data;
+        }
+      } catch (e) {}
+    }
+    return null;
+  }
+
+  // Show modal with coach details (Wikipedia + fallback)
+  async showCoachModal(coach) {
+    const modal = document.getElementById('coach-modal');
+    const close = document.getElementById('modal-close');
+    const body = document.getElementById('modal-body');
+
+    // Show loading first
+    body.innerHTML = `<div class="modal-loading">Loading coach details...</div>`;
+    modal.style.display = 'block';
+
+    // Accessibility: close on Esc
+    document.addEventListener('keydown', this._modalKeyListener = function(evt) {
+      if (evt.key === 'Escape') {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Close modal logic
+    close.onclick = () => { modal.style.display = 'none'; };
+    window.onclick = (event) => {
+      if (event.target == modal) modal.style.display = 'none';
+    };
+
+    // Fetch Wikipedia info
+    let wiki = await this.fetchWikipediaData(coach.coach);
+    let photo = wiki && wiki.thumbnail ? wiki.thumbnail.source : null;
+    let bio = wiki && wiki.extract ? wiki.extract : null;
+    let pageUrl = wiki && wiki.content_urls && wiki.content_urls.desktop ? wiki.content_urls.desktop.page : null;
+    let desc = wiki && wiki.description ? wiki.description : null;
+
+    // Try crude coaching tree extraction. Lineage: under (head coach ...)
+    let lineage = null;
+    if (bio) {
+      const match = bio.match(/under (?:head coach )?([A-Z][a-z]+ [A-Z][a-z]+)/);
+      lineage = match ? match[1] : null;
+    }
+
+    // Modal content
+    body.innerHTML = `
+      <div class="modal-header">
+        ${photo ? `<img src="${photo}" alt="${coach.coach}" class="modal-photo">` : ''}
+        <div class="modal-title-section">
+          <h2>${this.escapeHtml(coach.coach)}</h2>
+          <h3>${this.escapeHtml(coach.school)}${desc ? ` &mdash; <span class='modal-desc'>${desc}</span>` : ''}</h3>
+          ${pageUrl ? `<a href="${pageUrl}" target="_blank" class="modal-wiki-link">Wikipedia</a>` : ''}
+        </div>
+      </div>
+      <div class="modal-bio">${bio ? this.escapeHtml(bio) : '<em>No detailed biography found.</em>'}</div>
+      <div class="modal-lineage">${lineage ? `<strong>Coaching Tree:</strong> ${this.escapeHtml(lineage)}` : ''}</div>
+    `;
   }
 
   escapeHtml(text) {

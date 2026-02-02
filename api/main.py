@@ -12,8 +12,9 @@ from typing import Optional, List
 import sqlite3
 from pathlib import Path
 
-# Database path
-DB_PATH = Path(__file__).parent.parent / 'db' / 'coaches.db'
+# Database path - works locally and on Render
+import os
+DB_PATH = Path(os.environ.get('DATABASE_PATH', Path(__file__).parent.parent / 'db' / 'coaches.db'))
 
 app = FastAPI(
     title="Coach Database API",
