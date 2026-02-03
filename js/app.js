@@ -8,7 +8,7 @@ class CoachDatabase {
     this.filteredCoaches = [];
     this.metadata = {};
     this.currentSort = { field: 'total_pay', direction: 'desc' };
-    this.headOnly = true; // Default to head coaches only
+    this.headOnly = false; // Default to showing all coaches
     this.init();
   }
 
@@ -31,8 +31,8 @@ class CoachDatabase {
     const statsResp = await fetch(`${API_BASE}/stats`);
     const stats = await statsResp.json();
     
-    // Fetch coaches from API
-    const params = new URLSearchParams({ limit: '500' });
+    // Fetch coaches from API (get all coaches, up to 2500)
+    const params = new URLSearchParams({ limit: '2500' });
     if (this.headOnly) params.set('head_only', 'true');
     
     const coachResp = await fetch(`${API_BASE}/coaches?${params}`);

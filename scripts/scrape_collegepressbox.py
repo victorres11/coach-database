@@ -41,7 +41,9 @@ SLUG_MAPPING = {
     'unlv': 'nevada-las-vegas',
     'usc': 'southern-california',
     'wku': 'western-kentucky',
-    # Add more as needed
+    # Texas A&M variations
+    'texas-am': 'texas-a&m',
+    'tamu': 'texas-a&m',
 }
 
 HEADERS = {
@@ -141,12 +143,25 @@ def scrape_team_staff(slug: str, cookie: str) -> list[dict]:
             name_cell = cells[0]
             position_cell = cells[1]
             
-            # Extract name (remove the hidden span)
-            hidden_span = name_cell.find('span', class_='display-none')
-            if hidden_span:
-                hidden_span.decompose()
+            # Extract name (remove the hidden span used for sorting)
+            # The span contains the last name for sorting purposes, but we want the full visible name
+            hidden_spans = name_cell.find_all('span', class_='display-none')
+            for span in hidden_spans:
+                span.extract()  # Use extract() instead of decompose() for cleaner removal
             
             name = name_cell.get_text(strip=True)
+            # Clean up any remaining concatenated text (e.g., "LastNameFirst Last" -> "First Last")
+            # If the name appears to have a duplicated portion at the start, remove it
+            if name and ' ' in name:
+                parts = name.split()
+                # Check if first part looks like a concatenated last name (no space, appears again later)
+                if len(parts) >= 2:
+                    first_part = parts[0]
+                    rest = ' '.join(parts[1:])
+                    # If the first part is a substring of the rest (case-insensitive), it's likely duplicated
+                    if first_part.lower() in rest.lower().replace(' ', '').replace('-', ''):
+                        name = rest
+            
             position = position_cell.get_text(strip=True)
             
             # Skip empty or header rows
