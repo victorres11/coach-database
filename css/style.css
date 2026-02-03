@@ -302,3 +302,89 @@ footer a:hover {
     font-size: 0.85rem;
   }
 }
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background: rgba(15,23,42,0.82);
+  transition: opacity 0.2s;
+}
+.modal-content {
+  background: var(--bg-card);
+  color: var(--text);
+  margin: 5% auto;
+  border-radius: 12px;
+  padding: 2rem 2rem 1rem 2rem;
+  width: 95%;
+  max-width: 470px;
+  box-shadow: 0 8px 32px 3px rgba(24,24,40,0.34);
+  position: relative;
+}
+.close {
+  color: var(--text);
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.modal-photo {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1.3rem;
+  border: 3px solid var(--accent);
+  background: #222a38;
+}
+.modal-title-section h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
+}
+.modal-title-section h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+.modal-wiki-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-left: 0.1rem;
+}
+.modal-wiki-link:hover {
+  text-decoration: underline;
+}
+.modal-bio {
+  margin-bottom: 0.9rem;
+  color: var(--text);
+}
+.modal-lineage {
+  color: var(--text-muted);
+}
+.modal-loading {
+  padding: 1.3rem 0;
+  text-align: center;
+}
+.coach-name.clickable {
+  cursor: pointer;
+  color: var(--accent);
+  text-decoration: underline dotted;
+}
+.coach-name.clickable:hover {
+  color: var(--accent-hover);
+}
