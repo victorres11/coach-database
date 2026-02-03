@@ -31,9 +31,8 @@ class CoachDatabase {
     const statsResp = await fetch(`${API_BASE}/stats`);
     const stats = await statsResp.json();
     
-    // Fetch coaches from API
-    // Note: API limit is 500 until Fly.io is redeployed with updated limit
-    const params = new URLSearchParams({ limit: '500' });
+    // Fetch coaches from API (get all coaches)
+    const params = new URLSearchParams({ limit: '2500' });
     if (this.headOnly) params.set('head_only', 'true');
     
     const coachResp = await fetch(`${API_BASE}/coaches?${params}`);
