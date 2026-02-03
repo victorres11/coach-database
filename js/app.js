@@ -172,7 +172,6 @@ class CoachDatabase {
 
     this.render();
   }
-  }
 
   formatMoney(amount, compact = false) {
     if (!amount) return '—';
