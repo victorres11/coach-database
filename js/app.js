@@ -1,11 +1,14 @@
 // Coach Database App
 
+const API_BASE = 'https://coach-database-api.fly.dev';
+
 class CoachDatabase {
   constructor() {
     this.coaches = [];
     this.filteredCoaches = [];
     this.metadata = {};
-    this.currentSort = { field: 'rank', direction: 'asc' };
+    this.currentSort = { field: 'total_pay', direction: 'desc' };
+    this.headOnly = true; // Default to head coaches only
     this.init();
   }
 
@@ -24,15 +27,42 @@ class CoachDatabase {
   }
 
   async loadData() {
-    const response = await fetch('data/coaches.json');
-    const data = await response.json();
-    this.metadata = data.metadata;
-    this.coaches = data.coaches;
+    // Fetch stats for metadata
+    const statsResp = await fetch(`${API_BASE}/stats`);
+    const stats = await statsResp.json();
+    
+    // Fetch coaches from API
+    const params = new URLSearchParams({ limit: '500' });
+    if (this.headOnly) params.set('head_only', 'true');
+    
+    const coachResp = await fetch(`${API_BASE}/coaches?${params}`);
+    const coaches = await coachResp.json();
+    
+    // Map API fields to expected format
+    this.coaches = coaches.map((c, idx) => ({
+      rank: idx + 1,
+      coach: c.name,
+      school: c.school || 'Unknown',
+      conference: c.conference || 'Unknown',
+      position: c.position,
+      isHeadCoach: c.is_head_coach,
+      totalPay: c.total_pay,
+      maxBonus: null, // Not in list endpoint
+      buyout: null,   // Not in list endpoint
+      schoolSlug: c.school_slug
+    }));
+    
     this.filteredCoaches = [...this.coaches];
+    this.metadata = {
+      totalCoaches: stats.head_coaches + stats.assistants,
+      headCoaches: stats.head_coaches,
+      assistants: stats.assistants,
+      schools: stats.schools
+    };
     
     // Update last updated
     document.getElementById('last-updated').textContent = 
-      `Last updated: ${new Date(this.metadata.lastUpdated).toLocaleDateString()}`;
+      `${this.metadata.headCoaches} head coaches | ${this.metadata.assistants} assistants | ${this.metadata.schools} schools`;
   }
 
   populateConferences() {
@@ -58,6 +88,17 @@ class CoachDatabase {
 
     // Conference filter
     document.getElementById('conference-filter').addEventListener('change', () => this.applyFilters());
+
+    // Head coaches only toggle (if exists)
+    const headOnlyToggle = document.getElementById('head-only-toggle');
+    if (headOnlyToggle) {
+      headOnlyToggle.checked = this.headOnly;
+      headOnlyToggle.addEventListener('change', async (e) => {
+        this.headOnly = e.target.checked;
+        await this.loadData();
+        this.applyFilters();
+      });
+    }
 
     // Sort dropdown
     document.getElementById('sort-by').addEventListener('change', (e) => {
@@ -133,24 +174,27 @@ class CoachDatabase {
   }
 
   updateStats() {
-    // Total coaches
+    // Total coaches shown
     document.getElementById('total-coaches').textContent = this.coaches.length;
 
     // Highest paid
-    const highest = this.coaches[0];
+    const withPay = this.coaches.filter(c => c.totalPay);
+    const highest = withPay[0];
     document.getElementById('highest-paid').textContent = 
-      `${this.formatMoney(highest.totalPay)}`;
+      highest ? this.formatMoney(highest.totalPay) : '—';
 
     // Average salary
-    const validSalaries = this.coaches.filter(c => c.totalPay).map(c => c.totalPay);
-    const avg = validSalaries.reduce((a, b) => a + b, 0) / validSalaries.length;
+    const validSalaries = withPay.map(c => c.totalPay);
+    const avg = validSalaries.length > 0 
+      ? validSalaries.reduce((a, b) => a + b, 0) / validSalaries.length 
+      : 0;
     document.getElementById('avg-salary').textContent = this.formatMoney(avg);
 
-    // Total buyouts
-    const totalBuyouts = this.coaches
-      .filter(c => c.buyout)
-      .reduce((sum, c) => sum + c.buyout, 0);
-    document.getElementById('total-buyouts').textContent = this.formatMoney(totalBuyouts, true);
+    // Total buyouts (would need detail endpoint, show placeholder for now)
+    const totalBuyoutsEl = document.getElementById('total-buyouts');
+    if (totalBuyoutsEl) {
+      totalBuyoutsEl.textContent = '—';
+    }
   }
 
   formatMoney(amount, compact = false) {
@@ -185,7 +229,7 @@ class CoachDatabase {
     const tbody = document.getElementById('coaches-tbody');
 
     if (this.filteredCoaches.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7" class="loading">No coaches match your filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="loading">No coaches match your filters.</td></tr>';
       return;
     }
 
@@ -197,6 +241,9 @@ class CoachDatabase {
           <div class="coach-name clickable" data-idx="${idx}" tabindex="0">${this.escapeHtml(coach.coach)}</div>
         </td>
         <td>
+          <span class="position-badge ${coach.isHeadCoach ? 'head-coach' : ''}">${this.escapeHtml(coach.position || '—')}</span>
+        </td>
+        <td>
           <div class="school-name">${this.escapeHtml(coach.school)}</div>
         </td>
         <td>
@@ -205,17 +252,7 @@ class CoachDatabase {
         <td class="number">
           ${coach.totalPay 
             ? `<span class="money">${this.formatMoney(coach.totalPay)}</span>` 
-            : '<span class="undisclosed">Undisclosed</span>'}
-        </td>
-        <td class="number">
-          ${coach.maxBonus 
-            ? `<span class="money">${this.formatMoney(coach.maxBonus)}</span>` 
-            : '—'}
-        </td>
-        <td class="number">
-          ${coach.buyout 
-            ? `<span class="money buyout">${this.formatMoney(coach.buyout)}</span>` 
-            : '<span class="undisclosed">Undisclosed</span>'}
+            : '<span class="undisclosed">—</span>'}
         </td>
       </tr>
     `).join('');
