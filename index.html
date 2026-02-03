@@ -13,7 +13,7 @@
   <header>
     <div class="container">
       <h1>🏈 College Football Coach Database</h1>
-      <p class="subtitle">FBS Head Coach Salaries, Contracts & Buyouts</p>
+      <p class="subtitle">FBS/FCS Coaching Staff & Salary Data</p>
     </div>
   </header>
 
@@ -44,6 +44,10 @@
         <input type="text" id="search" placeholder="Search coaches or schools..." aria-label="Search">
       </div>
       <div class="filter-group">
+        <label class="toggle-label">
+          <input type="checkbox" id="head-only-toggle" checked>
+          <span>Head Coaches Only</span>
+        </label>
         <select id="conference-filter" aria-label="Filter by conference">
           <option value="">All Conferences</option>
         </select>
@@ -51,7 +55,6 @@
           <option value="rank">Rank</option>
           <option value="totalPay-desc">Salary (High → Low)</option>
           <option value="totalPay-asc">Salary (Low → High)</option>
-          <option value="buyout-desc">Buyout (High → Low)</option>
           <option value="coach">Coach Name (A-Z)</option>
           <option value="school">School (A-Z)</option>
         </select>
@@ -65,11 +68,10 @@
           <tr>
             <th data-sort="rank">#</th>
             <th data-sort="coach">Coach</th>
+            <th data-sort="position">Position</th>
             <th data-sort="school">School</th>
             <th data-sort="conference">Conf</th>
             <th data-sort="totalPay" class="number">Total Pay</th>
-            <th data-sort="maxBonus" class="number">Max Bonus</th>
-            <th data-sort="buyout" class="number">Buyout</th>
           </tr>
         </thead>
         <tbody id="coaches-tbody">
