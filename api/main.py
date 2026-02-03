@@ -96,7 +96,7 @@ def list_coaches(
     school: Optional[str] = Query(None, description="Filter by school slug"),
     position: Optional[str] = Query(None, description="Filter by position (partial match)"),
     head_only: bool = Query(False, description="Only return head coaches"),
-    limit: int = Query(100, le=500)
+    limit: int = Query(2500, le=3000, description="Max results (default 2500 to include all coaches)")
 ):
     """List coaches with optional filters."""
     conn = get_db()
@@ -124,7 +124,8 @@ def list_coaches(
     if head_only:
         query += ' AND c.is_head_coach = 1'
     
-    query += ' ORDER BY COALESCE(sal.total_pay, 0) DESC, c.is_head_coach DESC LIMIT ?'
+    # Order by: head coaches first, then by salary (if any), then alphabetically
+    query += ' ORDER BY c.is_head_coach DESC, COALESCE(sal.total_pay, 0) DESC, s.name ASC, c.name ASC LIMIT ?'
     params.append(limit)
     
     rows = conn.execute(query, params).fetchall()
