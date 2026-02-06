@@ -17,7 +17,6 @@ class CoachDatabase {
       await this.loadData();
       this.populateConferences();
       this.setupEventListeners();
-      this.updateStats();
       this.render();
     } catch (error) {
       console.error('Error initializing:', error);
@@ -136,11 +135,12 @@ class CoachDatabase {
     const conference = document.getElementById('conference-filter').value;
 
     this.filteredCoaches = this.coaches.filter(coach => {
-      // Search filter
+      // Search filter - matches name, school, or position
       if (searchTerm) {
         const matchesSearch = 
           coach.coach.toLowerCase().includes(searchTerm) ||
-          coach.school.toLowerCase().includes(searchTerm);
+          coach.school.toLowerCase().includes(searchTerm) ||
+          (coach.position && coach.position.toLowerCase().includes(searchTerm));
         if (!matchesSearch) return false;
       }
 
@@ -171,30 +171,6 @@ class CoachDatabase {
     });
 
     this.render();
-  }
-
-  updateStats() {
-    // Total coaches shown
-    document.getElementById('total-coaches').textContent = this.coaches.length;
-
-    // Highest paid
-    const withPay = this.coaches.filter(c => c.totalPay);
-    const highest = withPay[0];
-    document.getElementById('highest-paid').textContent = 
-      highest ? this.formatMoney(highest.totalPay) : '—';
-
-    // Average salary
-    const validSalaries = withPay.map(c => c.totalPay);
-    const avg = validSalaries.length > 0 
-      ? validSalaries.reduce((a, b) => a + b, 0) / validSalaries.length 
-      : 0;
-    document.getElementById('avg-salary').textContent = this.formatMoney(avg);
-
-    // Total buyouts (would need detail endpoint, show placeholder for now)
-    const totalBuyoutsEl = document.getElementById('total-buyouts');
-    if (totalBuyoutsEl) {
-      totalBuyoutsEl.textContent = '—';
-    }
   }
 
   formatMoney(amount, compact = false) {
