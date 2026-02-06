@@ -42,6 +42,10 @@ class Coach(BaseModel):
     is_head_coach: bool
     conference: Optional[str]
     total_pay: Optional[int] = None
+    salary_year: Optional[int] = None
+    salary_school_pay: Optional[int] = None
+    salary_source: Optional[str] = None
+    salary_source_date: Optional[str] = None
     
 class School(BaseModel):
     id: int
@@ -104,11 +108,21 @@ def list_coaches(
     query = '''
         SELECT c.id, c.name, s.name as school, s.slug as school_slug, 
                c.position, c.is_head_coach, conf.abbrev as conference,
-               sal.total_pay
+               sal.total_pay,
+               sal.year as salary_year,
+               sal.school_pay as salary_school_pay,
+               sal.source as salary_source,
+               sal.source_date as salary_source_date
         FROM coaches c
         LEFT JOIN schools s ON c.school_id = s.id
         LEFT JOIN conferences conf ON s.conference_id = conf.id
-        LEFT JOIN salaries sal ON c.id = sal.coach_id
+        LEFT JOIN salaries sal ON sal.id = (
+            SELECT id
+            FROM salaries s2
+            WHERE s2.coach_id = c.id
+            ORDER BY s2.year DESC, COALESCE(s2.source_date, '') DESC, s2.id DESC
+            LIMIT 1
+        )
         WHERE 1=1
     '''
     params = []
@@ -141,11 +155,21 @@ def get_coach(coach_id: int):
     row = conn.execute('''
         SELECT c.id, c.name, s.name as school, s.slug as school_slug,
                c.position, c.is_head_coach, conf.abbrev as conference,
-               sal.total_pay
+               sal.total_pay,
+               sal.year as salary_year,
+               sal.school_pay as salary_school_pay,
+               sal.source as salary_source,
+               sal.source_date as salary_source_date
         FROM coaches c
         LEFT JOIN schools s ON c.school_id = s.id
         LEFT JOIN conferences conf ON s.conference_id = conf.id
-        LEFT JOIN salaries sal ON c.id = sal.coach_id
+        LEFT JOIN salaries sal ON sal.id = (
+            SELECT id
+            FROM salaries s2
+            WHERE s2.coach_id = c.id
+            ORDER BY s2.year DESC, COALESCE(s2.source_date, '') DESC, s2.id DESC
+            LIMIT 1
+        )
         WHERE c.id = ?
     ''', (coach_id,)).fetchone()
     
@@ -203,9 +227,20 @@ def get_school(slug: str):
         raise HTTPException(status_code=404, detail="School not found")
     
     staff = conn.execute('''
-        SELECT c.id, c.name, c.position, c.is_head_coach, sal.total_pay
+        SELECT c.id, c.name, c.position, c.is_head_coach,
+               sal.total_pay,
+               sal.year as salary_year,
+               sal.school_pay as salary_school_pay,
+               sal.source as salary_source,
+               sal.source_date as salary_source_date
         FROM coaches c
-        LEFT JOIN salaries sal ON c.id = sal.coach_id
+        LEFT JOIN salaries sal ON sal.id = (
+            SELECT id
+            FROM salaries s2
+            WHERE s2.coach_id = c.id
+            ORDER BY s2.year DESC, COALESCE(s2.source_date, '') DESC, s2.id DESC
+            LIMIT 1
+        )
         WHERE c.school_id = ?
         ORDER BY c.is_head_coach DESC, c.position
     ''', (school['id'],)).fetchall()

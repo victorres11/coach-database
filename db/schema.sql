@@ -51,6 +51,19 @@ CREATE TABLE IF NOT EXISTS salaries (
     FOREIGN KEY (coach_id) REFERENCES coaches(id)
 );
 
+-- Salary data sources per school (assistant + staff salary scraping)
+CREATE TABLE IF NOT EXISTS salary_sources (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    school_id INTEGER NOT NULL,
+    source_type TEXT NOT NULL,         -- 'osu_hr', 'transparent_ca', 'unc_system', etc.
+    base_url TEXT NOT NULL,
+    query_params TEXT,                 -- JSON string (per-source config)
+    parser_name TEXT NOT NULL,         -- Parser dispatch key
+    last_scraped TEXT,                 -- ISO timestamp
+    active BOOLEAN DEFAULT 1,
+    FOREIGN KEY (school_id) REFERENCES schools(id)
+);
+
 -- Coaching Trees (who mentored whom)
 CREATE TABLE IF NOT EXISTS coaching_trees (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,3 +84,5 @@ CREATE INDEX IF NOT EXISTS idx_coaches_position ON coaches(position);
 CREATE INDEX IF NOT EXISTS idx_coaches_name ON coaches(name);
 CREATE INDEX IF NOT EXISTS idx_salaries_coach ON salaries(coach_id);
 CREATE INDEX IF NOT EXISTS idx_salaries_year ON salaries(year);
+CREATE INDEX IF NOT EXISTS idx_salary_sources_school ON salary_sources(school_id);
+CREATE INDEX IF NOT EXISTS idx_salary_sources_active ON salary_sources(active);
