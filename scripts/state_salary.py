@@ -162,6 +162,13 @@ SCHOOL_EMPLOYER_KEYWORDS = {
     "Temple": ["TEMPLE"],
 }
 
+TEXAS_UNIVERSITY_EMPLOYER_KEYWORDS = [
+    keyword
+    for school, keywords in SCHOOL_EMPLOYER_KEYWORDS.items()
+    if SCHOOL_STATE.get(school) == "TX"
+    for keyword in keywords
+]
+
 TITLE_KEYWORDS = ["coach", "football", "athletic", "athletics"]
 
 
@@ -238,6 +245,12 @@ def parse_texas_tribune(text: str, keep_all: bool = False) -> list[SalaryRecord]
         last = (row.get("LAST NAME") or "").strip()
         name = f"{first.title()} {last.title()}".strip()
         employer = (row.get("AGENCY NAME") or "").strip()
+        # Texas Tribune data contains many non-university agencies; keep only known university employers.
+        employer_norm = employer.upper()
+        if TEXAS_UNIVERSITY_EMPLOYER_KEYWORDS and not any(
+            keyword in employer_norm for keyword in TEXAS_UNIVERSITY_EMPLOYER_KEYWORDS
+        ):
+            continue
         base_salary = parse_money(row.get("ANNUAL"))
         total_comp = parse_money(row.get("summed_annual_salary")) or base_salary
         records.append(
