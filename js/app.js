@@ -40,6 +40,7 @@ class CoachDatabase {
     // Map API fields to expected format
     this.coaches = coaches.map((c, idx) => ({
       rank: idx + 1,
+      id: c.id,
       coach: c.name,
       school: c.school || 'Unknown',
       conference: c.conference || 'Unknown',
@@ -272,6 +273,62 @@ class CoachDatabase {
     return null;
   }
 
+  async fetchCareerHistory(coachId) {
+    if (!coachId) return [];
+    try {
+      const resp = await fetch(`${API_BASE}/coaches/${coachId}/career`);
+      if (!resp.ok) return [];
+      const data = await resp.json();
+      return Array.isArray(data) ? data : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  formatYearRange(startYear, endYear) {
+    if (!startYear && !endYear) return '—';
+    if (!endYear || startYear === endYear) return `${startYear}`;
+    return `${startYear}\u2013${endYear}`; // en dash
+  }
+
+  renderCareerHistory(stints) {
+    if (!stints || stints.length === 0) {
+      return `
+        <div class="modal-section">
+          <h4>Career History</h4>
+          <div class="modal-empty"><em>Career history not available.</em></div>
+        </div>
+      `;
+    }
+
+    const items = stints.map(s => {
+      const years = this.formatYearRange(s.start_year, s.end_year);
+      const position = this.escapeHtml(s.position || '—');
+      const school = this.escapeHtml(s.school || 'Unknown');
+      return `
+        <li class="career-item">
+          <div class="career-dot" aria-hidden="true"></div>
+          <div class="career-content">
+            <div class="career-main">
+              <span class="career-position">${position}</span>
+              <span class="career-school">${school}</span>
+            </div>
+            <div class="career-years">${this.escapeHtml(years)}</div>
+          </div>
+        </li>
+      `;
+    }).join('');
+
+    return `
+      <div class="modal-section">
+        <h4>Career History</h4>
+        <ul class="career-history">
+          ${items}
+        </ul>
+      </div>
+    `;
+  }
+
   // Show modal with coach details (Wikipedia + fallback)
   async showCoachModal(coach) {
     const modal = document.getElementById('coach-modal');
@@ -302,6 +359,9 @@ class CoachDatabase {
     let pageUrl = wiki && wiki.content_urls && wiki.content_urls.desktop ? wiki.content_urls.desktop.page : null;
     let desc = wiki && wiki.description ? wiki.description : null;
 
+    // Fetch career history (uses historical staff data in DB, when available)
+    const careerStints = await this.fetchCareerHistory(coach.id);
+
     // Try crude coaching tree extraction. Lineage: under (head coach ...)
     let lineage = null;
     if (bio) {
@@ -320,6 +380,7 @@ class CoachDatabase {
         </div>
       </div>
       <div class="modal-bio">${bio ? this.escapeHtml(bio) : '<em>No detailed biography found.</em>'}</div>
+      ${this.renderCareerHistory(careerStints)}
       <div class="modal-lineage">${lineage ? `<strong>Coaching Tree:</strong> ${this.escapeHtml(lineage)}` : ''}</div>
     `;
   }
