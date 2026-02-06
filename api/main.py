@@ -40,8 +40,16 @@ class Coach(BaseModel):
     school_slug: Optional[str]
     position: Optional[str]
     is_head_coach: bool
+    year: int
     conference: Optional[str]
     total_pay: Optional[int] = None
+
+class CareerStint(BaseModel):
+    school: str
+    school_slug: Optional[str] = None
+    position: Optional[str] = None
+    start_year: int
+    end_year: int
     
 class School(BaseModel):
     id: int
@@ -102,8 +110,8 @@ def list_coaches(
     conn = get_db()
     
     query = '''
-        SELECT c.id, c.name, s.name as school, s.slug as school_slug, 
-               c.position, c.is_head_coach, conf.abbrev as conference,
+        SELECT c.id, c.name, s.name as school, s.slug as school_slug,
+               c.position, c.is_head_coach, c.year, conf.abbrev as conference,
                sal.total_pay
         FROM coaches c
         LEFT JOIN schools s ON c.school_id = s.id
@@ -140,7 +148,7 @@ def get_coach(coach_id: int):
     
     row = conn.execute('''
         SELECT c.id, c.name, s.name as school, s.slug as school_slug,
-               c.position, c.is_head_coach, conf.abbrev as conference,
+               c.position, c.is_head_coach, c.year, conf.abbrev as conference,
                sal.total_pay
         FROM coaches c
         LEFT JOIN schools s ON c.school_id = s.id
@@ -155,6 +163,74 @@ def get_coach(coach_id: int):
         raise HTTPException(status_code=404, detail="Coach not found")
     
     return Coach(**dict(row))
+
+@app.get("/coaches/{coach_id}/career", response_model=List[CareerStint])
+def get_coach_career(coach_id: int):
+    """Get a coach's career history (grouped stints) by coach ID.
+
+    This relies on historical staff data being loaded into the `coaches` table
+    across multiple seasons (`year`), and groups consecutive years for the same
+    school + position into a single stint.
+    """
+    conn = get_db()
+
+    coach_row = conn.execute('SELECT name FROM coaches WHERE id = ?', (coach_id,)).fetchone()
+    if not coach_row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Coach not found")
+
+    name = coach_row['name']
+    rows = conn.execute('''
+        SELECT c.year, c.position, c.is_head_coach,
+               s.name as school, s.slug as school_slug
+        FROM coaches c
+        LEFT JOIN schools s ON c.school_id = s.id
+        WHERE c.name = ?
+        ORDER BY c.year ASC, COALESCE(s.name, '') ASC, COALESCE(c.position, '') ASC
+    ''', (name,)).fetchall()
+    conn.close()
+
+    # De-dupe identical entries (common when multiple sources load the same job).
+    seen = set()
+    records = []
+    for r in rows:
+        key = (r['year'], r['school_slug'], r['school'], r['position'], int(r['is_head_coach'] or 0))
+        if key in seen:
+            continue
+        seen.add(key)
+        records.append(dict(r))
+
+    stints: list[dict] = []
+    current = None
+    for rec in records:
+        year = rec.get('year')
+        if year is None:
+            continue
+        school = rec.get('school') or 'Unknown'
+        school_slug = rec.get('school_slug')
+        position = rec.get('position')
+
+        if current:
+            same_place = (current['school_slug'], current['school'], current['position']) == (school_slug, school, position)
+            consecutive = year == current['end_year'] + 1
+            if same_place and consecutive:
+                current['end_year'] = year
+                continue
+            stints.append(current)
+
+        current = {
+            "school": school,
+            "school_slug": school_slug,
+            "position": position,
+            "start_year": year,
+            "end_year": year,
+        }
+
+    if current:
+        stints.append(current)
+
+    stints.sort(key=lambda s: (s['end_year'], s['start_year']), reverse=True)
+    return [CareerStint(**s) for s in stints]
 
 @app.get("/schools", response_model=List[School])
 def list_schools(
