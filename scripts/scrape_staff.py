@@ -68,8 +68,10 @@ def extract_coaches_from_nuxt(html, school_name, conference):
                             }
                             if title and isinstance(title, str):
                                 coach['position'] = title.strip()
-                            if item.get('isHeadCoach'):
-                                coach['is_head_coach'] = True
+                            position = coach.get("position") or ""
+                            # Nuxt's `isHeadCoach` flag is unreliable for some schools; derive HC from the title.
+                            is_hc = bool(re.search(r"\bHead Coach\b|\bHC\b", position, re.IGNORECASE))
+                            coach["is_head_coach"] = is_hc
                             coaches.append(coach)
         print(f"  Found {len(coaches)} coaches at {school_name}")
     except Exception as e:
@@ -145,6 +147,8 @@ def extract_coach_from_html(elem, school, conference):
         if title_elem:
             coach['position'] = title_elem.get_text(strip=True)
             break
+    position = coach.get("position") or ""
+    coach["is_head_coach"] = bool(re.search(r"\bHead Coach\b|\bHC\b", position, re.IGNORECASE))
     return coach
 
 def run_test():
