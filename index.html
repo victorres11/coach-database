@@ -3,21 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>College Football Coach Database</title>
+  <title>Coach Database</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>🏈 College Football Coach Database</h1>
-      <p class="subtitle">FBS/FCS Coaching Staff & Salary Data</p>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="topbar-left">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div class="topbar-titles">
+          <div class="topbar-title">Coach Database</div>
+          <div class="topbar-subtitle">FBS/FCS Coaching Staff</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div id="current-date" class="topbar-date" aria-label="Current date"></div>
+      </div>
     </div>
   </header>
 
-  <main class="container">
+  <main class="container page">
     <!-- Filters -->
     <section class="filters">
       <div class="search-box">
@@ -68,7 +76,7 @@
   </main>
 
   <!-- Coach Details Modal -->
-  <div id="coach-modal" class="modal" style="display:none;">
+  <div id="coach-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close" id="modal-close">&times;</span>
       <div id="modal-body">

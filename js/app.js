@@ -2,6 +2,17 @@
 
 const API_BASE = 'https://coach-database-api.fly.dev';
 
+// Set current date in header
+(function() {
+  const el = document.getElementById('current-date');
+  if (el) {
+    const now = new Date();
+    el.textContent = now.toLocaleDateString('en-US', { 
+      weekday: 'short', year: 'numeric', month: 'short', day: '2-digit' 
+    });
+  }
+})();
+
 class CoachDatabase {
   constructor() {
     this.coaches = [];
