@@ -313,6 +313,46 @@ th.sort-desc::after {
   font-variant-numeric: tabular-nums;
 }
 
+.salary-cell {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.salary-source {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.salary-source.source-usa-today {
+  border-color: rgba(14,165,233,0.35);
+  color: var(--accent-hover);
+  background: rgba(14,165,233,0.08);
+}
+
+.salary-source.source-state-payroll {
+  border-color: rgba(16,185,129,0.35);
+  color: var(--green-light);
+  background: rgba(16,185,129,0.08);
+}
+
+.salary-source.source-media-report {
+  border-color: rgba(245,158,11,0.35);
+  color: #fcd34d;
+  background: rgba(245,158,11,0.08);
+}
+
 .undisclosed {
   color: var(--text-muted);
 }
@@ -397,6 +437,20 @@ th.sort-desc::after {
   font-size: 0.9rem;
   font-weight: 400;
   color: var(--text-secondary);
+}
+
+.modal-salary {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.salary-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .modal-desc {

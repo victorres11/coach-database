@@ -20,3 +20,8 @@ Thumbs.db
 # Temp
 *.tmp
 *.log
+
+# Generated data exports
+data/media_reports.json
+data/media_salaries.json
+data/state_salary_matches.json
