@@ -159,6 +159,30 @@ body {
   border-color: rgba(14,165,233,0.5);
 }
 
+/* Buttons */
+.btn {
+  padding: 0.6rem 0.75rem;
+  background: rgba(14,165,233,0.12);
+  border: 1px solid rgba(14,165,233,0.25);
+  border-radius: var(--radius-badge);
+  color: var(--accent-hover);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: rgba(14,165,233,0.18);
+  border-color: rgba(14,165,233,0.35);
+  color: var(--text);
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(14,165,233,0.15);
+}
+
 /* Toggle */
 .toggle-label {
   display: flex;
@@ -265,6 +289,91 @@ th.sort-desc::after {
 
 .coach-name.clickable:hover {
   color: var(--accent-hover);
+}
+
+/* Year Badges */
+.new-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.12rem 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #052e16;
+  background: rgba(16,185,129,0.85);
+  border: 1px solid rgba(16,185,129,0.35);
+  vertical-align: middle;
+}
+
+/* Changes Panel */
+.changes-panel {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.changes-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.changes-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.changes-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.changes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.changes-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-badge);
+  padding: 0.75rem;
+}
+
+.changes-card h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.changes-list {
+  list-style: none;
+}
+
+.changes-list li {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.changes-list li:last-child {
+  border-bottom: none;
+}
+
+.changes-muted {
+  color: var(--text-muted);
+  font-size: 0.8rem;
 }
 
 /* School Name */
@@ -464,6 +573,10 @@ footer p {
   
   .filter-group {
     flex-wrap: wrap;
+  }
+
+  .changes-grid {
+    grid-template-columns: 1fr;
   }
 
   #coaches-table {

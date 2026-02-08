@@ -17,6 +17,7 @@ import json
 import re
 import time
 import sqlite3
+import datetime as dt
 from pathlib import Path
 from typing import Optional
 import requests
@@ -190,12 +191,35 @@ def scrape_team_staff(slug: str, cookie: str) -> list[dict]:
     return coaches
 
 
-def update_database(coaches: list[dict], db_path: Path = DB_PATH):
-    """Update the SQLite database with scraped coaches."""
+def warn_if_significant_count_diff(conn: sqlite3.Connection, year: int, threshold: float = 0.12) -> None:
+    """Warn if coach count for `year` differs significantly from prior year.
+
+    Useful to catch incomplete full scrapes (paywall, network issues, etc.).
+    """
+    prior_year = year - 1
+    current = conn.execute("SELECT COUNT(*) FROM coaches WHERE year = ?", (year,)).fetchone()[0]
+    prior = conn.execute("SELECT COUNT(*) FROM coaches WHERE year = ?", (prior_year,)).fetchone()[0]
+    if prior <= 0 or current <= 0:
+        return
+    diff = current - prior
+    ratio = abs(diff) / float(prior)
+    if ratio >= threshold:
+        direction = "higher" if diff > 0 else "lower"
+        print(
+            f"\n⚠️  Validation warning: {year} coach count ({current}) is {abs(diff)} {direction} than {prior_year} ({prior}). "
+            f"That is {ratio:.0%} different. Scrape may be incomplete."
+        )
+
+
+def update_database(coaches: list[dict], year: int, db_path: Path = DB_PATH):
+    """Upsert scraped coaches for a specific season `year`.
+
+    Important: Only modifies rows for the provided `year` (never touches older seasons).
+    """
     if not db_path.exists():
         print(f"Database not found at {db_path}")
         return
-    
+
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
@@ -209,6 +233,7 @@ def update_database(coaches: list[dict], db_path: Path = DB_PATH):
     
     updated = 0
     inserted = 0
+    scraped_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     
     for slug, staff in schools.items():
         # Map slug if needed
@@ -227,32 +252,35 @@ def update_database(coaches: list[dict], db_path: Path = DB_PATH):
         school_id = row[0]
         
         for coach in staff:
-            # Check if coach exists
+            # Check if coach exists for this year (never overwrite historical rows).
             cursor.execute(
-                "SELECT id FROM coaches WHERE school_id = ? AND name = ?",
-                (school_id, coach['name'])
+                "SELECT id FROM coaches WHERE school_id = ? AND name = ? AND year = ? LIMIT 1",
+                (school_id, coach['name'], year)
             )
             existing = cursor.fetchone()
             
             if existing:
-                # Update position
+                # Update current season row only (never touch other seasons).
                 cursor.execute(
-                    "UPDATE coaches SET position = ?, is_head_coach = ? WHERE id = ?",
-                    (coach['position'], coach['is_head_coach'], existing[0])
+                    "UPDATE coaches SET position = ?, is_head_coach = ?, cpb_scraped_at = ? WHERE id = ?",
+                    (coach['position'], coach['is_head_coach'], scraped_at, existing[0])
                 )
                 updated += 1
             else:
-                # Insert new coach
+                # Insert new coach row for this season.
                 cursor.execute(
-                    "INSERT INTO coaches (name, school_id, position, is_head_coach) VALUES (?, ?, ?, ?)",
-                    (coach['name'], school_id, coach['position'], coach['is_head_coach'])
+                    """
+                    INSERT INTO coaches (name, school_id, position, is_head_coach, year, cpb_scraped_at)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """,
+                    (coach['name'], school_id, coach['position'], coach['is_head_coach'], year, scraped_at)
                 )
                 inserted += 1
     
     conn.commit()
-    conn.close()
     
-    print(f"\nDatabase updated: {inserted} inserted, {updated} updated")
+    print(f"\nDatabase updated for year={year}: {inserted} inserted, {updated} updated")
+    conn.close()
 
 
 def main():
@@ -261,8 +289,11 @@ def main():
     parser.add_argument("--fbs-only", action="store_true", help="Only scrape FBS teams")
     parser.add_argument("--output", "-o", help="Output JSON file path")
     parser.add_argument("--update-db", action="store_true", help="Update SQLite database")
+    parser.add_argument("--year", type=int, default=None, help="Season year to write into DB (default: current year)")
     parser.add_argument("--delay", type=float, default=1.0, help="Delay between requests (seconds)")
     args = parser.parse_args()
+
+    scrape_year = int(args.year or dt.date.today().year)
     
     cookie = load_cookie()
     all_coaches = []
@@ -297,7 +328,14 @@ def main():
         print(f"Saved to {output_path}")
     
     if args.update_db:
-        update_database(all_coaches)
+        update_database(all_coaches, year=scrape_year)
+        # Only validate after a full scrape (single-team runs are intentionally partial).
+        if not args.team:
+            conn = sqlite3.connect(DB_PATH)
+            try:
+                warn_if_significant_count_diff(conn, scrape_year)
+            finally:
+                conn.close()
     
     if not args.output and not args.update_db:
         # Print sample
