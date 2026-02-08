@@ -22,6 +22,8 @@ except ImportError:
     print("Error: unable to import scrape_usatoday.py. Run from repo root.")
     sys.exit(1)
 
+from sqlite_reader import snapshot_from_sqlite
+
 POWER_FOUR = {"SEC", "Big 10", "Big 12", "ACC"}
 # TODO: Add Telegram notifications for alert-worthy changes.
 
@@ -196,14 +198,29 @@ def save_log(path: Path, log: dict[str, Any]) -> None:
     with open(path, "w") as f:
         json.dump(log, f, indent=2)
 
+def save_snapshot(path: Path, snapshot: dict[str, Any], *, historical: bool, historical_dir: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(snapshot, f, indent=2)
+
+    if historical:
+        snap_date = snapshot.get("metadata", {}).get("lastUpdated") or date.today().isoformat()
+        hist_path = historical_dir / f"{snap_date}.json"
+        historical_dir.mkdir(parents=True, exist_ok=True)
+        with open(hist_path, "w") as f:
+            json.dump(snapshot, f, indent=2)
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Track coaching changes with scheduled scraping")
+    parser.add_argument("--source", choices=["db", "usatoday", "json"], default="db", help="Where to read current data (default: db)")
+    parser.add_argument("--db", default="db/coaches.db", help="SQLite DB path (source=db)")
+    parser.add_argument("--year", type=int, default=2025, help="Season year (source=db)")
     parser.add_argument("--data", default="data/coaches.json", help="Current data file path")
     parser.add_argument("--historical-dir", default="historical", help="Historical snapshot directory")
     parser.add_argument("--log", default="data/coaching_changes.json", help="Change log output path")
     parser.add_argument("--force", action="store_true", help="Force run regardless of schedule")
-    parser.add_argument("--skip-scrape", action="store_true", help="Skip scraping and diff existing data")
+    parser.add_argument("--skip-scrape", action="store_true", help="Skip fetch/build and diff existing data")
     parser.add_argument("--today", help="Override today's date (YYYY-MM-DD)")
     args = parser.parse_args()
 
@@ -211,6 +228,7 @@ def main() -> None:
     data_path = script_root / args.data
     historical_dir = script_root / args.historical_dir
     log_path = script_root / args.log
+    db_path = script_root / args.db
 
     if args.today:
         today = date.fromisoformat(args.today)
@@ -225,8 +243,16 @@ def main() -> None:
         return
 
     if not args.skip_scrape:
-        coaches = scrape_coaches()
-        save_data(coaches, data_path, historical=True)
+        if args.source == "usatoday":
+            coaches = scrape_coaches()
+            save_data(coaches, data_path, historical=True)
+        elif args.source == "db":
+            snap = snapshot_from_sqlite(db_path, year=args.year)
+            snapshot = {"metadata": snap.metadata, "coaches": snap.coaches}
+            save_snapshot(data_path, snapshot, historical=True, historical_dir=historical_dir)
+        elif args.source == "json":
+            # Use existing JSON at --data without modification.
+            pass
 
     if not data_path.exists():
         print(f"Error: data file not found at {data_path}")

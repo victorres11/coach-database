@@ -5,7 +5,7 @@ Coach Database API
 FastAPI service for querying college football coaching data.
 """
 
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
@@ -15,6 +15,7 @@ from pathlib import Path
 # Database path - works locally and on Render
 import os
 DB_PATH = Path(os.environ.get('DATABASE_PATH', Path(__file__).parent.parent / 'db' / 'coaches.db'))
+API_KEY = (os.environ.get("COACHDB_API_KEY") or "").strip()
 
 app = FastAPI(
     title="Coach Database API",
@@ -78,6 +79,29 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+def require_api_key(
+    x_api_key: Optional[str] = Header(None, alias="X-API-Key"),
+    authorization: Optional[str] = Header(None, alias="Authorization"),
+):
+    """Optional API key auth.
+
+    If `COACHDB_API_KEY` is unset, the API is open (useful for local/dev).
+    If set, clients must send either:
+      - `X-API-Key: <key>` or
+      - `Authorization: Bearer <key>`
+    """
+    if not API_KEY:
+        return
+
+    candidate = (x_api_key or "").strip()
+    if not candidate and authorization:
+        parts = authorization.split(None, 1)
+        if len(parts) == 2 and parts[0].lower() == "bearer":
+            candidate = parts[1].strip()
+
+    if not candidate or candidate != API_KEY:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
 # --- Routes ---
 
 @app.get("/")
@@ -105,9 +129,11 @@ def get_stats():
 
 @app.get("/coaches", response_model=List[Coach])
 def list_coaches(
-    school: Optional[str] = Query(None, description="Filter by school slug"),
+    _auth: None = Depends(require_api_key),
+    school: Optional[str] = Query(None, description="Filter by school slug (or exact school name)"),
     position: Optional[str] = Query(None, description="Filter by position (partial match)"),
     head_only: bool = Query(False, description="Only return head coaches"),
+    year: Optional[int] = Query(None, description="Filter by season year"),
     limit: int = Query(2500, le=3000, description="Max results (default 2500 to include all coaches)")
 ):
     """List coaches with optional filters."""
@@ -136,8 +162,8 @@ def list_coaches(
     params = []
     
     if school:
-        query += ' AND s.slug = ?'
-        params.append(school)
+        query += ' AND (s.slug = ? OR s.name = ?)'
+        params.extend([school, school])
     
     if position:
         query += ' AND c.position LIKE ?'
@@ -145,6 +171,10 @@ def list_coaches(
     
     if head_only:
         query += ' AND c.is_head_coach = 1'
+
+    if year is not None:
+        query += ' AND c.year = ?'
+        params.append(year)
     
     # Order by: head coaches first, then by salary (if any), then alphabetically
     query += ' ORDER BY c.is_head_coach DESC, COALESCE(sal.total_pay, 0) DESC, s.name ASC, c.name ASC LIMIT ?'
@@ -156,7 +186,7 @@ def list_coaches(
     return [Coach(**dict(row)) for row in rows]
 
 @app.get("/coaches/{coach_id}", response_model=Coach)
-def get_coach(coach_id: int):
+def get_coach(coach_id: int, _auth: None = Depends(require_api_key)):
     """Get a specific coach by ID."""
     conn = get_db()
     
@@ -189,7 +219,7 @@ def get_coach(coach_id: int):
     return Coach(**dict(row))
 
 @app.get("/coaches/{coach_id}/career", response_model=List[CareerStint])
-def get_coach_career(coach_id: int):
+def get_coach_career(coach_id: int, _auth: None = Depends(require_api_key)):
     """Get a coach's career history (grouped stints) by coach ID.
 
     This relies on historical staff data being loaded into the `coaches` table
@@ -258,7 +288,9 @@ def get_coach_career(coach_id: int):
 
 @app.get("/schools", response_model=List[School])
 def list_schools(
+    _auth: None = Depends(require_api_key),
     conference: Optional[str] = Query(None, description="Filter by conference abbrev"),
+    q: Optional[str] = Query(None, description="Search by school name/slug (partial match)"),
     limit: int = Query(100, le=500)
 ):
     """List schools with head coach and staff count."""
@@ -277,6 +309,10 @@ def list_schools(
     if conference:
         query += ' AND conf.abbrev = ?'
         params.append(conference)
+
+    if q:
+        query += ' AND (s.name LIKE ? OR s.slug LIKE ?)'
+        params.extend([f"%{q}%", f"%{q}%"])
     
     query += ' ORDER BY s.name LIMIT ?'
     params.append(limit)
@@ -287,7 +323,7 @@ def list_schools(
     return [School(**dict(row)) for row in rows]
 
 @app.get("/schools/{slug}")
-def get_school(slug: str):
+def get_school(slug: str, _auth: None = Depends(require_api_key)):
     """Get school details with full staff."""
     conn = get_db()
     
@@ -330,8 +366,10 @@ def get_school(slug: str):
 
 @app.get("/salaries", response_model=List[Salary])
 def list_salaries(
+    _auth: None = Depends(require_api_key),
     min_pay: Optional[int] = Query(None, description="Minimum total pay"),
     conference: Optional[str] = Query(None, description="Filter by conference"),
+    year: Optional[int] = Query(None, description="Filter by salary year"),
     limit: int = Query(50, le=200)
 ):
     """List head coach salaries."""
@@ -355,6 +393,10 @@ def list_salaries(
     if conference:
         query += ' AND conf.abbrev = ?'
         params.append(conference)
+
+    if year is not None:
+        query += ' AND sal.year = ?'
+        params.append(year)
     
     query += ' ORDER BY sal.total_pay DESC LIMIT ?'
     params.append(limit)
@@ -366,6 +408,7 @@ def list_salaries(
 
 @app.get("/search")
 def search(
+    _auth: None = Depends(require_api_key),
     q: str = Query(..., min_length=2, description="Search query"),
     limit: int = Query(20, le=100)
 ):
@@ -392,7 +435,9 @@ from fastapi.responses import PlainTextResponse
 @app.get("/yr/{school_slug}/coaches")
 def yr_coaches(
     school_slug: str,
+    _auth: None = Depends(require_api_key),
     position: Optional[str] = Query(None, description="Filter to single position (OC, OL, TE, WR, RB, SC)"),
+    year: Optional[int] = Query(None, description="Filter by season year"),
     format: Optional[str] = Query(None, description="Output format: 'text' for plain text lines")
 ):
     """Get offensive coaches for YR Call Sheets integration."""
@@ -408,12 +453,18 @@ def yr_coaches(
         'SC': ['strength', 'conditioning']
     }
     
-    staff = conn.execute('''
+    staff_query = '''
         SELECT c.name, c.position
         FROM coaches c
         JOIN schools s ON c.school_id = s.id
         WHERE s.slug = ?
-    ''', (school_slug,)).fetchall()
+    '''
+    params: list = [school_slug]
+    if year is not None:
+        staff_query += ' AND c.year = ?'
+        params.append(year)
+
+    staff = conn.execute(staff_query, params).fetchall()
     
     conn.close()
     

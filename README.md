@@ -1,6 +1,10 @@
-# College Football Coach Contract Database
+# Coach DB (Shared Data Service)
 
-A comprehensive database of FBS college football head coach salaries, contracts, and buyout information.
+Single source of truth for college football coaching staff + salary data, backed by SQLite and served via a FastAPI REST API.
+
+- Local DB: `db/coaches.db`
+- API service: `api/main.py`
+- Production (example): `https://coach-database-api.fly.dev`
 
 ## Data Sources
 
@@ -26,24 +30,11 @@ A comprehensive database of FBS college football head coach salaries, contracts,
 
 ## Data Structure
 
-### Schema (`data/coaches.json`)
-```json
-{
-  "coach": "string - Coach's full name",
-  "school": "string - University name",
-  "conference": "string - Conference abbreviation",
-  "sport": "string - Always 'football' for now",
-  "totalPay": "number - Total annual compensation (null if undisclosed)",
-  "schoolPay": "number - Base school salary",
-  "maxBonus": "number - Maximum achievable bonus",
-  "bonusesPaid": "number - Bonuses paid in 2024-25",
-  "buyout": "number - School buyout as of Dec 1, 2025",
-  "contractTerm": "number - Total years (when available)",
-  "contractEndYear": "number - Year contract expires (when available)",
-  "dataSource": "string - Source of data",
-  "lastUpdated": "string - ISO date of last update"
-}
-```
+### SQLite Schema
+See `db/schema.sql` for the canonical schema:
+- `conferences`, `schools`, `coaches`, `salaries`, `coaching_trees`, `salary_sources`
+
+Legacy JSON snapshots still exist under `data/` and `historical/` for scraping/diffing, but the DB + API are the intended integration points.
 
 ### Conference Abbreviations
 - `SEC` - Southeastern Conference
@@ -63,50 +54,61 @@ A comprehensive database of FBS college football head coach salaries, contracts,
 ```
 coach-database/
 ├── README.md
-├── data/
-│   ├── coaches.json          # Full dataset
-│   ├── power_four.json       # SEC, Big 10, Big 12, ACC only
-│   └── by_conference/        # Split by conference
+├── db/
+│   ├── coaches.db            # SQLite database (source of truth)
+│   ├── schema.sql            # DB schema
+│   └── migrate.py            # JSON → SQLite migration
+├── api/
+│   ├── main.py               # FastAPI service
+│   └── requirements.txt
 ├── scripts/
-│   ├── scrape_usatoday.py    # Fetch from USA Today
-│   ├── update_database.py    # Update and merge data
-│   └── analyze.py            # Analysis utilities
+│   ├── scrape_usatoday.py    # Fetch USA Today salaries (writes JSON snapshots)
+│   ├── track_changes.py      # Diff snapshots (can build from SQLite)
+│   └── analyze.py            # Analysis (SQLite-first)
 └── historical/
     └── 2025-10-08.json       # Snapshots by date
 ```
 
 ## Usage
 
-### Fetch latest data
+### Build/refresh the SQLite DB
 ```bash
-python scripts/scrape_usatoday.py
+python db/migrate.py
 ```
 
-### Pull state salary data (Phase 2)
+### Run the API locally
 ```bash
-python scripts/state_salary.py download --state TX
-python scripts/state_salary.py download --state FL
-python scripts/state_salary.py match --roster data/staff_test.json --states TX,FL
+uvicorn api.main:app --host 127.0.0.1 --port 8100
 ```
 
-Notes:
-- CA/OH/MI/PA sources currently require manual CSV downloads (see `scripts/state_salary.py`).
+Optional API key auth:
+- Set `COACHDB_API_KEY` to require `X-API-Key` (or `Authorization: Bearer ...`) on data endpoints.
 
-### Track coaching changes
+### Query via API (consumer repos)
 ```bash
-python scripts/track_changes.py
+curl "http://127.0.0.1:8100/coaches?head_only=true&limit=25"
+curl "http://127.0.0.1:8100/schools?q=georgia"
+curl "http://127.0.0.1:8100/search?q=kirby"
 ```
 
-The tracker runs weekly during the December–February carousel window and monthly otherwise. Use `--force` to bypass the schedule or `--skip-scrape` to diff existing snapshots.
-
-### Run analysis
+Python client (optional):
 ```bash
-python scripts/analyze.py --top 25 --by conference
+pip install -e ./client
 ```
 
-### Enrich with media-reported assistant salaries
+YR call-sheet helper (maps common offensive staff roles):
 ```bash
-python scripts/media_enrichment.py --staff data/staff_test.json --output data/media_reports.json --allow-edu
+curl "http://127.0.0.1:8100/yr/georgia/coaches?format=text"
+```
+
+### Track changes (SQLite-first)
+```bash
+python scripts/track_changes.py --source db --force
+```
+
+### Run analysis (SQLite-first)
+```bash
+python scripts/analyze.py --source db --top 25
 ```
 
 ## Key Statistics (2025 Season)
