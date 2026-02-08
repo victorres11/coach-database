@@ -25,7 +25,7 @@ import json
 import re
 import sqlite3
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace as dc_replace
 from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any, Iterable
@@ -111,6 +111,13 @@ def get_db(path: Path) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def latest_coach_year(conn: sqlite3.Connection) -> int:
+    row = conn.execute("SELECT MAX(year) FROM coaches").fetchone()
+    if row and row[0]:
+        return int(row[0])
+    return int(dt.date.today().year)
 
 
 @dataclass(frozen=True)
@@ -350,11 +357,11 @@ class TransparentCAParser:
                 "year": year,
             }
 
-    def scrape_for_school(self, conn: sqlite3.Connection, source_row: sqlite3.Row) -> list[SalaryRow]:
+    def scrape_for_school(self, conn: sqlite3.Connection, source_row: sqlite3.Row, roster_year: int) -> list[SalaryRow]:
         params = load_params(source_row)
         agency = params.get("agency") or "university-of-california"
         year_min = int(params.get("year_min") or 2022)
-        default_year = int(params.get("year") or 2025)
+        default_year = int(params.get("year") or roster_year)
 
         # TransparentCA does not provide a stable campus filter for UC schools.
         # Strategy: search per-coach name from our roster and pull the most recent
@@ -363,10 +370,10 @@ class TransparentCAParser:
             """
             SELECT id, name
             FROM coaches
-            WHERE school_id = ? AND year = 2025
+            WHERE school_id = ? AND year = ?
             ORDER BY is_head_coach DESC, name ASC
             """,
-            (source_row["school_id"],),
+            (source_row["school_id"], roster_year),
         ).fetchall()
 
         session = requests.Session()
@@ -415,15 +422,15 @@ PARSERS: dict[str, Any] = {
 
 
 def best_coach_match(
-    conn: sqlite3.Connection, school_id: int, person_name: str, min_score: float = 0.86
+    conn: sqlite3.Connection, school_id: int, person_name: str, roster_year: int, min_score: float = 0.86
 ) -> sqlite3.Row | None:
     target = normalize_name(person_name)
     if not target:
         return None
 
     candidates = conn.execute(
-        "SELECT id, name, position, is_head_coach FROM coaches WHERE school_id = ? AND year = 2025",
-        (school_id,),
+        "SELECT id, name, position, is_head_coach FROM coaches WHERE school_id = ? AND year = ?",
+        (school_id, roster_year),
     ).fetchall()
     if not candidates:
         return None
@@ -565,9 +572,10 @@ def seed_sources(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
-def run_scrape(db_path: Path, school_slug: str | None, active_only: bool, dry_run: bool) -> None:
+def run_scrape(db_path: Path, school_slug: str | None, roster_year: int | None, active_only: bool, dry_run: bool) -> None:
     conn = get_db(db_path)
     ensure_schema(conn)
+    effective_year = int(roster_year or latest_coach_year(conn))
 
     total_scraped = 0
     total_matched = 0
@@ -585,11 +593,11 @@ def run_scrape(db_path: Path, school_slug: str | None, active_only: bool, dry_ru
             print(f"Skipping source {src['id']} ({src['school_name']}): unknown parser {parser_name!r}")
             continue
 
-        print(f"\n==> {src['school_name']} ({src['school_slug']}) [{parser_name}]")
+        print(f"\n==> {src['school_name']} ({src['school_slug']}) [{parser_name}] (year={effective_year})")
 
         try:
             if parser_name == "transparent_ca":
-                salary_rows = parser.scrape_for_school(conn, src)
+                salary_rows = parser.scrape_for_school(conn, src, roster_year=effective_year)
             else:
                 salary_rows = parser.scrape(src)
         except Exception as e:
@@ -602,14 +610,13 @@ def run_scrape(db_path: Path, school_slug: str | None, active_only: bool, dry_ru
         matched = 0
         upserted = 0
         for salary in salary_rows:
-            if salary.year is None:
-                continue
-            coach = best_coach_match(conn, src["school_id"], salary.person_name)
+            salary_for_write = dc_replace(salary, year=effective_year)
+            coach = best_coach_match(conn, src["school_id"], salary_for_write.person_name, roster_year=effective_year)
             if not coach:
                 continue
             matched += 1
             total_matched += 1
-            upsert_salary(conn, coach["id"], salary, dry_run=dry_run)
+            upsert_salary(conn, coach["id"], salary_for_write, dry_run=dry_run)
             upserted += 1
             total_upserted += 1
 
@@ -643,6 +650,7 @@ def main() -> None:
 
     sub_run = sub.add_parser("run", help="Run scraping for active salary_sources")
     sub_run.add_argument("--school", help="School slug to scrape (e.g. ohio-state)")
+    sub_run.add_argument("--year", type=int, default=None, help="Season year to match/write (default: latest year in coaches table)")
     sub_run.add_argument("--active-only", action="store_true", help="(kept for future compatibility; sources are already filtered to active=1)")
     sub_run.add_argument("--dry-run", action="store_true", help="Scrape + match but do not write to DB")
     sub_run.set_defaults(cmd="run")
@@ -657,7 +665,7 @@ def main() -> None:
         return
 
     if args.cmd == "run":
-        run_scrape(args.db, args.school, active_only=args.active_only, dry_run=args.dry_run)
+        run_scrape(args.db, args.school, roster_year=args.year, active_only=args.active_only, dry_run=args.dry_run)
         return
 
 

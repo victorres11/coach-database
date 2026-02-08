@@ -77,6 +77,12 @@ coach-database/
 
 ## Usage
 
+### Season year support
+
+- API endpoints accept `?year=` and default to the latest available year.
+- Year-over-year diff: `GET /api/changes?from=2025&to=2026`
+- Runbook: `docs/season_transition_runbook.md`
+
 ### Fetch latest data
 ```bash
 python scripts/scrape_usatoday.py

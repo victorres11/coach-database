@@ -20,14 +20,22 @@ class CoachDatabase {
     this.metadata = {};
     this.currentSort = { field: 'total_pay', direction: 'desc' };
     this.headOnly = false; // Default to showing all coaches
+    this.availableYears = [];
+    this.selectedYear = null;
+    this.previousYear = null;
+    this.changes = null;
+    this.newHireKeys = new Set();
     this.init();
   }
 
   async init() {
     try {
+      await this.loadYears();
       await this.loadData();
+      await this.loadChanges();
       this.populateConferences();
       this.setupEventListeners();
+      this.renderChangesPanel();
       this.render();
     } catch (error) {
       console.error('Error initializing:', error);
@@ -36,14 +44,51 @@ class CoachDatabase {
     }
   }
 
+  async loadYears() {
+    const yearSelect = document.getElementById('year-filter');
+    if (!yearSelect) return;
+
+    try {
+      const resp = await fetch(`${API_BASE}/years`);
+      if (!resp.ok) return;
+      const data = await resp.json();
+      const years = Array.isArray(data.years) ? data.years : [];
+      this.availableYears = years;
+      this.selectedYear = (data.latest || years[0]) || null;
+      this.previousYear = this.getPreviousYear(this.selectedYear);
+
+      yearSelect.innerHTML = '';
+      years.forEach(y => {
+        const option = document.createElement('option');
+        option.value = String(y);
+        option.textContent = String(y);
+        yearSelect.appendChild(option);
+      });
+      if (this.selectedYear) yearSelect.value = String(this.selectedYear);
+    } catch (e) {
+      // Fallback: allow API default year behavior.
+    }
+  }
+
+  getPreviousYear(year) {
+    if (!year) return null;
+    const prior = (this.availableYears || []).filter(y => y < year).sort((a, b) => b - a);
+    return prior.length ? prior[0] : (year - 1);
+  }
+
   async loadData() {
+    const yearParam = this.selectedYear ? String(this.selectedYear) : null;
+
     // Fetch stats for metadata
-    const statsResp = await fetch(`${API_BASE}/stats`);
+    const statsUrl = new URL(`${API_BASE}/stats`);
+    if (yearParam) statsUrl.searchParams.set('year', yearParam);
+    const statsResp = await fetch(statsUrl.toString());
     const stats = await statsResp.json();
     
     // Fetch coaches from API (get all coaches)
     const params = new URLSearchParams({ limit: '2500' });
     if (this.headOnly) params.set('head_only', 'true');
+    if (yearParam) params.set('year', yearParam);
     
     const coachResp = await fetch(`${API_BASE}/coaches?${params}`);
     const coaches = await coachResp.json();
@@ -65,6 +110,7 @@ class CoachDatabase {
     
     this.filteredCoaches = [...this.coaches];
     this.metadata = {
+      year: stats.year || this.selectedYear,
       totalCoaches: stats.head_coaches + stats.assistants,
       headCoaches: stats.head_coaches,
       assistants: stats.assistants,
@@ -73,12 +119,40 @@ class CoachDatabase {
     
     // Update last updated
     document.getElementById('last-updated').textContent = 
-      `${this.metadata.headCoaches} head coaches | ${this.metadata.assistants} assistants | ${this.metadata.schools} schools`;
+      `${this.metadata.year || ''} season | ${this.metadata.headCoaches} head coaches | ${this.metadata.assistants} assistants | ${this.metadata.schools} schools`;
+  }
+
+  async loadChanges() {
+    this.changes = null;
+    this.newHireKeys = new Set();
+
+    if (!this.selectedYear) return;
+    const prev = this.getPreviousYear(this.selectedYear);
+    this.previousYear = prev;
+    if (!prev) return;
+
+    try {
+      const resp = await fetch(`${API_BASE}/changes?from=${encodeURIComponent(prev)}&to=${encodeURIComponent(this.selectedYear)}`);
+      if (!resp.ok) return;
+      const data = await resp.json();
+      this.changes = data;
+
+      const hires = Array.isArray(data.new_hires) ? data.new_hires : [];
+      hires.forEach(h => {
+        if (!h || !h.school_slug || !h.name) return;
+        this.newHireKeys.add(`${h.school_slug}|${h.name}`);
+      });
+    } catch (e) {
+      // Ignore; changes are optional for the UI.
+    }
   }
 
   populateConferences() {
     const conferences = [...new Set(this.coaches.map(c => c.conference))].sort();
     const select = document.getElementById('conference-filter');
+
+    // Reset (keep first option)
+    while (select.options.length > 1) select.remove(1);
     
     conferences.forEach(conf => {
       const option = document.createElement('option');
@@ -89,6 +163,21 @@ class CoachDatabase {
   }
 
   setupEventListeners() {
+    // Year filter
+    const yearFilter = document.getElementById('year-filter');
+    if (yearFilter) {
+      yearFilter.addEventListener('change', async (e) => {
+        const value = e.target.value;
+        this.selectedYear = value ? parseInt(value, 10) : null;
+        this.previousYear = this.getPreviousYear(this.selectedYear);
+        await this.loadData();
+        await this.loadChanges();
+        this.populateConferences();
+        this.renderChangesPanel();
+        this.applyFilters();
+      });
+    }
+
     // Search
     const searchInput = document.getElementById('search');
     let debounceTimer;
@@ -107,7 +196,21 @@ class CoachDatabase {
       headOnlyToggle.addEventListener('change', async (e) => {
         this.headOnly = e.target.checked;
         await this.loadData();
+        await this.loadChanges();
+        this.renderChangesPanel();
         this.applyFilters();
+      });
+    }
+
+    // Changes panel toggle
+    const changesToggle = document.getElementById('changes-toggle');
+    const changesPanel = document.getElementById('changes-panel');
+    if (changesToggle && changesPanel) {
+      changesToggle.addEventListener('click', () => {
+        const isHidden = changesPanel.hasAttribute('hidden');
+        if (isHidden) changesPanel.removeAttribute('hidden');
+        else changesPanel.setAttribute('hidden', '');
+        changesToggle.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
       });
     }
 
@@ -185,6 +288,61 @@ class CoachDatabase {
     this.render();
   }
 
+  renderChangesPanel() {
+    const panel = document.getElementById('changes-panel');
+    if (!panel) return;
+
+    if (!this.selectedYear || !this.previousYear) {
+      panel.innerHTML = `<div class="changes-muted">Year-over-year changes unavailable.</div>`;
+      return;
+    }
+
+    if (!this.changes) {
+      panel.innerHTML = `
+        <div class="changes-header">
+          <div class="changes-title">Year Changes</div>
+          <div class="changes-subtitle">${this.previousYear} → ${this.selectedYear}</div>
+        </div>
+        <div class="changes-muted">Changes not loaded yet.</div>
+      `;
+      return;
+    }
+
+    const hires = Array.isArray(this.changes.new_hires) ? this.changes.new_hires : [];
+    const deps = Array.isArray(this.changes.departures) ? this.changes.departures : [];
+    const promos = Array.isArray(this.changes.promotions) ? this.changes.promotions : [];
+
+    const top = (arr, n) => arr.slice(0, n);
+    const li = (text) => `<li>${text}</li>`;
+
+    panel.innerHTML = `
+      <div class="changes-header">
+        <div class="changes-title">Year Changes</div>
+        <div class="changes-subtitle">${this.previousYear} → ${this.selectedYear} · ${hires.length} hires · ${deps.length} departures · ${promos.length} role changes</div>
+      </div>
+      <div class="changes-grid">
+        <div class="changes-card">
+          <h4>New Hires</h4>
+          <ul class="changes-list">
+            ${hires.length ? top(hires, 12).map(h => li(`${this.escapeHtml(h.name)} — ${this.escapeHtml(h.school)}`)).join('') : `<li class="changes-muted">None detected.</li>`}
+          </ul>
+        </div>
+        <div class="changes-card">
+          <h4>Departures</h4>
+          <ul class="changes-list">
+            ${deps.length ? top(deps, 12).map(d => li(`${this.escapeHtml(d.name)} — ${this.escapeHtml(d.school)}`)).join('') : `<li class="changes-muted">None detected.</li>`}
+          </ul>
+        </div>
+        <div class="changes-card">
+          <h4>Role Changes</h4>
+          <ul class="changes-list">
+            ${promos.length ? top(promos, 12).map(p => li(`${this.escapeHtml(p.name)} — ${this.escapeHtml(p.school)} (${this.escapeHtml(p.from_position || '—')} → ${this.escapeHtml(p.to_position || '—')})`)).join('') : `<li class="changes-muted">None detected.</li>`}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+
   formatMoney(amount, compact = false) {
     if (!amount) return '—';
     
@@ -226,7 +384,10 @@ class CoachDatabase {
       <tr>
         <td>${coach.rank}</td>
         <td>
-          <div class="coach-name clickable" data-idx="${idx}" tabindex="0">${this.escapeHtml(coach.coach)}</div>
+          <div class="coach-name clickable" data-idx="${idx}" tabindex="0">
+            ${this.escapeHtml(coach.coach)}
+            ${this.newHireKeys.has(`${coach.schoolSlug}|${coach.coach}`) ? '<span class="new-badge">New</span>' : ''}
+          </div>
         </td>
         <td>
           <span class="position-badge ${coach.isHeadCoach ? 'head-coach' : ''}">${this.escapeHtml(coach.position || '—')}</span>

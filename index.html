@@ -36,6 +36,9 @@
           <input type="checkbox" id="head-only-toggle">
           <span>Head Coaches Only</span>
         </label>
+        <select id="year-filter" aria-label="Filter by season year">
+          <option value="">Year</option>
+        </select>
         <select id="conference-filter" aria-label="Filter by conference">
           <option value="">All Conferences</option>
         </select>
@@ -46,8 +49,12 @@
           <option value="coach">Coach Name (A-Z)</option>
           <option value="school">School (A-Z)</option>
         </select>
+        <button id="changes-toggle" class="btn" type="button" aria-expanded="false">Year Changes</button>
       </div>
     </section>
+
+    <!-- Changes Panel -->
+    <section id="changes-panel" class="changes-panel" hidden aria-live="polite"></section>
 
     <!-- Data Table -->
     <section class="table-container">
