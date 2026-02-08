@@ -11,6 +11,8 @@ import json
 from pathlib import Path
 from collections import defaultdict
 
+from sqlite_reader import snapshot_from_sqlite
+
 def load_data(data_path: Path) -> dict:
     """Load coach data from JSON file."""
     with open(data_path) as f:
@@ -134,17 +136,24 @@ def main():
     parser.add_argument("--by", choices=["conference"], help="Group by attribute")
     parser.add_argument("--buyouts", action="store_true", help="Show biggest buyouts")
     parser.add_argument("--power-four", "-p4", action="store_true", help="Power Four analysis")
-    parser.add_argument("--data", "-d", default="data/coaches.json", help="Data file path")
+    parser.add_argument("--source", choices=["db", "json"], default="db", help="Data source (default: db)")
+    parser.add_argument("--db", default="db/coaches.db", help="SQLite DB path (relative to repo root)")
+    parser.add_argument("--year", type=int, default=2025, help="Season year (DB only; default: 2025)")
+    parser.add_argument("--data", "-d", default="data/coaches.json", help="JSON data file path (source=json)")
     args = parser.parse_args()
     
     # Resolve path relative to script location
     script_dir = Path(__file__).parent.parent
-    data_path = script_dir / args.data
-    
-    data = load_data(data_path)
+    if args.source == "db":
+        db_path = script_dir / args.db
+        snapshot = snapshot_from_sqlite(db_path, year=args.year)
+        data = {"metadata": snapshot.metadata, "coaches": snapshot.coaches}
+    else:
+        data_path = script_dir / args.data
+        data = load_data(data_path)
+
     coaches = data["coaches"]
-    
-    print(f"Loaded {len(coaches)} coaches from {data['metadata']['lastUpdated']}")
+    print(f"Loaded {len(coaches)} coaches from {data['metadata'].get('lastUpdated')}")
     
     if args.conference:
         coaches = filter_conference(coaches, args.conference)
