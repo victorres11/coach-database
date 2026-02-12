@@ -5,12 +5,14 @@ Coach Database API
 FastAPI service for querying college football coaching data.
 """
 
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from pathlib import Path
+from datetime import datetime
+import logging
 
 # Database path - works locally and on Render
 import os
@@ -71,12 +73,88 @@ class Salary(BaseModel):
     max_bonus: Optional[int]
     buyout: Optional[int]
 
+class StaffUpdate(BaseModel):
+    """Payload for staff update webhook"""
+    school: str  # School name (will normalize to slug)
+    coach_name: str
+    position: Optional[str]
+    hire_date: Optional[str] = None  # YYYY-MM-DD format
+    departure_date: Optional[str] = None  # YYYY-MM-DD format
+    source_url: Optional[str] = None  # Citation URL
+    notes: Optional[str] = None  # Additional context
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "school": "Michigan State",
+                "coach_name": "John Smith",
+                "position": "Offensive Coordinator",
+                "hire_date": "2026-01-15",
+                "source_url": "https://example.com/news/hiring"
+            }
+        }
+
+logger = logging.getLogger("coachdb.webhooks")
+logging.basicConfig(level=logging.INFO)
+
 # --- Database helpers ---
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
+
+def normalize_school_name(name: str) -> str:
+    """Normalize school names to slugs."""
+    name = name.lower().strip()
+    replacements = {
+        'miami (fl)': 'miami',
+        'miami (oh)': 'miami-oh',
+        'ole miss': 'mississippi',
+        'north carolina state': 'nc-state',
+        'army west point': 'army',
+    }
+    return replacements.get(name, name.replace(' ', '-'))
+
+def normalize_person_name(name: str) -> str:
+    """Normalize coach names for consistent comparisons."""
+    return " ".join(name.strip().split())
+
+def standardize_position(position: Optional[str]) -> Optional[str]:
+    """Standardize position labels where possible."""
+    if not position:
+        return None
+    cleaned = " ".join(position.strip().split())
+    key = cleaned.lower()
+    mapping = {
+        "hc": "Head Coach",
+        "head coach": "Head Coach",
+        "oc": "Offensive Coordinator",
+        "dc": "Defensive Coordinator",
+        "st": "Special Teams Coordinator",
+        "stc": "Special Teams Coordinator",
+        "co-oc": "Co-Offensive Coordinator",
+        "co-dc": "Co-Defensive Coordinator",
+    }
+    return mapping.get(key, cleaned)
+
+def parse_iso_date(value: Optional[str], field_name: str) -> None:
+    if value is None:
+        return
+    try:
+        datetime.strptime(value, "%Y-%m-%d")
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=f"Invalid {field_name} format (YYYY-MM-DD)") from exc
+
+def is_head_coach_position(position: Optional[str]) -> bool:
+    if not position:
+        return False
+    pos_lower = position.lower()
+    if pos_lower in {"hc", "head coach"}:
+        return True
+    if "head coach" in pos_lower and "assistant" not in pos_lower:
+        return True
+    return False
 
 # --- Routes ---
 
@@ -88,6 +166,166 @@ def root():
         "service": "Coach Database API",
         "version": "1.0.0"
     }
+
+@app.post("/api/webhooks/staff-update")
+async def webhook_staff_update(
+    update: StaffUpdate,
+    api_key: str = Header(..., alias="X-API-Key")
+):
+    """
+    Webhook endpoint for external services to push coaching staff updates.
+    
+    Requires authentication via X-API-Key header.
+    Validates payload, deduplicates, and updates database.
+    """
+    received_at = datetime.utcnow().isoformat() + "Z"
+    logger.info("Webhook staff update received at %s", received_at)
+
+    expected_key = os.environ.get("WEBHOOK_API_KEY", "")
+    if not expected_key or api_key != expected_key:
+        logger.warning("Webhook staff update rejected: invalid API key at %s", received_at)
+        raise HTTPException(status_code=401, detail="Invalid API key")
+
+    if not update.school or not update.school.strip():
+        logger.warning("Webhook staff update rejected: missing school at %s", received_at)
+        raise HTTPException(status_code=400, detail="School is required")
+
+    if not update.coach_name or not update.coach_name.strip():
+        logger.warning("Webhook staff update rejected: missing coach_name at %s", received_at)
+        raise HTTPException(status_code=400, detail="Coach name is required")
+
+    parse_iso_date(update.hire_date, "hire_date")
+    parse_iso_date(update.departure_date, "departure_date")
+
+    school_slug = normalize_school_name(update.school)
+    coach_name = normalize_person_name(update.coach_name)
+    position = standardize_position(update.position)
+    is_head_coach = is_head_coach_position(position)
+    current_year = datetime.utcnow().year
+
+    conn = None
+    try:
+        conn = get_db()
+        school_row = conn.execute(
+            "SELECT id, name, slug FROM schools WHERE slug = ?",
+            (school_slug,)
+        ).fetchone()
+        if not school_row:
+            school_row = conn.execute(
+                "SELECT id, name, slug FROM schools WHERE LOWER(name) = LOWER(?)",
+                (update.school.strip(),)
+            ).fetchone()
+        if not school_row:
+            logger.warning("Webhook staff update rejected: school not found (%s)", school_slug)
+            raise HTTPException(status_code=404, detail="School not found")
+
+        school_id = school_row["id"]
+
+        if position is None:
+            existing = conn.execute(
+                """
+                SELECT * FROM coaches
+                WHERE school_id = ? AND LOWER(name) = LOWER(?) AND position IS NULL
+                ORDER BY year DESC, id DESC
+                LIMIT 1
+                """,
+                (school_id, coach_name)
+            ).fetchone()
+        else:
+            existing = conn.execute(
+                """
+                SELECT * FROM coaches
+                WHERE school_id = ? AND LOWER(name) = LOWER(?) AND LOWER(position) = LOWER(?)
+                ORDER BY year DESC, id DESC
+                LIMIT 1
+                """,
+                (school_id, coach_name, position)
+            ).fetchone()
+
+        if existing:
+            existing_name = normalize_person_name(existing["name"])
+            existing_position = existing["position"] if existing["position"] is not None else None
+            matches = (
+                existing_name == coach_name
+                and existing_position == position
+                and int(existing["is_head_coach"] or 0) == int(is_head_coach)
+                and (existing["year"] or current_year) == current_year
+            )
+            if matches:
+                logger.info(
+                    "Webhook staff update no_change for %s (%s) at %s",
+                    coach_name,
+                    school_slug,
+                    received_at
+                )
+                return {
+                    "status": "no_change",
+                    "message": "Coach already in database",
+                    "details": {
+                        "school_slug": school_slug,
+                        "position": position,
+                        "year": current_year
+                    }
+                }
+
+            conn.execute(
+                """
+                UPDATE coaches
+                SET name = ?, position = ?, is_head_coach = ?, year = ?
+                WHERE id = ?
+                """,
+                (coach_name, position, int(is_head_coach), current_year, existing["id"])
+            )
+            conn.commit()
+            logger.info(
+                "Webhook staff update updated coach_id=%s at %s",
+                existing["id"],
+                received_at
+            )
+            return {
+                "status": "updated",
+                "message": "Coach record updated",
+                "coach_id": existing["id"],
+                "details": {
+                    "school_slug": school_slug,
+                    "position": position,
+                    "year": current_year
+                }
+            }
+
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO coaches (name, school_id, position, is_head_coach, year)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (coach_name, school_id, position, int(is_head_coach), current_year)
+        )
+        conn.commit()
+        coach_id = cursor.lastrowid
+        logger.info(
+            "Webhook staff update created coach_id=%s at %s",
+            coach_id,
+            received_at
+        )
+        return {
+            "status": "created",
+            "message": "Coach record created",
+            "coach_id": coach_id,
+            "details": {
+                "school_slug": school_slug,
+                "position": position,
+                "year": current_year
+            }
+        }
+    except HTTPException:
+        raise
+    except sqlite3.Error as exc:
+        logger.exception("Webhook staff update failed due to database error at %s", received_at)
+        raise HTTPException(status_code=500, detail="Database error") from exc
+    finally:
+        if conn:
+            conn.close()
 
 @app.get("/stats")
 def get_stats():
