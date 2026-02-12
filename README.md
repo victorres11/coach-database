@@ -109,6 +109,19 @@ python scripts/analyze.py --top 25 --by conference
 python scripts/media_enrichment.py --staff data/staff_test.json --output data/media_reports.json --allow-edu
 ```
 
+## Deployment
+
+Set the following environment variables for the API:
+
+- `WEBHOOK_API_KEY` - required for `POST /api/webhooks/staff-update` authentication
+
+Local dev key generation:
+```bash
+openssl rand -hex 32
+```
+
+An example `.env.example` file is included with a generated local dev key.
+
 ## Key Statistics (2025 Season)
 
 - **Highest Paid**: Kirby Smart (Georgia) - $13,282,580
