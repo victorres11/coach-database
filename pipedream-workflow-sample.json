@@ -1,0 +1,59 @@
+{
+  "name": "Coach Database Staff Updates - FootballScoop RSS",
+  "description": "Monitors FootballScoop RSS feed for coaching staff changes and posts to Coach Database webhook",
+  "version": "1.0.0",
+  "triggers": [
+    {
+      "type": "rss",
+      "name": "rss_trigger",
+      "config": {
+        "feed_url": "https://www.footballscoop.com/feed/",
+        "poll_interval": 900,
+        "description": "Poll FootballScoop RSS feed every 15 minutes"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "filter_coaching_news",
+      "type": "code",
+      "language": "javascript",
+      "code": "export default defineComponent({\n  async run({ steps, $ }) {\n    const item = steps.rss_trigger.event;\n    const title = item.title.toLowerCase();\n    const description = (item.description || '').toLowerCase();\n    \n    // Keywords that indicate coaching staff changes\n    const keywords = [\n      'coaching', 'coach', 'hire', 'fired', 'resign', 'promotion',\n      'coordinator', 'assistant', 'offensive', 'defensive', 'special teams',\n      'staff', 'appointment', 'named', 'joins', 'leaving', 'departure'\n    ];\n    \n    const isCoachingNews = keywords.some(keyword => \n      title.includes(keyword) || description.includes(keyword)\n    );\n    \n    if (!isCoachingNews) {\n      $.flow.exit('Not coaching-related news');\n    }\n    \n    return item;\n  }\n});"
+    },
+    {
+      "name": "extract_data_with_openai",
+      "type": "code",
+      "language": "javascript",
+      "requires": ["openai"],
+      "code": "import { Configuration, OpenAIApi } from 'openai';\n\nexport default defineComponent({\n  props: {\n    openai: {\n      type: \"app\",\n      app: \"openai\",\n    }\n  },\n  async run({ steps, $ }) {\n    const configuration = new Configuration({\n      apiKey: this.openai.$auth.api_key,\n    });\n    const openai = new OpenAIApi(configuration);\n    \n    const article = {\n      title: steps.rss_trigger.event.title,\n      content: steps.rss_trigger.event.description || steps.rss_trigger.event.content,\n      url: steps.rss_trigger.event.link,\n      pubDate: steps.rss_trigger.event.pubDate\n    };\n    \n    const prompt = `Extract college football coaching staff change information from this article.\n\nArticle Title: ${article.title}\nArticle Content: ${article.content}\nArticle URL: ${article.url}\n\nExtract the following information in JSON format:\n- school: Full school name (e.g., \"Texas Longhorns\", \"Alabama Crimson Tide\")\n- conference: Conference name (e.g., \"SEC\", \"Big Ten\", \"Big 12\")\n- role: Specific coaching role (e.g., \"Offensive Coordinator\", \"Defensive Line Coach\", \"Head Coach\")\n- name: Full name of the coach\n- action: Type of change (\"hired\", \"fired\", \"resigned\", \"promoted\")\n- effective_date: Date when the change is effective (YYYY-MM-DD format, or null if not specified)\n\nIf multiple coaches are mentioned, extract all of them as an array.\nIf you cannot extract all required fields, return null for that change.\n\nReturn ONLY valid JSON, no other text.`;\n\n    const completion = await openai.createChatCompletion({\n      model: \"gpt-3.5-turbo\",\n      messages: [\n        { role: \"system\", content: \"You are a data extraction assistant. Extract structured information from college football coaching news articles. Return only valid JSON.\" },\n        { role: \"user\", content: prompt }\n      ],\n      temperature: 0.3,\n      max_tokens: 1000\n    });\n    \n    const response = completion.data.choices[0].message.content;\n    \n    try {\n      const extracted = JSON.parse(response);\n      return {\n        source_url: article.url,\n        pub_date: article.pubDate,\n        changes: Array.isArray(extracted) ? extracted : [extracted]\n      };\n    } catch (error) {\n      console.error('Failed to parse OpenAI response:', response);\n      $.flow.exit('Failed to extract structured data');\n    }\n  }\n});"
+    },
+    {
+      "name": "post_to_webhook",
+      "type": "code",
+      "language": "javascript",
+      "requires": ["@pipedream/platform"],
+      "code": "import { axios } from \"@pipedream/platform\";\n\nexport default defineComponent({\n  async run({ steps, $ }) {\n    const changes = steps.extract_data_with_openai.changes;\n    const apiKey = 'f0db180c08995ba77850b8aa4caccb72a02d9751f38ce7b570a5d95bc7c41c5d';\n    \n    const results = [];\n    \n    for (const change of changes) {\n      if (!change || !change.school || !change.name) {\n        console.log('Skipping incomplete change:', change);\n        continue;\n      }\n      \n      const payload = {\n        school: change.school,\n        conference: change.conference || null,\n        role: change.role || null,\n        name: change.name,\n        source_url: steps.extract_data_with_openai.source_url,\n        effective_date: change.effective_date || null\n      };\n      \n      try {\n        const response = await axios($, {\n          method: 'POST',\n          url: 'https://coach-database-api.fly.dev/api/webhooks/staff-update',\n          headers: {\n            'Content-Type': 'application/json',\n            'X-API-Key': apiKey\n          },\n          data: payload\n        });\n        \n        results.push({\n          success: true,\n          coach: change.name,\n          response: response\n        });\n        \n        console.log(`✅ Posted update for ${change.name} at ${change.school}`);\n      } catch (error) {\n        results.push({\n          success: false,\n          coach: change.name,\n          error: error.message\n        });\n        \n        console.error(`❌ Failed to post update for ${change.name}:`, error.message);\n      }\n    }\n    \n    return results;\n  }\n});"
+    }
+  ],
+  "configuration": {
+    "environment_variables": {
+      "WEBHOOK_API_KEY": {
+        "description": "API key for Coach Database webhook authentication",
+        "value": "f0db180c08995ba77850b8aa4caccb72a02d9751f38ce7b570a5d95bc7c41c5d",
+        "secret": true
+      }
+    }
+  },
+  "metadata": {
+    "created_at": "2026-02-12",
+    "author": "Seneca (AI Assistant)",
+    "purpose": "Automated coaching staff change monitoring for Coach Database",
+    "notes": [
+      "This is a sample workflow structure for Pipedream",
+      "Import this into Pipedream and connect your OpenAI account",
+      "Adjust polling interval based on your needs and Pipedream credit limits",
+      "Can duplicate this workflow for other RSS feeds (247Sports, CBS Sports, etc.)",
+      "Consider using GPT-4 for better extraction accuracy (change model in extract_data_with_openai step)"
+    ]
+  }
+}
