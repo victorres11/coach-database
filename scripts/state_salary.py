@@ -444,6 +444,7 @@ def match_coaches(
                     "position": coach.get("position"),
                     "baseSalary": best.base_salary,
                     "totalComp": best.total_comp,
+                    "salaryYear": best.fiscal_year,
                     "salarySource": best.source,
                     "salaryEmployer": best.employer,
                     "salaryTitle": best.title,

@@ -106,7 +106,16 @@ python scripts/analyze.py --top 25 --by conference
 
 ### Enrich with media-reported assistant salaries
 ```bash
-python scripts/media_enrichment.py --staff data/staff_test.json --output data/media_reports.json --allow-edu
+python scripts/media_enrichment.py --staff data/full_roster.json --output data/media_salaries.json --allow-edu --resume
+```
+
+### Merge/import coordinator salaries (state + media)
+State payroll matches are treated as authoritative. Media reports are supplemental.
+
+```bash
+python scripts/import_enriched_salaries.py \
+  --state data/state_salary_matches.json \
+  --media data/media_salaries.json
 ```
 
 ## Deployment

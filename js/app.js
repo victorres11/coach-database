@@ -58,6 +58,10 @@ class CoachDatabase {
       position: c.position,
       isHeadCoach: c.is_head_coach,
       totalPay: c.total_pay,
+      salarySource: c.salary_source,
+      salarySourceDate: c.salary_source_date,
+      salaryYear: c.salary_year,
+      salarySchoolPay: c.salary_school_pay,
       maxBonus: null, // Not in list endpoint
       buyout: null,   // Not in list endpoint
       schoolSlug: c.school_slug
@@ -202,6 +206,21 @@ class CoachDatabase {
     }).format(amount);
   }
 
+  formatSalarySource(source) {
+    if (!source) return null;
+    const map = {
+      'usa_today': 'USA Today',
+      'state_payroll': 'State payroll',
+      'media_report': 'Media report'
+    };
+    return map[source] || source;
+  }
+
+  sourceClass(source) {
+    if (!source) return '';
+    return `source-${String(source).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  }
+
   getConfClass(conference) {
     const confMap = {
       'SEC': 'conf-SEC',
@@ -239,7 +258,12 @@ class CoachDatabase {
         </td>
         <td class="number">
           ${coach.totalPay 
-            ? `<span class="money">${this.formatMoney(coach.totalPay)}</span>` 
+            ? `
+              <div class="salary-cell">
+                <span class="money">${this.formatMoney(coach.totalPay)}</span>
+                ${coach.salarySource ? `<span class="salary-source ${this.sourceClass(coach.salarySource)}">${this.escapeHtml(this.formatSalarySource(coach.salarySource))}</span>` : ''}
+              </div>
+            ` 
             : '<span class="undisclosed">—</span>'}
         </td>
       </tr>
@@ -387,6 +411,13 @@ class CoachDatabase {
         <div class="modal-title-section">
           <h2>${this.escapeHtml(coach.coach)}</h2>
           <h3>${this.escapeHtml(coach.school)}${desc ? ` &mdash; <span class='modal-desc'>${desc}</span>` : ''}</h3>
+          ${coach.totalPay ? `
+            <div class="modal-salary">
+              <span class="money">${this.formatMoney(coach.totalPay)}</span>
+              ${coach.salarySource ? `<span class="salary-source ${this.sourceClass(coach.salarySource)}">${this.escapeHtml(this.formatSalarySource(coach.salarySource))}</span>` : ''}
+              ${coach.salarySourceDate ? `<span class="salary-date">${this.escapeHtml(coach.salarySourceDate)}</span>` : ''}
+            </div>
+          ` : ''}
           ${pageUrl ? `<a href="${pageUrl}" target="_blank" class="modal-wiki-link">Wikipedia</a>` : ''}
         </div>
       </div>
