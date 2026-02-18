@@ -3,6 +3,18 @@ from __future__ import annotations
 from datetime import datetime
 
 
+def _should_show_last_n(team: dict) -> bool:
+    last_n = team.get("last_n", {})
+    return last_n.get("actual_n", 0) >= last_n.get("required_n", 3)
+
+
+def _safe_float(value: object) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def _coach_lines(team: dict) -> list[str]:
     coaches = team.get("coaches", {})
     lines = [f"Head Coach: {coaches.get('head_coach', 'N/A')}"]
@@ -30,9 +42,21 @@ def _season_summary(team: dict) -> list[str]:
         record_line = f"{record} ({conf_record} {conf})"
     ppg = stats.get("ppg", "N/A")
     opp_ppg = stats.get("opp_ppg", "N/A")
+    ppg_line = f"PPG: {ppg} for / {opp_ppg} against"
+    if _should_show_last_n(team):
+        last_n = team.get("last_n", {})
+        actual_n = last_n.get("actual_n", last_n.get("required_n", 0))
+        l_ppg = _safe_float(last_n.get("ppg"))
+        l_opp_ppg = _safe_float(last_n.get("opp_ppg"))
+        l_ppg_str = f"{l_ppg:.1f}" if l_ppg is not None else "N/A"
+        l_opp_ppg_str = f"{l_opp_ppg:.1f}" if l_opp_ppg is not None else "N/A"
+        ppg_line = (
+            f"PPG: {ppg} for / {opp_ppg} against  ·  "
+            f"L{actual_n}: {l_ppg_str} for / {l_opp_ppg_str} against"
+        )
     return [
         f"Record: {record_line}",
-        f"PPG: {ppg} for / {opp_ppg} against",
+        ppg_line,
     ]
 
 
@@ -75,8 +99,33 @@ def _team_md(team: dict) -> str:
     for l in _coach_lines(team):
         lines.append(f"- {l}")
     lines.append("Season Summary:")
-    for l in _season_summary(team):
-        lines.append(f"- {l}")
+    stats = team.get("stats", {})
+    record = stats.get("record", "N/A")
+    conf_record = stats.get("conf_record", "")
+    conf = team.get("conference", "")
+    record_line = record
+    if conf_record and conf_record != "0-0":
+        record_line = f"{record} ({conf_record} {conf})"
+    lines.append(f"- Record: {record_line}")
+
+    ppg = stats.get("ppg", "N/A")
+    opp_ppg = stats.get("opp_ppg", "N/A")
+    ppg_line = f"PPG: {ppg} for / {opp_ppg} against"
+    if _should_show_last_n(team):
+        last_n = team.get("last_n", {})
+        actual_n = last_n.get("actual_n", last_n.get("required_n", 0))
+        l_ppg = _safe_float(last_n.get("ppg"))
+        l_opp_ppg = _safe_float(last_n.get("opp_ppg"))
+        season_ppg = _safe_float(ppg)
+        season_opp_ppg = _safe_float(opp_ppg)
+        diffs = []
+        if l_ppg is not None and season_ppg is not None:
+            diffs.append(abs(l_ppg - season_ppg))
+        if l_opp_ppg is not None and season_opp_ppg is not None:
+            diffs.append(abs(l_opp_ppg - season_opp_ppg))
+        if l_ppg is not None and l_opp_ppg is not None and diffs and any(diff >= 0.8 for diff in diffs):
+            ppg_line += f" (L{actual_n}: {l_ppg:.1f} / {l_opp_ppg:.1f})"
+    lines.append(f"- {ppg_line}")
     lines.append("Recent Results (last 5):")
     recent = _recent_results(team)
     if recent:

@@ -254,11 +254,111 @@ def _extract_pbp_stats(team_data: dict) -> dict:
     }
 
 
+def compute_last_n_stats(games: list[dict], n: int = 3) -> dict:
+    sorted_games = sorted(games, key=lambda g: g.get("game_number", 0), reverse=True)
+    last_games = sorted_games[:n]
+    actual_n = len(last_games)
+
+    def sum_stat(key: str) -> int:
+        return sum(g.get(key) or 0 for g in last_games)
+
+    def avg_stat(key: str) -> float:
+        if actual_n == 0:
+            return 0
+        return sum_stat(key) / actual_n
+
+    explosives_total = 0
+    explosive_passes_total = 0
+    explosive_rushes_total = 0
+    penalties_total = 0
+    penalties_offense = 0
+    penalties_defense = 0
+    penalties_special_teams = 0
+
+    for g in last_games:
+        explosive_passes = g.get("explosive_passes") or 0
+        explosive_rushes = g.get("explosive_rushes") or 0
+        explosive_passes_total += explosive_passes
+        explosive_rushes_total += explosive_rushes
+        explosives = g.get("explosives")
+        if explosives is None:
+            explosives_total += explosive_passes + explosive_rushes
+        else:
+            explosives_total += explosives
+
+        for p in g.get("penalty_details") or []:
+            if not p.get("accepted"):
+                continue
+            penalties_total += 1
+            side = (p.get("offense_or_defense") or "").lower()
+            if side == "offense":
+                penalties_offense += 1
+            elif side == "defense":
+                penalties_defense += 1
+            elif side in {"special_teams", "special"}:
+                penalties_special_teams += 1
+
+    rz_trips = sum_stat("red_zone_trips")
+    rz_tds = sum_stat("red_zone_tds")
+    tight_rz_trips = sum_stat("tight_red_zone_trips")
+    tight_rz_tds = sum_stat("tight_red_zone_tds")
+
+    if actual_n == 0:
+        explosives_per_game = 0
+        explosive_passes_per_game = 0
+        explosive_rushes_per_game = 0
+        penalties_per_game = 0
+        ppg = 0
+        opp_ppg = 0
+    else:
+        explosives_per_game = explosives_total / actual_n
+        explosive_passes_per_game = explosive_passes_total / actual_n
+        explosive_rushes_per_game = explosive_rushes_total / actual_n
+        penalties_per_game = penalties_total / actual_n
+        ppg = avg_stat("points_for")
+        opp_ppg = avg_stat("points_against")
+
+    return {
+        "actual_n": actual_n,
+        "required_n": n,
+        "ppg": round(ppg, 1),
+        "opp_ppg": round(opp_ppg, 1),
+        "explosives_per_game": round(explosives_per_game, 1),
+        "explosive_passes_per_game": round(explosive_passes_per_game, 1),
+        "explosive_rushes_per_game": round(explosive_rushes_per_game, 1),
+        "rz_trips": rz_trips,
+        "rz_tds": rz_tds,
+        "rz_td_pct": round((rz_tds / rz_trips * 100), 1) if rz_trips else 0,
+        "tight_rz_trips": tight_rz_trips,
+        "tight_rz_tds": tight_rz_tds,
+        "tight_rz_td_pct": round((tight_rz_tds / tight_rz_trips * 100), 1)
+        if tight_rz_trips
+        else 0,
+        "green_zone_trips": sum_stat("green_zone_trips"),
+        "green_zone_tds": sum_stat("green_zone_tds"),
+        "turnover_margin": sum_stat("turnovers_gained") - sum_stat("turnovers_lost"),
+        "turnovers_gained": sum_stat("turnovers_gained"),
+        "turnovers_lost": sum_stat("turnovers_lost"),
+        "points_off_turnovers_for": sum_stat("points_off_turnovers_for"),
+        "points_off_turnovers_against": sum_stat("points_off_turnovers_against"),
+        "middle8_margin": sum_stat("middle8_points_for") - sum_stat("middle8_points_against"),
+        "middle8_points_for": sum_stat("middle8_points_for"),
+        "middle8_points_against": sum_stat("middle8_points_against"),
+        "fourth_down_attempts": sum_stat("4th_down_attempts"),
+        "fourth_down_conversions": sum_stat("4th_down_conversions"),
+        "penalties_per_game": penalties_per_game,
+        "penalties_offense": penalties_offense,
+        "penalties_defense": penalties_defense,
+        "penalties_special_teams": penalties_special_teams,
+    }
+
+
 def gather_team_data(
     db: sqlite3.Connection,
     pbp_teams: dict,
     team_name: str,
     season: int,
+    last_n: int = 3,
 ) -> dict:
     school = fuzzy_find_school(db, team_name)
     coaches_data: dict = {}
@@ -289,6 +389,8 @@ def gather_team_data(
 
     pbp_entry = get_team_pbp(pbp_teams, team_name, school_slug)
     pbp_stats = _extract_pbp_stats(pbp_entry) if pbp_entry else {}
+    games = pbp_entry.get("games", []) if pbp_entry else []
+    last_n_stats = compute_last_n_stats(games, last_n)
 
     if not school_conf and pbp_stats.get("conference"):
         school_conf = pbp_stats["conference"]
@@ -301,6 +403,7 @@ def gather_team_data(
         "coaches": coaches_data,
         "full_staff": staff,
         "stats": pbp_stats,
+        "last_n": last_n_stats,
         "pbp_entry": pbp_entry,
         "has_pbp": pbp_entry is not None,
         "has_coaches": school is not None,

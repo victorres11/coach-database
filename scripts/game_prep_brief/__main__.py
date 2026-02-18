@@ -45,6 +45,12 @@ def parse_args():
         default=None,
         help="Load matchup-specific data from matchups/<slug>/data.json",
     )
+    p.add_argument(
+        "--last-n",
+        type=int,
+        default=3,
+        help="Number of last games for trending (default 3)",
+    )
     p.add_argument("--print", action="store_true")
     return p.parse_args()
 
@@ -64,8 +70,8 @@ def main():
 
     pbp_teams = load_pbp_data(matchup_slug=args.matchup_slug)
 
-    team1 = gather_team_data(db, pbp_teams, args.team1, args.season)
-    team2 = gather_team_data(db, pbp_teams, args.team2, args.season)
+    team1 = gather_team_data(db, pbp_teams, args.team1, args.season, last_n=args.last_n)
+    team2 = gather_team_data(db, pbp_teams, args.team2, args.season, last_n=args.last_n)
     db.close()
 
     if args.week:

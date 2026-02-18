@@ -24,6 +24,11 @@ def _aggregate_explosives(games: list[dict]) -> dict:
     return totals
 
 
+def _should_show_last_n(team: dict) -> bool:
+    last_n = team.get("last_n", {}) or {}
+    return last_n.get("actual_n", 0) >= last_n.get("required_n", 3)
+
+
 def _per_game_trend(games: list[dict]) -> list[str]:
     trend = []
     for g in sorted(games, key=lambda x: x.get("game_number", 0)):
@@ -59,6 +64,31 @@ def _team_html(team: dict) -> str:
         for p in top_plays
     ) or "<li>N/A</li>"
 
+    last_n_html = ""
+    if _should_show_last_n(team):
+        last_n = team.get("last_n", {}) or {}
+        actual_n = last_n.get("actual_n", 0)
+        l3_epg = last_n.get("explosives_per_game", 0) or 0
+        l3_ppg = last_n.get("explosive_passes_per_game", 0) or 0
+        l3_rpg = last_n.get("explosive_rushes_per_game", 0) or 0
+        season_epg = totals["explosives"] / len(games) if games else 0
+
+        epg_arrow = ""
+        if l3_epg > season_epg:
+            epg_arrow = " <span style=\"color: #1b7f3a;\">↑</span>"
+        elif l3_epg < season_epg:
+            epg_arrow = " <span style=\"color: #b3261e;\">↓</span>"
+
+        last_n_html = f"""
+      <div class="block">
+        <h4>Last {actual_n} Trending</h4>
+        <ul>
+          <li>Explosives/Game: {l3_epg:.1f} (Season: {season_epg:.1f}){epg_arrow}</li>
+          <li>Pass/Game: {l3_ppg:.1f} / Rush/Game: {l3_rpg:.1f}</li>
+        </ul>
+      </div>
+        """
+
     return f"""
     <div class="team-card">
       <h3>{team['display_name']}</h3>
@@ -70,6 +100,7 @@ def _team_html(team: dict) -> str:
           <li>Explosive Rushes: {totals['explosive_rushes']}</li>
         </ul>
       </div>
+      {last_n_html}
       <div class="block">
         <h4>Per-Game Trend</h4>
         <ul>{trend_html}</ul>
@@ -89,8 +120,16 @@ def _team_md(team: dict) -> str:
     totals = _aggregate_explosives(games)
     top_plays = _top_explosive_plays(games)[:3]
     lines = [f"*{team['display_name']}*"]
+    explosives_suffix = ""
+    if _should_show_last_n(team):
+        last_n = team.get("last_n", {}) or {}
+        actual_n = last_n.get("actual_n", 0)
+        l3_epg = last_n.get("explosives_per_game", 0) or 0
+        season_epg = totals["explosives"] / len(games) if games else 0
+        if abs(l3_epg - season_epg) >= 0.8:
+            explosives_suffix = f" (L{actual_n}: {l3_epg:.1f}/gm)"
     lines.append(
-        f"- Total Explosives: {totals['explosives']} (Pass {totals['explosive_passes']}, Rush {totals['explosive_rushes']})"
+        f"- Total Explosives: {totals['explosives']} (Pass {totals['explosive_passes']}, Rush {totals['explosive_rushes']}){explosives_suffix}"
     )
     if top_plays:
         lines.append("- Top Plays:")
