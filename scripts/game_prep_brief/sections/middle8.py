@@ -1,4 +1,90 @@
 from __future__ import annotations
+import re
+
+
+def _parse_play_fields(p: dict) -> dict:
+    """Extract yards, type, player from description when raw fields are missing."""
+    out = dict(p)
+    desc = out.get("description") or out.get("play_text") or out.get("text") or ""
+
+    # --- yards ---
+    if not out.get("yards") or out.get("yards") == "?":
+        m = re.search(r"for (\d+) yards?", desc)
+        if m:
+            out["yards"] = m.group(1)
+        else:
+            # FG: "from X yards"
+            m2 = re.search(r"from (\d+) yards?", desc)
+            if m2:
+                out["yards"] = m2.group(1)
+            # Returns: "return X yards" (only if not already set)
+            elif re.search(r"return (\d+) yards?", desc):
+                m3 = re.search(r"return (\d+) yards?", desc)
+                out["yards"] = m3.group(1)
+
+    # --- type ---
+    if not out.get("type") or out.get("type") in ("?", "play", ""):
+        dl = desc.lower()
+        if "pass complete" in dl or "pass incomplete" in dl:
+            out["type"] = "pass"
+        elif "rush" in dl:
+            out["type"] = "rush"
+        elif "field goal" in dl:
+            out["type"] = "FG"
+        elif "return" in dl or "punt" in dl or "kickoff" in dl:
+            out["type"] = "return"
+        else:
+            out["type"] = "play"
+
+    # --- player ---
+    if not out.get("player") or out.get("player") == "?":
+        ptype = out.get("type", "")
+
+        # For returns: find the returner (player before "return N yards")
+        if ptype == "return":
+            # Format B: #N F.LastName return
+            rm = re.search(r"#\d+\s+([A-Z]\.[A-Za-z]+(?:\s+(?:Jr\.|Sr\.|II|III|IV|V))*)\s+return", desc)
+            # Format A: LastName,FirstName return
+            rm_a = re.search(r"([A-Z][A-Za-z]+(?: [A-Z]+)?,\s*[A-Za-z]+)\s+return", desc)
+            if rm:
+                out["player"] = rm.group(1).strip()
+            elif rm_a:
+                out["player"] = rm_a.group(1).strip()
+            return out
+
+        # Strip formation prefix
+        clean = re.sub(
+            r"^(No Huddle[- ]\w+|No Huddle|Shotgun|Under Center|Wildcat|Pistol)\s+",
+            "",
+            desc.strip(),
+            flags=re.I,
+        )
+
+        # Format A: LastName,FirstName (e.g. "Aguilar,Joey", "Brazzell II,Chris")
+        m_a = re.match(r"([A-Z][A-Za-z]+(?: [A-Z]+)?,\s*[A-Za-z]+)", clean)
+        # Format B: #N F.LastName [optional Jr./Sr./II/III] — stop before lowercase words
+        m_b = re.match(r"#\d+\s+([A-Z]\.[A-Za-z]+(?:\s+(?:Jr\.|Sr\.|II|III|IV|V))*)", clean)
+
+        passer_name = (m_a.group(1) if m_a else m_b.group(1) if m_b else None)
+        if passer_name:
+            passer_name = passer_name.strip()
+
+        if passer_name:
+            if ptype == "pass":
+                # Find receiver — Format A: "to LastName,FirstName"
+                r_a = re.search(r"\bto\s+([A-Z][A-Za-z]+(?: [A-Z]+)?,\s*[A-Za-z]+)", desc)
+                # Format B: "to #N F.LastName [Jr./Sr./II/III]"
+                r_b = re.search(r"\bto\s+#\d+\s+([A-Z]\.[A-Za-z]+(?:\s+(?:Jr\.|Sr\.|II|III|IV|V))*)", desc)
+                if r_a:
+                    out["player"] = f"{passer_name} → {r_a.group(1).strip()}"
+                elif r_b:
+                    out["player"] = f"{passer_name} → {r_b.group(1).strip()}"
+                else:
+                    out["player"] = passer_name
+            else:
+                out["player"] = passer_name
+
+    return out
 
 
 def _games(team: dict) -> list[dict]:
@@ -20,8 +106,13 @@ def _scoring_plays(games: list[dict]) -> list[str]:
 
 def _play_html(p):
     if isinstance(p, dict):
-        header = f"<strong>Q{p.get('quarter','?')} {p.get('time','')} — {p.get('yards','?')} yd {p.get('type','play')}, {p.get('player','?')}</strong>"
-        desc = p.get('description') or p.get('play_text') or p.get('text') or ''
+        p = _parse_play_fields(p)
+        clock = p.get("clock") or p.get("time") or ""
+        yards = p.get("yards", "?")
+        ptype = p.get("type", "play")
+        player = p.get("player", "?")
+        header = f"<strong>Q{p.get('quarter','?')} {clock} — {yards} yd {ptype}, {player}</strong>"
+        desc = p.get("description") or p.get("play_text") or p.get("text") or ""
         if desc:
             return f"<li>{header}<br><span style=\"color:#555;font-size:0.9em;\">{desc}</span></li>"
         else:
@@ -32,8 +123,13 @@ def _play_html(p):
 
 def _play_md(p):
     if isinstance(p, dict):
-        header = f"**Q{p.get('quarter','?')} {p.get('time','')} — {p.get('yards','?')} yd {p.get('type','play')}, {p.get('player','?')}**"
-        desc = p.get('description') or p.get('play_text') or p.get('text') or ''
+        p = _parse_play_fields(p)
+        clock = p.get("clock") or p.get("time") or ""
+        yards = p.get("yards", "?")
+        ptype = p.get("type", "play")
+        player = p.get("player", "?")
+        header = f"**Q{p.get('quarter','?')} {clock} — {yards} yd {ptype}, {player}**"
+        desc = p.get("description") or p.get("play_text") or p.get("text") or ""
         if desc:
             return f"  {header}\n    {desc}"
         else:
