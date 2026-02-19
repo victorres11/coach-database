@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from ..renderers.svg import comparison_bars
-
 
 def _games(team: dict) -> list[dict]:
     pbp = team.get("pbp_entry") or {}
@@ -91,7 +89,7 @@ def _team_html(team: dict) -> str:
         if not show_last_n or l3_value is None:
             return ""
         arrow = _trend_arrow(current, l3_value, higher_is_better) if show_arrow else ""
-        return f" → {l3_value}{suffix}{arrow}"
+        return f" →(L3) {l3_value}{suffix}{arrow}"
 
     return f"""
     <div class="team-card">
@@ -165,18 +163,13 @@ def build(team1: dict, team2: dict) -> dict:
     """Red zone, tight red zone, green zone section."""
     t1_stats = _team_zone_stats(team1) if team1.get("has_pbp") else {"rz_td_pct": 0}
     t2_stats = _team_zone_stats(team2) if team2.get("has_pbp") else {"rz_td_pct": 0}
-    color1 = team1.get("stats", {}).get("color", "#2563eb")
-    color2 = team2.get("stats", {}).get("color", "#dc2626")
-    rz_svg = comparison_bars(
-        "Red Zone TD%",
-        t1_stats.get("rz_td_pct", 0),
-        t2_stats.get("rz_td_pct", 0),
-        color1,
-        color2,
-    )
+    t1_name = team1.get("display_name", "Team 1")
+    t2_name = team2.get("display_name", "Team 2")
+    t1_rz = t1_stats.get("rz_td_pct", 0)
+    t2_rz = t2_stats.get("rz_td_pct", 0)
 
     html_content = f"""
-    <div class="metric-compare">{rz_svg}</div>
+    <div class="metric-compare"><p>{t1_name}: {t1_rz}% | {t2_name}: {t2_rz}% Red Zone TD%</p></div>
     <div class="section-grid">
       {_team_html(team1)}
       {_team_html(team2)}

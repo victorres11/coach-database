@@ -49,6 +49,24 @@ def _top_explosive_plays(games: list[dict]) -> list[dict]:
     return plays[:10]
 
 
+def _explosive_play_html(p):
+    header = f"<strong>{p.get('yards','?')} yd {p.get('type','play')} — {p.get('player','?')}</strong>"
+    desc = p.get('description') or p.get('play_text') or p.get('text') or ''
+    if desc:
+        return f"<li>{header}<br><span style=\"color:#555;font-size:0.9em;\">{desc}</span></li>"
+    else:
+        return f"<li>{header}</li>"
+
+
+def _explosive_play_md(p):
+    header = f"**{p.get('yards','?')} yd {p.get('type','play')} — {p.get('player','?')}**"
+    desc = p.get('description') or p.get('play_text') or p.get('text') or ''
+    if desc:
+        return f"  • {header}\n    {desc}"
+    else:
+        return f"  • {header}"
+
+
 def _team_html(team: dict) -> str:
     if not team.get("has_pbp"):
         return f"<div class=\"team-card\"><h3>{team['display_name']}</h3><p><em>No PBP data.</em></p></div>"
@@ -59,10 +77,7 @@ def _team_html(team: dict) -> str:
     top_plays = _top_explosive_plays(games)
 
     trend_html = "".join(f"<li>{t}</li>" for t in trend) if trend else "<li>N/A</li>"
-    plays_html = "".join(
-        f"<li>{p.get('yards','?')} yd {p.get('type','play')} — {p.get('player','?')}</li>"
-        for p in top_plays
-    ) or "<li>N/A</li>"
+    plays_html = "".join(_explosive_play_html(p) for p in top_plays) or "<li>N/A</li>"
 
     last_n_html = ""
     if _should_show_last_n(team):
@@ -134,8 +149,7 @@ def _team_md(team: dict) -> str:
     if top_plays:
         lines.append("- Top Plays:")
         for p in top_plays:
-            desc = p.get("player") or "?"
-            lines.append(f"  • {p.get('yards','?')} yd {p.get('type','play')} — {desc}")
+            lines.append(_explosive_play_md(p))
     return "\n".join(lines)
 
 

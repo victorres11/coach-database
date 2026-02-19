@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from ..renderers.svg import comparison_bars
-
 CATEGORIES = [
     "scoring_offense",
     "scoring_defense",
@@ -107,9 +105,7 @@ def _top_bottom_md(team: dict) -> str:
     return "\n".join(lines)
 
 
-def _metric_svg(team1: dict, team2: dict) -> str:
-    color1 = team1.get("stats", {}).get("color", "#2563eb")
-    color2 = team2.get("stats", {}).get("color", "#dc2626")
+def _metric_text(team1: dict, team2: dict) -> str:
     rankings1 = (team1.get("pbp_entry") or {}).get("cfbstats", {}).get("rankings", {}).get("all", {})
     rankings2 = (team2.get("pbp_entry") or {}).get("cfbstats", {}).get("rankings", {}).get("all", {})
 
@@ -120,24 +116,18 @@ def _metric_svg(team1: dict, team2: dict) -> str:
         except (TypeError, ValueError):
             return 0.0
 
-    blocks = []
+    lines = []
     for key in ["scoring_offense", "scoring_defense", "total_offense", "total_defense"]:
-        blocks.append(
-            comparison_bars(
-                LABELS.get(key, key),
-                val(rankings1, key),
-                val(rankings2, key),
-                color1,
-                color2,
-            )
-        )
-    return "".join(f"<div class=\"metric-compare\">{b}</div>" for b in blocks)
+        v1 = val(rankings1, key)
+        v2 = val(rankings2, key)
+        lines.append(f"<p>{LABELS.get(key, key)}: {team1.get('display_name', 'Team 1')} {v1:.1f} | {team2.get('display_name', 'Team 2')} {v2:.1f}</p>")
+    return "".join(f"<div class=\"metric-compare\">{l}</div>" for l in lines)
 
 
 def build(team1: dict, team2: dict) -> dict:
     """Full 18-category rankings section with all/conf/nonconf splits."""
     html_content = (
-        f"{_metric_svg(team1, team2)}"
+        f"{_metric_text(team1, team2)}"
         f"{_table_html(team1, team2, 'all')}"
         f"{_table_html(team1, team2, 'conf')}"
         f"{_table_html(team1, team2, 'nonconf')}"
