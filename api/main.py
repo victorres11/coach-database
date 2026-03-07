@@ -638,12 +638,19 @@ def yr_coaches(
     
     # Position mapping for YR
     position_map = {
-        'OC': ['offensive coord', 'offensive coordinator', 'play caller'],
-        'OL': ['offensive line'],
-        'TE': ['tight end'],
-        'WR': ['wide receiver', 'passing coord'],
-        'RB': ['running back'],
-        'SC': ['strength', 'conditioning']
+        "HC":  ["head coach"],
+        "OC":  ["offensive coord", "offensive coordinator", "play caller", "co-offensive coord"],
+        "DC":  ["defensive coord", "defensive coordinator"],
+        "QB":  ["quarterbacks", "quarterback coach"],
+        "OL":  ["offensive line"],
+        "DL":  ["defensive line"],
+        "TE":  ["tight end"],
+        "WR":  ["wide receiver", "passing coord"],
+        "RB":  ["running back", "run game coord"],
+        "LB":  ["linebacker"],
+        "DB":  ["defensive back", "secondary", "safeties", "cornerback"],
+        "STC": ["special teams coord", "co-special teams"],
+        "SC":  ["strength", "conditioning", "strength and conditioning"],
     }
     
     staff = conn.execute('''
