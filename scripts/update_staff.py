@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import sqlite3 as _sqlite3
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -78,14 +79,15 @@ def get_conn():
     db_url = os.getenv("TURSO_DATABASE_URL")
     if db_url:
         auth = os.getenv("TURSO_AUTH_TOKEN")
-        return libsql_experimental.connect_async(db_url, auth_token=auth)
-    # Fallback for development if needed
-    import sqlite3
-    return sqlite3.connect("coach.db")
+        # Use synchronous connect() — update_db() calls .execute()/.commit()/.close() without await
+        return libsql_experimental.connect(db_url, auth_token=auth)
+    # Fallback for development
+    return _sqlite3.connect("coach.db")
 
 def update_db(school_slug, staff, year=2025, dry_run=False):
     conn = get_conn()
-    if isinstance(conn, type(get_conn.__globals__.get('sqlite3', None))):
+    # sqlite3.Connection uses .cursor(); libsql sync connection supports .execute() directly
+    if isinstance(conn, _sqlite3.Connection):
         c = conn.cursor()
     else:
         c = conn
