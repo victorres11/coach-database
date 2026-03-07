@@ -9,14 +9,16 @@ from fastapi import FastAPI, Query, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
-import sqlite3
 from pathlib import Path
 from datetime import datetime
 import logging
-
-# Database path - works locally and on Render
 import os
-DB_PATH = Path(os.environ.get('DATABASE_PATH', Path(__file__).parent.parent / 'db' / 'coaches.db'))
+import libsql_experimental as libsql
+
+# Turso (libSQL) connection config
+TURSO_DB_URL = os.environ.get("TURSO_DATABASE_URL")
+TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN", "")
+DEFAULT_DB_PATH = Path(__file__).parent.parent / 'db' / 'coaches.db'
 
 app = FastAPI(
     title="Coach Database API",
@@ -99,10 +101,88 @@ logging.basicConfig(level=logging.INFO)
 
 # --- Database helpers ---
 
-def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+class _DictRow:
+    """Wraps a libsql tuple row so it supports both row['col'] and dict() access."""
+    __slots__ = ("_d", "_t")
+
+    def __init__(self, row, columns):
+        self._t = row
+        self._d = dict(zip(columns, row))
+
+    def __getitem__(self, key):
+        return self._d[key] if isinstance(key, str) else self._t[key]
+
+    def __iter__(self):
+        return iter(self._t)
+
+    def keys(self):
+        return list(self._d.keys())
+
+    def get(self, key, default=None):
+        return self._d.get(key, default)
+
+    def __contains__(self, key):
+        return key in self._d
+
+
+class _DictCursor:
+    """Wraps a libsql cursor so fetchone/fetchall return _DictRow objects."""
+
+    def __init__(self, cursor):
+        self._cur = cursor
+
+    def _cols(self):
+        desc = self._cur.description or []
+        return [c[0] for c in desc]
+
+    def execute(self, sql, params=()):
+        self._cur.execute(sql, params)
+        return self
+
+    def fetchone(self):
+        row = self._cur.fetchone()
+        return _DictRow(row, self._cols()) if row is not None else None
+
+    def fetchall(self):
+        cols = self._cols()
+        return [_DictRow(r, cols) for r in (self._cur.fetchall() or [])]
+
+    @property
+    def lastrowid(self):
+        return self._cur.lastrowid
+
+    @property
+    def description(self):
+        return self._cur.description
+
+
+class _DictConn:
+    """Wraps a libsql connection to return _DictRow objects on every query."""
+
+    def __init__(self, conn):
+        self._conn = conn
+
+    def execute(self, sql, params=()):
+        cur = self._conn.execute(sql, params)
+        return _DictCursor(cur)
+
+    def cursor(self):
+        return _DictCursor(self._conn.cursor())
+
+    def commit(self):
+        self._conn.commit()
+
+    def close(self):
+        self._conn.close()
+
+
+def get_db() -> _DictConn:
+    """Connect to Turso (cloud) or fall back to local SQLite file for dev."""
+    if TURSO_DB_URL:
+        conn = libsql.connect(TURSO_DB_URL, auth_token=TURSO_AUTH_TOKEN)
+    else:
+        conn = libsql.connect(f"file:{DEFAULT_DB_PATH}")
+    return _DictConn(conn)
 
 def normalize_school_name(name: str) -> str:
     """Normalize school names to slugs."""
@@ -320,7 +400,7 @@ async def webhook_staff_update(
         }
     except HTTPException:
         raise
-    except sqlite3.Error as exc:
+    except Exception as exc:
         logger.exception("Webhook staff update failed due to database error at %s", received_at)
         raise HTTPException(status_code=500, detail="Database error") from exc
     finally:
