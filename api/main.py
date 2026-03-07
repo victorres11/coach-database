@@ -468,7 +468,7 @@ def list_coaches(
     query += ' ORDER BY c.is_head_coach DESC, COALESCE(sal.total_pay, 0) DESC, s.name ASC, c.name ASC LIMIT ?'
     params.append(limit)
     
-    rows = conn.execute(query, params).fetchall()
+    rows = conn.execute(query, tuple(params)).fetchall()
     conn.close()
     
     return [Coach(**dict(row)) for row in rows]
@@ -599,7 +599,7 @@ def list_schools(
     query += ' ORDER BY s.name LIMIT ?'
     params.append(limit)
     
-    rows = conn.execute(query, params).fetchall()
+    rows = conn.execute(query, tuple(params)).fetchall()
     conn.close()
     
     return [School(**dict(row)) for row in rows]
@@ -677,7 +677,7 @@ def list_salaries(
     query += ' ORDER BY sal.total_pay DESC LIMIT ?'
     params.append(limit)
     
-    rows = conn.execute(query, params).fetchall()
+    rows = conn.execute(query, tuple(params)).fetchall()
     conn.close()
     
     return [Salary(**dict(row)) for row in rows]
