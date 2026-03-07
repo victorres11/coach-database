@@ -717,55 +717,6 @@ def yr_coaches(
     conn = get_db()
     
     # Position mapping for YR
-    position_map = {
-        "HC":  ["head coach"],
-        "OC":  ["offensive coord", "offensive coordinator", "play caller", "co-offensive coord"],
-        "DC":  ["defensive coord", "defensive coordinator"],
-        "QB":  ["quarterbacks", "quarterback coach"],
-        "OL":  ["offensive line"],
-        "DL":  ["defensive line"],
-        "TE":  ["tight end"],
-        "WR":  ["wide receiver", "passing coord"],
-        "RB":  ["running back", "run game coord"],
-        "LB":  ["linebacker"],
-        "DB":  ["defensive back", "secondary", "safeties", "cornerback"],
-        "STC": ["special teams coord", "co-special teams"],
-        "SC":  ["strength", "conditioning", "strength and conditioning"],
-    }
-    
-    staff = conn.execute('''
-        SELECT c.name, c.position
-        FROM coaches c
-        JOIN schools s ON c.school_id = s.id
-        WHERE s.slug = ?
-    ''', (school_slug,)).fetchall()
-    
-    conn.close()
-    
-    result = {}
-    for label, keywords in position_map.items():
-        for row in staff:
-            pos_lower = (row['position'] or '').lower()
-            if any(k in pos_lower for k in keywords):
-                result[label] = row['name']
-                break
-    
-    # If filtering to single position, return just that value
-    if position:
-        pos_upper = position.upper()
-        value = result.get(pos_upper, "")
-        if format == 'text':
-            return PlainTextResponse(value)  # Just the name
-        return {pos_upper: value} if value else {}
-    
-    # Return plain text if format=text
-    if format == 'text':
-        lines = [f"{k}: {v}" for k, v in result.items()]
-        return PlainTextResponse("\n".join(lines))
-    
-    return result
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8100)
+    from .position_map import POSITION_MAP
+    position_map = POSITION_MAP
+(WARN) Patch not applied!
