@@ -21,3 +21,4 @@ Thumbs.db
 *.tmp
 *.log
 output/
+db/coaches.db

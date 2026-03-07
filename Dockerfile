@@ -8,10 +8,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application
 COPY api/ ./api/
-COPY db/coaches.db ./db/
-
-# Set environment
-ENV DATABASE_PATH=/app/db/coaches.db
 
 EXPOSE 8080
 
