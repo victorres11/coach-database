@@ -725,6 +725,7 @@ def yr_coaches(
         FROM coaches c
         JOIN schools s ON c.school_id = s.id
         WHERE s.slug = ?
+        ORDER BY c.year DESC, c.id DESC
     ''', (school_slug,)).fetchall()
 
     conn.close()
