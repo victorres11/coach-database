@@ -36,6 +36,7 @@ PERPLEXITY_URL = "https://api.perplexity.ai/chat/completions"
 PERPLEXITY_MODEL = "sonar-pro"
 PERPLEXITY_SOURCE = "perplexity_sonar_pro"
 API_DELAY_SECONDS = 2.0
+ANNUAL_SALARY_CEILING = 25_000_000
 
 
 @dataclass
@@ -100,7 +101,7 @@ def extract_total_pay(content: str) -> int | None:
                 return int(round(float(amount.replace(",", "")) * 1_000))
             return numeric
 
-    # Fallback: choose the largest dollar amount mentioned.
+    # Fallback: prefer likely annual salary amounts over buyouts/total contract values.
     candidates: list[int] = []
     for match in re.finditer(
         r"\$([0-9][0-9,]*(?:\.[0-9]+)?)\s*(million|billion|m|k)?",
@@ -122,7 +123,10 @@ def extract_total_pay(content: str) -> int | None:
         else:
             candidates.append(int(round(value)))
     if candidates:
-        return max(candidates)
+        under_cap = [value for value in candidates if value <= ANNUAL_SALARY_CEILING]
+        if under_cap:
+            return max(under_cap)
+        return min(candidates)
     return None
 
 
@@ -264,6 +268,13 @@ def load_head_coaches(conn: sqlite3.Connection, conference_filter: str | None) -
         query += " ORDER BY school_name"
         rows = conn.execute(query, tuple(params)).fetchall()
     else:
+        school_col_map = {
+            "school": '"school"',
+            "school_name": '"school_name"',
+            "team": '"team"',
+            "program": '"program"',
+            "name": '"name"',
+        }
         school_col = None
         for candidate in ("school", "school_name", "team", "program"):
             if candidate in coaches_columns:
@@ -275,21 +286,28 @@ def load_head_coaches(conn: sqlite3.Connection, conference_filter: str | None) -
                 "Warning: schools table missing and no school name column found on coaches; using coach name as school fallback.",
                 file=sys.stderr,
             )
+        school_col_sql = school_col_map[school_col]
 
+        conference_col_map = {
+            "conference": '"conference"',
+            "conference_name": '"conference_name"',
+            "conf": '"conf"',
+        }
         conference_col = None
         for candidate in ("conference", "conference_name", "conf"):
             if candidate in coaches_columns:
                 conference_col = candidate
                 break
+        conference_col_sql = f'c.{conference_col_map[conference_col]}' if conference_col else "NULL"
 
         query = f"""
         WITH ranked AS (
             SELECT
                 c.id AS coach_id,
                 c.name AS coach_name,
-                c.{school_col} AS school_name,
-                {"c." + conference_col if conference_col else "NULL"} AS conference_name,
-                ROW_NUMBER() OVER (PARTITION BY c.{school_col} ORDER BY c.id ASC) AS rn
+                c.{school_col_sql} AS school_name,
+                {conference_col_sql} AS conference_name,
+                ROW_NUMBER() OVER (PARTITION BY c.{school_col_sql} ORDER BY c.id ASC) AS rn
             FROM coaches c
             WHERE c.year = 2025
               AND c.is_head_coach = 1
@@ -386,8 +404,12 @@ def print_summary(results: list[dict[str, Any]]) -> None:
         key=lambda r: (r.get("total_pay_2026") is None, -(r.get("total_pay_2026") or 0)),
     )
 
-    headers = ("Rank", "Coach", "School", "2025 Salary", "2026 Salary", "Delta")
+    show_notes = any(bool(str(row.get("notes", "")).strip()) for row in sorted_results)
+    headers = ["Rank", "Coach", "School", "2025 Salary", "2026 Salary", "Delta"]
     widths = [5, 24, 24, 14, 14, 14]
+    if show_notes:
+        headers.append("Notes")
+        widths.append(48)
     line = " | ".join(h.ljust(w) for h, w in zip(headers, widths))
     print("\n" + line)
     print("-" * len(line))
@@ -404,6 +426,9 @@ def print_summary(results: list[dict[str, Any]]) -> None:
             money_to_str(pay_2026).rjust(widths[4]),
             money_to_str(delta).rjust(widths[5]),
         ]
+        if show_notes:
+            notes = str(row.get("notes", "")).replace("\n", " ").strip()
+            cols.append(notes[: widths[6]].ljust(widths[6]))
         print(" | ".join(cols))
 
 
@@ -460,6 +485,7 @@ def main() -> int:
                 raw_response = ""
                 source_url = None
                 total_pay_2026 = None
+                _notes = ""
             else:
                 if idx > 1:
                     time.sleep(API_DELAY_SECONDS)
@@ -493,6 +519,7 @@ def main() -> int:
                     "total_pay_2025": pay_2025,
                     "delta": delta,
                     "source_url": source_url,
+                    "notes": _notes,
                     "raw_response": raw_response,
                 }
             )
@@ -506,6 +533,7 @@ def main() -> int:
                 "total_pay_2025": r["total_pay_2025"],
                 "delta": r["delta"],
                 "source_url": r["source_url"],
+                "notes": r["notes"],
                 "raw_response": r["raw_response"],
             }
             for r in results
