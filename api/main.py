@@ -706,6 +706,7 @@ def search(
 # --- For YR Call Sheets integration ---
 
 from fastapi.responses import PlainTextResponse
+from api.head_coach_resolution import resolve_head_coach
 
 @app.get("/yr/{school_slug}/coaches")
 def yr_coaches(
@@ -721,7 +722,7 @@ def yr_coaches(
     position_map = POSITION_MAP
 
     staff = conn.execute('''
-        SELECT c.name, c.position
+        SELECT c.id, c.year, c.name, c.position, c.is_head_coach
         FROM coaches c
         JOIN schools s ON c.school_id = s.id
         WHERE s.slug = ?
@@ -731,7 +732,13 @@ def yr_coaches(
     conn.close()
 
     result = {}
+    resolved_hc = resolve_head_coach(staff)
+    if resolved_hc:
+        result["HC"] = resolved_hc["name"]
+
     for label, keywords in position_map.items():
+        if label == "HC" and "HC" in result:
+            continue
         for row in staff:
             pos_lower = (row['position'] or '').lower()
             if any(k in pos_lower for k in keywords):
